@@ -1,0 +1,27 @@
+# Build outputs
+.gradle/
+build/
+app/build/
+/app/release/
+/captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+*.ap_
+*.aab
+*.dex
+*.class
+out/
+
+# IDE and local machine files
+*.iml
+/.idea/
+.DS_Store
+/local.properties
+*.hprof
+*.log
+
+# Signing material and secrets (never commit)
+keystore.properties
+*.jks
+*.keystore
