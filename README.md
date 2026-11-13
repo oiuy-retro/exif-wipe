@@ -13,12 +13,40 @@ time chunks, and data stored after the end of the image.
 Kept, so the photo looks exactly the same:
 
 - The compressed image data, copied byte for byte. Nothing is re-encoded.
-- The colour profile (JPEG ICC_PROFILE, PNG iCCP/sRGB/gAMA/cHRM, WebP ICCP),
-  transparency, and the JPEG Adobe colour-transform marker.
+- The colour data of the embedded colour profile (JPEG ICC_PROFILE, PNG iCCP,
+  WebP ICCP), plus PNG sRGB/gAMA/cHRM, transparency, and the JPEG Adobe
+  colour-transform marker. See "Colour profiles" below.
 - The orientation. Phones often store a portrait photo as landscape pixels plus
   an "Orientation" tag. If that tag is anything other than "normal", the
-  cleaned file gets a new EXIF block that holds only this one tag (26 bytes,
-  no other data). Photos with normal orientation get no EXIF block at all.
+  cleaned file gets a new EXIF block, built from scratch, that holds only this
+  one tag (26 bytes, no other data). Photos with normal orientation get no EXIF
+  block at all.
+
+## Colour profiles
+
+Phone photos usually embed an ICC colour profile so wide-colour (Display P3)
+images show the right colours. These profiles also hold text that photo
+viewers show as metadata: a copyright notice (for example "Copyright (c) 2022
+Samsung Electronics Co., Ltd."), a device manufacturer and model, the profile
+creator, platform and creation date. Version 0.1.0-test1 kept the profile
+unchanged, so this text remained after cleaning.
+
+Exif Wipe now rebuilds the profile:
+
+- kept unchanged: white and black point, primaries, tone curves, chromatic
+  adaptation, colour lookup tables, luminance and CICP data, which is all that
+  is needed to reproduce the colours,
+- removed: copyright, device manufacturer and model descriptions, and every
+  other non-colour tag,
+- blanked in the header: preferred CMM, creation date, platform, device
+  manufacturer, model and attributes, creator and profile ID,
+- the description is kept only if it is a standard colour space name such as
+  "sRGB IEC61966-2.1", "Display P3" or "DCI-P3 D65 Gamut with sRGB Transfer";
+  any other description is replaced with "Colour profile".
+
+The photo decodes to exactly the same colours as before; the app checks this
+before writing. A profile that cannot be read is removed, in which case viewers
+treat the photo as sRGB.
 
 ## How to use
 
@@ -58,21 +86,36 @@ For each photo the app:
 
 1. reads the whole original into memory and removes the metadata there,
 2. re-checks the cleaned copy independently: it must be well formed, contain
-   only allowed parts, contain no known metadata signatures, and decode to
-   exactly the same pixels as the original,
+   only allowed parts (including a colour profile without identifying fields),
+   contain no known metadata signatures, and decode to exactly the same colours
+   as the original,
 3. keeps a temporary backup of the original inside the app's private storage,
-4. overwrites the original, reads it back and compares it with the cleaned copy,
+4. overwrites the original, reads it back from storage, and reports success
+   only if it is exactly the cleaned copy and cleaning it again finds nothing
+   left to remove,
 5. if anything fails after the file was opened for writing, writes the backup
    back. The temporary backup is deleted afterwards.
 
 Damaged, truncated or unusual files fail the checks and are left unchanged.
+
+After writing, the app asks Android's media scanner to re-read the file so the
+gallery and other apps see the new contents.
+
+The app writes only to the photo stored on the phone: a MediaStore item, a file
+from Android's own storage or Downloads document providers, or a photo found in
+the media library that is byte-identical to the shared copy. It never writes
+to another app's link, even if that app allows it, because such links often
+point at a temporary copy.
 
 ## Build
 
 Requirements: JDK 21 and the Android SDK (platform 37, build-tools 36.0.0).
 Set `sdk.dir` in `local.properties` or the `ANDROID_HOME` environment variable.
 
-    ./gradlew testDebugUnitTest   # unit tests for the JPEG, PNG and WebP code
+    ./gradlew testDebugUnitTest   # unit tests for the JPEG, PNG, WebP and ICC code
+
+The tests write before/after sample files to `app/build/test-output/`. See
+docs/TESTING.md for checking them with exiftool.
     ./gradlew assembleDebug       # debug APK in app/build/outputs/apk/debug/
 
 ## Release signing
@@ -113,8 +156,15 @@ backed up.
   location until the media scanner refreshes the file.
 - Files larger than 200 MB are skipped.
 - HEIC/HEIF and AVIF are not supported yet.
-- The colour profile is kept for correct colours. Profiles normally describe
-  only a colour space, but some contain a device or vendor name.
+- Gallery apps keep their own caches. Google Photos in particular shows the
+  details of its cloud backup, which Exif Wipe cannot change; a photo that was
+  already backed up keeps its metadata there. Samsung Gallery may show old
+  details until it refreshes.
+- Photos cleaned with 0.1.0-test1 still contain the vendor colour profile text.
+  Share them to Exif Wipe again to remove it.
+- An app that shares a photo through its own link (not MediaStore) is only
+  handled if the photo can be found in the media library; otherwise it is
+  reported as an error.
 
 ## Credits and attributions
 

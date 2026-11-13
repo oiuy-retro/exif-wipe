@@ -22,9 +22,9 @@ import android.content.ContentResolver
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.ColorSpace
 import android.media.MediaScannerConnection
 import android.net.Uri
-import android.os.Build
 import android.os.ParcelFileDescriptor
 import android.provider.MediaStore
 import com.oiuy.exifwipe.strip.MetadataStripper
@@ -33,6 +33,8 @@ import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
 import java.util.UUID
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 
 enum class WipeOutcome { CLEANED, ALREADY_CLEAN }
 
@@ -75,8 +77,11 @@ class InPlaceWriter(private val context: Context) {
                         pfd.fileDescriptor.sync()
                     }
                 }
+                // Success is only reported if the stored file, read back from storage, is exactly the
+                // cleaned version and stripping it again finds nothing left to remove.
                 val written = readAll(uri)
                 if (!written.contentEquals(result.output)) throw IOException("The file read back after writing did not match")
+                if (MetadataStripper.strip(written).changed) throw IOException("Metadata was still found after writing")
             } catch (e: Exception) {
                 if (!opened) throw e // nothing was written
                 try {
@@ -137,7 +142,8 @@ class InPlaceWriter(private val context: Context) {
 
     /**
      * Decodes both versions at a reduced size and requires identical pixels. Compressed image
-     * data is copied unchanged, so any difference means something went wrong.
+     * data is copied unchanged and the rebuilt colour profile keeps the colour data, so any
+     * difference means something went wrong.
      */
     private fun samePixels(a: ByteArray, b: ByteArray): Boolean {
         val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
@@ -148,6 +154,9 @@ class InPlaceWriter(private val context: Context) {
         val opts = BitmapFactory.Options().apply {
             inSampleSize = sample
             inPreferredConfig = Bitmap.Config.ARGB_8888
+            // Convert both through their own colour profile to sRGB: the rebuilt profile must
+            // produce exactly the same colours as the original one.
+            inPreferredColorSpace = ColorSpace.get(ColorSpace.Named.SRGB)
         }
         val ba = BitmapFactory.decodeByteArray(a, 0, a.size, opts) ?: return false
         val bb = BitmapFactory.decodeByteArray(b, 0, b.size, opts) ?: run { ba.recycle(); return false }
@@ -157,15 +166,27 @@ class InPlaceWriter(private val context: Context) {
         return same
     }
 
-    /** Android 11+ rescans MediaStore items when a writable file is closed; older versions need a nudge. */
+    /**
+     * Asks the media scanner to re-read the file so MediaStore and gallery apps pick up the new
+     * contents. Android 11+ also rescans on its own when the file is closed; this makes it happen
+     * on every version and waits briefly for it to finish.
+     */
     @Suppress("DEPRECATION")
     private fun rescan(uri: Uri) {
-        if (Build.VERSION.SDK_INT >= 30 || uri.authority != MediaStore.AUTHORITY) return
         try {
-            val path = cr.query(uri, arrayOf(MediaStore.MediaColumns.DATA), null, null, null)?.use { c ->
-                if (c.moveToFirst()) c.getString(0) else null
-            } ?: return
-            MediaScannerConnection.scanFile(context, arrayOf(path), null, null)
+            val path = if (uri.authority == MediaStore.AUTHORITY) {
+                cr.query(uri, arrayOf(MediaStore.MediaColumns.DATA), null, null, null)?.use { c ->
+                    if (c.moveToFirst() && !c.isNull(0)) c.getString(0) else null
+                }
+            } else {
+                null
+            }
+            if (path != null) {
+                val done = CountDownLatch(1)
+                MediaScannerConnection.scanFile(context, arrayOf(path), null) { _, _ -> done.countDown() }
+                done.await(5, TimeUnit.SECONDS)
+            }
+            cr.notifyChange(uri, null)
         } catch (_: Exception) {
         }
     }

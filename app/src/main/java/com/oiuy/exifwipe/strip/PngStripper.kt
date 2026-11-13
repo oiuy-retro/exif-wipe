@@ -36,7 +36,8 @@ import java.util.zip.CRC32
  * Removes metadata chunks from a PNG without touching the compressed image data.
  *
  * Only chunks needed to draw the image the same way are kept: the critical chunks, transparency,
- * colour space information, background colour, and the APNG animation chunks. Text (tEXt, zTXt,
+ * colour space information, background colour, and the APNG animation chunks. An iCCP colour
+ * profile is decompressed, rebuilt by [IccSanitizer] and stored under a neutral name. Text (tEXt, zTXt,
  * iTXt, which also carry XMP), eXIf, tIME, pHYs and every unknown or private chunk are dropped, as
  * is anything after IEND. A non-normal EXIF Orientation is kept as a minimal eXIf chunk.
  */
@@ -95,9 +96,64 @@ object PngStripper {
                 out.write(chunk("eXIf", Orientation.minimalTiff(orientation!!)))
                 wroteOrientation = true
             }
+            if (c.name == "iCCP") {
+                sanitizedIccp(b, c.dataStart, c.dataLength)?.let { out.write(chunk("iCCP", it)) }
+                continue
+            }
             out.write(b, c.start, c.end - c.start)
         }
         return out.toByteArray()
+    }
+
+    internal const val ICCP_NAME = "ICC Profile"
+
+    /** Rebuilt iCCP chunk data, or null to drop the profile if it cannot be read. */
+    private fun sanitizedIccp(b: ByteArray, start: Int, length: Int): ByteArray? {
+        val profile = iccpProfile(b, start, length) ?: return null
+        val clean = IccSanitizer.sanitize(profile) ?: return null
+        return latin1(ICCP_NAME) + byteArrayOf(0, 0) + deflate(clean)
+    }
+
+    /** Decompressed profile from iCCP chunk data, or null. */
+    internal fun iccpProfile(b: ByteArray, start: Int, length: Int): ByteArray? {
+        var nul = -1
+        for (i in start until minOf(start + 80, start + length)) if (b[i].toInt() == 0) { nul = i; break }
+        if (nul < 0 || nul + 2 > start + length || b[nul + 1].toInt() != 0) return null
+        return inflate(b, nul + 2, start + length - nul - 2)
+    }
+
+    private fun inflate(b: ByteArray, off: Int, len: Int): ByteArray? {
+        val inflater = java.util.zip.Inflater()
+        return try {
+            inflater.setInput(b, off, len)
+            val out = ByteArrayOutputStream()
+            val buf = ByteArray(16 * 1024)
+            while (!inflater.finished()) {
+                val n = inflater.inflate(buf)
+                if (n == 0 && (inflater.needsInput() || inflater.needsDictionary())) return null
+                out.write(buf, 0, n)
+                if (out.size() > 16 * 1024 * 1024) return null
+            }
+            out.toByteArray()
+        } catch (_: java.util.zip.DataFormatException) {
+            null
+        } finally {
+            inflater.end()
+        }
+    }
+
+    private fun deflate(data: ByteArray): ByteArray {
+        val deflater = java.util.zip.Deflater(9)
+        try {
+            deflater.setInput(data)
+            deflater.finish()
+            val out = ByteArrayOutputStream()
+            val buf = ByteArray(16 * 1024)
+            while (!deflater.finished()) out.write(buf, 0, deflater.deflate(buf))
+            return out.toByteArray()
+        } finally {
+            deflater.end()
+        }
     }
 
     private fun crcMatches(b: ByteArray, c: Chunk): Boolean {

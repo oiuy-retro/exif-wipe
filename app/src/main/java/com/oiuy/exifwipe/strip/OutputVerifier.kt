@@ -34,6 +34,7 @@ object OutputVerifier {
         "http://ns.adobe.com/", // XMP
         "<x:xmpmeta", // XMP packet
         "Photoshop 3.0", // IPTC / Photoshop resources
+        "Hewlett-Packard", // copyright text of the common sRGB ICC profile
     ).map(::latin1)
 
     fun verify(format: ImageFormat, b: ByteArray) {
@@ -58,6 +59,7 @@ object OutputVerifier {
         var pos = 2
         var scans = 0
         var frames = 0
+        val icc = ArrayList<Pair<Int, ByteArray>>()
         while (true) {
             if (pos + 1 >= b.size || b.u8(pos) != 0xFF) return "malformed JPEG structure at byte $pos"
             while (pos + 1 < b.size && b.u8(pos + 1) == 0xFF) pos++
@@ -67,6 +69,7 @@ object OutputVerifier {
             if (m == 0xD9) {
                 if (pos != b.size) return "data after JPEG end marker"
                 if (scans == 0 || frames == 0) return "JPEG has no image data"
+                if (icc.isNotEmpty()) IccSanitizer.problem(JpegStripper.assembleIcc(icc))?.let { return it }
                 return null
             }
             if (m in 0xD0..0xD7 || m == 0x01) continue
@@ -81,7 +84,12 @@ object OutputVerifier {
                         b.hasPrefixAt(data, end, JpegStripper.EXIF_ID) &&
                         Orientation.isMinimalTiff(b, data + 6, len - 8))
                 ) return "EXIF block other than orientation survived"
-                m == 0xE2 -> if (!b.hasPrefixAt(data, end, JpegStripper.ICC_ID)) return "APP2 segment other than ICC survived"
+                m == 0xE2 -> {
+                    if (!b.hasPrefixAt(data, end, JpegStripper.ICC_ID) || end - data < JpegStripper.ICC_ID.size + 2) {
+                        return "APP2 segment other than ICC survived"
+                    }
+                    icc += b.u8(data + JpegStripper.ICC_ID.size) to b.copyOfRange(data + JpegStripper.ICC_ID.size + 2, end)
+                }
                 m == 0xEE -> if (!b.hasPrefixAt(data, end, JpegStripper.ADOBE_ID)) return "APP14 segment other than Adobe survived"
                 m in 0xE0..0xEF -> return "APP${m - 0xE0} segment survived"
                 m in 0xC0..0xCF && m != 0xC4 && m != 0xC8 && m != 0xCC -> frames++
@@ -114,7 +122,11 @@ object OutputVerifier {
             first = false
             val crc = CRC32().apply { update(b, pos + 4, 4 + len.toInt()) }.value
             if (crc != b.u32be(pos + 8 + len.toInt())) return "PNG chunk $name has a bad CRC"
-            if (name == "eXIf") {
+            if (name == "iCCP") {
+                if (!b.hasPrefixAt(pos + 8, pos + 8 + len.toInt(), latin1(PngStripper.ICCP_NAME + "\u0000"))) return "iCCP profile name survived"
+                val profile = PngStripper.iccpProfile(b, pos + 8, len.toInt()) ?: return "iCCP cannot be read"
+                IccSanitizer.problem(profile)?.let { return it }
+            } else if (name == "eXIf") {
                 if (!Orientation.isMinimalTiff(b, pos + 8, len.toInt())) return "eXIf other than orientation survived"
             } else if (name !in PngStripper.KEEP) {
                 return "PNG chunk $name survived"
@@ -142,7 +154,8 @@ object OutputVerifier {
         var exif = false
         for (c in chunks) {
             when (c.fourcc) {
-                "VP8X", "ICCP", "ANIM", "ANMF", "ALPH", "VP8 ", "VP8L" -> Unit
+                "ICCP" -> IccSanitizer.problem(b.copyOfRange(c.dataStart, c.dataStart + c.size))?.let { return it }
+                "VP8X", "ANIM", "ANMF", "ALPH", "VP8 ", "VP8L" -> Unit
                 "EXIF" -> {
                     if (!Orientation.isMinimalTiff(b, c.dataStart, c.size)) return "WebP EXIF other than orientation survived"
                     exif = true

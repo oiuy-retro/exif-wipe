@@ -27,6 +27,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Process
+import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import java.io.IOException
@@ -87,22 +88,36 @@ class TargetResolver(private val context: Context) {
             }
         }
 
-        // 2. The sharing app granted us write access to its own link (for example a file manager).
-        if (context.checkUriPermission(shared, Process.myPid(), Process.myUid(), Intent.FLAG_GRANT_WRITE_URI_PERMISSION) ==
-            PackageManager.PERMISSION_GRANTED
-        ) {
-            return Resolution.Found(shared, name, shared, mediaStore = false, mustMatch = false)
-        }
-
-        // 3. Links that embed a MediaStore link (Google Photos does this for photos stored on the phone).
+        // 2. Links that embed a MediaStore link (Google Photos does this for photos stored on the
+        //    phone). Checked before any write grant: the sharing app's own link usually serves a
+        //    cached copy, and writing to that copy would leave the original unchanged.
         embeddedMediaUri(shared)?.let {
             return Resolution.Found(shared, name, it, mediaStore = true, mustMatch = true)
         }
 
+        // 3. Documents from Android's own storage providers.
+        if (DocumentsContract.isDocumentUri(context, shared)) {
+            val docId = DocumentsContract.getDocumentId(shared)
+            if (shared.authority == MEDIA_DOCUMENTS && docId.startsWith("image:")) {
+                docId.removePrefix("image:").toLongOrNull()?.let {
+                    return Resolution.Found(shared, name, imageUri(it), mediaStore = true, mustMatch = false)
+                }
+            }
+            if (shared.authority in LOCAL_STORAGE_DOCUMENTS && canWrite(shared)) {
+                return Resolution.Found(shared, name, shared, mediaStore = false, mustMatch = false)
+            }
+        }
+
         // 4. Look the file up in MediaStore by name and size, then confirm it is byte-identical.
+        //    Links from other apps are never written directly, even if the app allows writing,
+        //    because they may point at a copy rather than the stored photo.
         if (!hasReadPermission(context)) return Resolution.NeedsReadPermission(shared, name)
         return lookUp(shared, name) ?: Resolution.Failed(shared, name, NOT_LOCAL_REASON)
     }
+
+    private fun canWrite(uri: Uri): Boolean =
+        context.checkUriPermission(uri, Process.myPid(), Process.myUid(), Intent.FLAG_GRANT_WRITE_URI_PERMISSION) ==
+            PackageManager.PERMISSION_GRANTED
 
     private fun lookUp(shared: Uri, name: String): Resolution? {
         val size = size(shared) ?: return null
@@ -196,6 +211,12 @@ class TargetResolver(private val context: Context) {
     }
 
     companion object {
+        private const val MEDIA_DOCUMENTS = "com.android.providers.media.documents"
+        private val LOCAL_STORAGE_DOCUMENTS = setOf(
+            "com.android.externalstorage.documents",
+            "com.android.providers.downloads.documents",
+        )
+
         fun readPermissions(): Array<String> = when {
             Build.VERSION.SDK_INT >= 34 -> arrayOf(Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED)
             Build.VERSION.SDK_INT >= 33 -> arrayOf(Manifest.permission.READ_MEDIA_IMAGES)

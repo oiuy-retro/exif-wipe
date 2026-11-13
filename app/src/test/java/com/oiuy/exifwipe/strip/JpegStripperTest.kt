@@ -35,7 +35,7 @@ class JpegStripperTest {
     private val iptc = segment(0xED, latin1("Photoshop 3.0\u00008BIM secret"))
     private val comment = segment(0xFE, latin1("taken at home"))
     private val mpf = segment(0xE2, latin1("MPF\u0000secret"))
-    private val icc = segment(0xE2, JpegStripper.ICC_ID + byteArrayOf(1, 1) + latin1("fakeprofile"))
+    private val icc = segment(0xE2, JpegStripper.ICC_ID + byteArrayOf(1, 1) + IccSanitizer.sanitize(CameraFixtures.vendorIcc())!!)
     private val adobe = segment(0xEE, JpegStripper.ADOBE_ID + byteArrayOf(0, 100, 0, 0, 0, 0, 1))
 
     private fun dirty(base: ByteArray = Fixtures.jpeg()) =

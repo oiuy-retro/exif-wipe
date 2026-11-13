@@ -36,7 +36,7 @@ class WebpStripperTest {
     }
 
     private val vp8l = WebpStripper.makeChunk("VP8L", byteArrayOf(0x2F, 1, 2, 3, 4, 5, 6)) // odd size, padded
-    private val iccp = WebpStripper.makeChunk("ICCP", latin1("fakeprofile!"))
+    private val iccp = WebpStripper.makeChunk("ICCP", IccSanitizer.sanitize(CameraFixtures.vendorIcc())!!)
 
     private fun vp8x(flags: Int) = WebpStripper.makeChunk("VP8X", byteArrayOf(flags.toByte(), 0, 0, 0, 9, 0, 0, 9, 0, 0))
 

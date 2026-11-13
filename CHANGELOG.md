@@ -2,7 +2,27 @@
 
 All notable changes to this project are listed here.
 
-## 0.1.0 (versionCode 1) - unreleased
+## 0.1.0-test2 (versionCode 2) - unreleased
+
+- Fixed: cleaned photos still showed a copyright notice and manufacturer. These
+  came from the embedded ICC colour profile (for example Samsung's "Copyright
+  (c) 2022 Samsung Electronics Co., Ltd." and the "SEC" manufacturer, platform
+  and creator fields), which 0.1.0-test1 kept unchanged. The profile is now
+  rebuilt with only its colour data; colours are unchanged.
+- PNG iCCP and WebP ICCP profiles are cleaned the same way.
+- The safety check now rejects any colour profile with identifying fields.
+- Success is reported only after the stored file is read back, matches the
+  cleaned copy exactly, and has nothing left to remove.
+- Links from other apps are no longer written to directly, even when the app
+  grants write access; the stored original is located in the media library
+  instead (Google Photos links, media documents, name/size/content lookup).
+- The media scanner is asked to re-read each cleaned file on every Android
+  version.
+- New tests with camera-style fixtures (EXIF with maker notes, GPS and
+  thumbnail, vendor ICC, XMP and extended XMP, IPTC, MPF, gain map, FlashPix,
+  vendor segments and trailer).
+
+## 0.1.0-test1 (versionCode 1)
 
 - First version.
 - Share target for one or more images (ACTION_SEND and ACTION_SEND_MULTIPLE)

@@ -24,8 +24,9 @@ import java.io.ByteArrayOutputStream
  * Removes EXIF and XMP chunks from a WebP file without touching the compressed image data.
  *
  * Simple (lossy "VP8 " or lossless "VP8L") files cannot hold metadata; only their image chunk is
- * kept. Extended ("VP8X") files keep the image, alpha, animation and ICC colour chunks; EXIF, XMP
- * and unknown chunks are dropped and the VP8X flags are updated. A non-normal EXIF Orientation is
+ * kept. Extended ("VP8X") files keep the image, alpha, animation and ICC colour chunks (the ICC
+ * profile rebuilt by [IccSanitizer]); EXIF, XMP and unknown chunks are dropped and the VP8X flags
+ * are updated. A non-normal EXIF Orientation is
  * kept as a minimal EXIF chunk.
  */
 object WebpStripper {
@@ -92,15 +93,22 @@ object WebpStripper {
             orientation = Orientation.read(b, s, e)
         }
 
+        val icc = chunks.firstOrNull { it.fourcc == "ICCP" }
+            ?.let { IccSanitizer.sanitize(b.copyOfRange(it.dataStart, it.dataStart + it.size)) }
+
         val out = ArrayList<ByteArray>()
         for (c in chunks) {
             if (c.fourcc !in KEEP_EXTENDED) continue
+            if (c.fourcc == "ICCP") {
+                if (icc != null && out.none { it.size >= 4 && it.ascii(0, 4) == "ICCP" }) out += makeChunk("ICCP", icc)
+                continue
+            }
             if (c === vp8x) {
                 val data = b.copyOfRange(c.dataStart, c.dataStart + c.size)
                 var flags = data[0].toInt() and 0xFF
                 flags = flags and (FLAG_EXIF or FLAG_XMP).inv()
                 if (Orientation.needsTag(orientation)) flags = flags or FLAG_EXIF
-                if (chunks.none { it.fourcc == "ICCP" }) flags = flags and FLAG_ICC.inv()
+                flags = if (icc == null) flags and FLAG_ICC.inv() else flags or FLAG_ICC
                 data[0] = flags.toByte()
                 out += makeChunk("VP8X", data)
             } else {

@@ -77,7 +77,7 @@ private fun Instructions() {
         Text("What is kept", style = MaterialTheme.typography.titleMedium)
         Text(
             "The image data is copied unchanged, so the photo looks exactly the same. The colour profile " +
-                "is kept. If the photo was taken sideways, a single orientation tag is kept so it still " +
+                "keeps its colour data; its copyright and manufacturer text is removed. If the photo was taken sideways, a single orientation tag is kept so it still " +
                 "displays upright.",
         )
         Text("Supported files", style = MaterialTheme.typography.titleMedium)

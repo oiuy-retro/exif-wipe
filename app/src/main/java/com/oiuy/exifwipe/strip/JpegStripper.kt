@@ -35,8 +35,10 @@ import java.io.ByteArrayOutputStream
  * Removes metadata from a JPEG without touching the compressed image data.
  *
  * The file is walked segment by segment. Every APPn (0xE0-0xEF) and COM (0xFE) segment is
- * dropped, except the two that change how pixels are displayed:
- *  - APP2 "ICC_PROFILE": the colour profile (for example Display P3 photos),
+ * dropped (EXIF with maker notes and thumbnail, XMP and extended XMP, IPTC/Photoshop, MPF,
+ * FlashPix, vendor segments), except the two that change how pixels are displayed:
+ *  - APP2 "ICC_PROFILE": the colour profile. It is reassembled, rebuilt by [IccSanitizer] without
+ *    its copyright, manufacturer and model fields, and written back in place of the original,
  *  - APP14 "Adobe": the colour-transform flag needed to decode some RGB/CMYK JPEGs.
  * Anything after the end-of-image marker (motion-photo video, gain maps, vendor trailers) is
  * dropped. If the original carried an EXIF Orientation other than "normal", a new EXIF block
@@ -64,6 +66,8 @@ object JpegStripper {
 
         val body = ByteArrayOutputStream(b.size)
         var orientation: Int? = null
+        val iccChunks = ArrayList<Pair<Int, ByteArray>>() // (sequence number, data)
+        var iccPosition = -1
         var sawScan = false
         var pos = 2
 
@@ -102,9 +106,13 @@ object JpegStripper {
                 if (m == APP1 && orientation == null && b.hasPrefixAt(dataStart, segEnd, EXIF_ID)) {
                     orientation = Orientation.read(b, dataStart + EXIF_ID.size, segEnd)
                 }
-                val keep = (m == APP2 && b.hasPrefixAt(dataStart, segEnd, ICC_ID)) ||
-                    (m == APP14 && b.hasPrefixAt(dataStart, segEnd, ADOBE_ID))
-                if (keep) body.write(b, markerPos, segEnd - markerPos)
+                if (m == APP2 && b.hasPrefixAt(dataStart, segEnd, ICC_ID) && segEnd - dataStart >= ICC_ID.size + 2) {
+                    if (iccPosition < 0) iccPosition = body.size()
+                    val seq = b.u8(dataStart + ICC_ID.size)
+                    iccChunks += seq to b.copyOfRange(dataStart + ICC_ID.size + 2, segEnd)
+                } else if (m == APP14 && b.hasPrefixAt(dataStart, segEnd, ADOBE_ID)) {
+                    body.write(b, markerPos, segEnd - markerPos)
+                }
                 pos = segEnd
                 continue
             }
@@ -142,7 +150,40 @@ object JpegStripper {
         out.write(MARKER)
         out.write(SOI)
         if (Orientation.needsTag(orientation)) out.write(orientationSegment(orientation!!))
-        body.writeTo(out)
+        val bodyBytes = body.toByteArray()
+        val icc = if (iccChunks.isEmpty()) null else IccSanitizer.sanitize(assembleIcc(iccChunks))
+        if (icc == null) {
+            out.write(bodyBytes)
+        } else {
+            out.write(bodyBytes, 0, iccPosition)
+            out.write(iccSegments(icc))
+            out.write(bodyBytes, iccPosition, bodyBytes.size - iccPosition)
+        }
+        return out.toByteArray()
+    }
+
+    /** Joins ICC chunks in sequence-number order (file order if the numbers are inconsistent). */
+    internal fun assembleIcc(chunks: List<Pair<Int, ByteArray>>): ByteArray {
+        val seqs = chunks.map { it.first }
+        val ordered = if (seqs.toSet().size == seqs.size) chunks.sortedBy { it.first } else chunks
+        return ordered.fold(ByteArray(0)) { acc, c -> acc + c.second }
+    }
+
+    /** Splits a profile into APP2 ICC_PROFILE segments. */
+    internal fun iccSegments(profile: ByteArray): ByteArray {
+        val maxData = 0xFFFF - 2 - ICC_ID.size - 2
+        val parts = (profile.size + maxData - 1) / maxData
+        val out = ByteArrayOutputStream(profile.size + parts * 18)
+        for (i in 0 until parts) {
+            val from = i * maxData
+            val to = minOf(profile.size, from + maxData)
+            val length = 2 + ICC_ID.size + 2 + (to - from)
+            out.write(byteArrayOf(MARKER.toByte(), APP2.toByte(), (length shr 8).toByte(), length.toByte()))
+            out.write(ICC_ID)
+            out.write(i + 1)
+            out.write(parts)
+            out.write(profile, from, to - from)
+        }
         return out.toByteArray()
     }
 
