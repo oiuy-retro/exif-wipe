@@ -2,7 +2,16 @@
 
 All notable changes to this project are listed here.
 
-## 0.1.0-test2 (versionCode 2) - unreleased
+## 0.1.0 (versionCode 3) - 2026-11-14
+
+- First full release. Same app as 0.1.0-test2, verified on a phone; the
+  versionCode is higher than the test builds so it installs over them.
+- Summary: share target that removes metadata (EXIF, GPS, camera details,
+  dates, XMP, IPTC, comments, maker notes, thumbnails, MPF/gain-map and other
+  data after the image) from the stored original JPEG, PNG or WebP in place,
+  keeping the image data, colour data and orientation.
+
+## 0.1.0-test2 (versionCode 2) - test build
 
 - Fixed: cleaned photos still showed a copyright notice and manufacturer. These
   came from the embedded ICC colour profile (for example Samsung's "Copyright
@@ -22,7 +31,7 @@ All notable changes to this project are listed here.
   thumbnail, vendor ICC, XMP and extended XMP, IPTC, MPF, gain map, FlashPix,
   vendor segments and trailer).
 
-## 0.1.0-test1 (versionCode 1)
+## 0.1.0-test1 (versionCode 1) - test build
 
 - First version.
 - Share target for one or more images (ACTION_SEND and ACTION_SEND_MULTIPLE)
