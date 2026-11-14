@@ -1,0 +1,539 @@
+# Lenses used for randomized metadata. Facts only: marketing names, focal lengths, apertures, mounts, years.
+# make	model	mounts(comma separated; fixed:<body id> for built-in lenses)	focal_min_mm	focal_max_mm	max_aperture_wide	max_aperture_tele	min_aperture	year	flags(aps=APS-C/DX image circle, manual=no electronic contacts, fixed=built-in lens, phone=phone camera module)	f35(phone modules)
+Canon	EF50mm f/1.8 II	canon-ef	50	50	1.8	1.8	22	1990		
+Canon	EF50mm f/1.8 STM	canon-ef	50	50	1.8	1.8	22	2015		
+Canon	EF50mm f/1.4 USM	canon-ef	50	50	1.4	1.4	22	1993		
+Canon	EF50mm f/1.2L USM	canon-ef	50	50	1.2	1.2	16	2006		
+Canon	EF85mm f/1.8 USM	canon-ef	85	85	1.8	1.8	22	1992		
+Canon	EF85mm f/1.2L II USM	canon-ef	85	85	1.2	1.2	16	2006		
+Canon	EF100mm f/2.8L Macro IS USM	canon-ef	100	100	2.8	2.8	32	2009		
+Canon	EF135mm f/2L USM	canon-ef	135	135	2	2	32	1996		
+Canon	EF35mm f/1.4L USM	canon-ef	35	35	1.4	1.4	22	1998		
+Canon	EF35mm f/2 IS USM	canon-ef	35	35	2	2	22	2012		
+Canon	EF24mm f/1.4L II USM	canon-ef	24	24	1.4	1.4	22	2008		
+Canon	EF40mm f/2.8 STM	canon-ef	40	40	2.8	2.8	22	2012		
+Canon	EF16-35mm f/2.8L II USM	canon-ef	16	35	2.8	2.8	22	2007		
+Canon	EF16-35mm f/4L IS USM	canon-ef	16	35	4	4	22	2014		
+Canon	EF17-40mm f/4L USM	canon-ef	17	40	4	4	22	2003		
+Canon	EF24-70mm f/2.8L USM	canon-ef	24	70	2.8	2.8	22	2002		
+Canon	EF24-70mm f/2.8L II USM	canon-ef	24	70	2.8	2.8	22	2012		
+Canon	EF24-105mm f/4L IS USM	canon-ef	24	105	4	4	22	2005		
+Canon	EF24-105mm f/4L IS II USM	canon-ef	24	105	4	4	22	2016		
+Canon	EF28-135mm f/3.5-5.6 IS USM	canon-ef	28	135	3.5	5.6	22	1998		
+Canon	EF70-200mm f/2.8L IS II USM	canon-ef	70	200	2.8	2.8	32	2010		
+Canon	EF70-200mm f/4L USM	canon-ef	70	200	4	4	32	1999		
+Canon	EF70-300mm f/4-5.6 IS USM	canon-ef	70	300	4	5.6	32	2005		
+Canon	EF100-400mm f/4.5-5.6L IS II USM	canon-ef	100	400	4.5	5.6	32	2014		
+Canon	EF75-300mm f/4-5.6 III	canon-ef	75	300	4	5.6	32	1999		
+Canon	EF-S18-55mm f/3.5-5.6	canon-ef	18	55	3.5	5.6	22	2003	aps	
+Canon	EF-S18-55mm f/3.5-5.6 IS	canon-ef	18	55	3.5	5.6	22	2007	aps	
+Canon	EF-S18-55mm f/3.5-5.6 IS STM	canon-ef	18	55	3.5	5.6	22	2013	aps	
+Canon	EF-S18-135mm f/3.5-5.6 IS	canon-ef	18	135	3.5	5.6	22	2008	aps	
+Canon	EF-S18-135mm f/3.5-5.6 IS STM	canon-ef	18	135	3.5	5.6	22	2012	aps	
+Canon	EF-S17-55mm f/2.8 IS USM	canon-ef	17	55	2.8	2.8	22	2006	aps	
+Canon	EF-S10-22mm f/3.5-4.5 USM	canon-ef	10	22	3.5	4.5	22	2004	aps	
+Canon	EF-S10-18mm f/4.5-5.6 IS STM	canon-ef	10	18	4.5	5.6	22	2014	aps	
+Canon	EF-S55-250mm f/4-5.6 IS	canon-ef	55	250	4	5.6	22	2007	aps	
+Canon	EF-S55-250mm f/4-5.6 IS STM	canon-ef	55	250	4	5.6	22	2013	aps	
+Canon	EF-S24mm f/2.8 STM	canon-ef	24	24	2.8	2.8	22	2014	aps	
+Canon	EF-S15-85mm f/3.5-5.6 IS USM	canon-ef	15	85	3.5	5.6	22	2009	aps	
+Canon	EF-S60mm f/2.8 Macro USM	canon-ef	60	60	2.8	2.8	32	2004	aps	
+Canon	RF24-105mm F4 L IS USM	canon-rf	24	105	4	4	22	2018		
+Canon	RF24-70mm F2.8 L IS USM	canon-rf	24	70	2.8	2.8	22	2019		
+Canon	RF15-35mm F2.8 L IS USM	canon-rf	15	35	2.8	2.8	22	2019		
+Canon	RF70-200mm F2.8 L IS USM	canon-rf	70	200	2.8	2.8	32	2019		
+Canon	RF50mm F1.2 L USM	canon-rf	50	50	1.2	1.2	16	2018		
+Canon	RF35mm F1.8 MACRO IS STM	canon-rf	35	35	1.8	1.8	22	2018		
+Canon	RF50mm F1.8 STM	canon-rf	50	50	1.8	1.8	22	2020		
+Canon	RF85mm F2 MACRO IS STM	canon-rf	85	85	2	2	29	2020		
+Canon	RF24-105mm F4-7.1 IS STM	canon-rf	24	105	4	7.1	22	2019		
+Canon	RF100-500mm F4.5-7.1 L IS USM	canon-rf	100	500	4.5	7.1	32	2020		
+Canon	RF28-70mm F2 L USM	canon-rf	28	70	2	2	22	2018		
+Canon	RF16mm F2.8 STM	canon-rf	16	16	2.8	2.8	22	2021		
+Canon	RF100-400mm F5.6-8 IS USM	canon-rf	100	400	5.6	8	32	2021		
+Canon	RF-S18-45mm F4.5-6.3 IS STM	canon-rf	18	45	4.5	6.3	22	2022	aps	
+Canon	RF-S18-150mm F3.5-6.3 IS STM	canon-rf	18	150	3.5	6.3	22	2022	aps	
+Canon	RF-S55-210mm F5-7.1 IS STM	canon-rf	55	210	5	7.1	22	2022	aps	
+Canon	EF-M15-45mm f/3.5-6.3 IS STM	canon-efm	15	45	3.5	6.3	22	2015	aps	
+Canon	EF-M22mm f/2 STM	canon-efm	22	22	2	2	22	2012	aps	
+Canon	EF-M18-55mm f/3.5-5.6 IS STM	canon-efm	18	55	3.5	5.6	22	2012	aps	
+Canon	EF-M32mm f/1.4 STM	canon-efm	32	32	1.4	1.4	16	2018	aps	
+Canon	EF-M55-200mm f/4.5-6.3 IS STM	canon-efm	55	200	4.5	6.3	22	2014	aps	
+Canon	New FD 50mm f/1.8	canon-fd	50	50	1.8	1.8	22	1979	manual	
+Canon	New FD 50mm f/1.4	canon-fd	50	50	1.4	1.4	22	1979	manual	
+Canon	New FD 28mm f/2.8	canon-fd	28	28	2.8	2.8	22	1979	manual	
+Canon	New FD 135mm f/2.8	canon-fd	135	135	2.8	2.8	22	1979	manual	
+Canon	New FD 35-70mm f/4	canon-fd	35	70	4	4	22	1979	manual	
+Canon	New FD 85mm f/1.8	canon-fd	85	85	1.8	1.8	22	1980	manual	
+Canon	FD 55mm f/1.2 S.S.C.	canon-fd	55	55	1.2	1.2	16	1973	manual	
+Nikon	AF-S NIKKOR 50mm f/1.8G	nikon-f	50	50	1.8	1.8	16	2011		
+Nikon	AF NIKKOR 50mm f/1.8D	nikon-f	50	50	1.8	1.8	22	2002		
+Nikon	AF-S NIKKOR 50mm f/1.4G	nikon-f	50	50	1.4	1.4	16	2008		
+Nikon	AF-S NIKKOR 35mm f/1.8G ED	nikon-f	35	35	1.8	1.8	16	2014		
+Nikon	AF-S NIKKOR 85mm f/1.8G	nikon-f	85	85	1.8	1.8	16	2012		
+Nikon	AF NIKKOR 85mm f/1.8D	nikon-f	85	85	1.8	1.8	16	1994		
+Nikon	AF-S NIKKOR 24-70mm f/2.8G ED	nikon-f	24	70	2.8	2.8	22	2007		
+Nikon	AF-S NIKKOR 24-70mm f/2.8E ED VR	nikon-f	24	70	2.8	2.8	22	2015		
+Nikon	AF-S NIKKOR 24-120mm f/4G ED VR	nikon-f	24	120	4	4	22	2010		
+Nikon	AF-S NIKKOR 70-200mm f/2.8G ED VR II	nikon-f	70	200	2.8	2.8	22	2009		
+Nikon	AF-S NIKKOR 14-24mm f/2.8G ED	nikon-f	14	24	2.8	2.8	22	2007		
+Nikon	AF-S NIKKOR 16-35mm f/4G ED VR	nikon-f	16	35	4	4	22	2010		
+Nikon	AF-S NIKKOR 28-300mm f/3.5-5.6G ED VR	nikon-f	28	300	3.5	5.6	22	2010		
+Nikon	AF-S NIKKOR 200-500mm f/5.6E ED VR	nikon-f	200	500	5.6	5.6	32	2015		
+Nikon	AF-S VR Micro-Nikkor 105mm f/2.8G IF-ED	nikon-f	105	105	2.8	2.8	32	2006		
+Nikon	AF-S NIKKOR 300mm f/4E PF ED VR	nikon-f	300	300	4	4	32	2015		
+Nikon	AF-S DX NIKKOR 35mm f/1.8G	nikon-f	35	35	1.8	1.8	22	2009	aps	
+Nikon	AF-S DX NIKKOR 18-55mm f/3.5-5.6G VR	nikon-f	18	55	3.5	5.6	22	2007	aps	
+Nikon	AF-S DX NIKKOR 18-55mm f/3.5-5.6G VR II	nikon-f	18	55	3.5	5.6	22	2014	aps	
+Nikon	AF-P DX NIKKOR 18-55mm f/3.5-5.6G VR	nikon-f	18	55	3.5	5.6	22	2016	aps	
+Nikon	AF-S DX NIKKOR 18-105mm f/3.5-5.6G ED VR	nikon-f	18	105	3.5	5.6	22	2008	aps	
+Nikon	AF-S DX NIKKOR 18-140mm f/3.5-5.6G ED VR	nikon-f	18	140	3.5	5.6	22	2013	aps	
+Nikon	AF-S DX NIKKOR 18-200mm f/3.5-5.6G ED VR II	nikon-f	18	200	3.5	5.6	22	2009	aps	
+Nikon	AF-S DX NIKKOR 55-200mm f/4-5.6G ED VR	nikon-f	55	200	4	5.6	22	2007	aps	
+Nikon	AF-P DX NIKKOR 70-300mm f/4.5-6.3G ED VR	nikon-f	70	300	4.5	6.3	32	2016	aps	
+Nikon	AF-S DX NIKKOR 16-85mm f/3.5-5.6G ED VR	nikon-f	16	85	3.5	5.6	22	2008	aps	
+Nikon	AF-S DX Zoom-Nikkor 18-70mm f/3.5-4.5G IF-ED	nikon-f	18	70	3.5	4.5	22	2004	aps	
+Nikon	AF-S DX Zoom-Nikkor 17-55mm f/2.8G IF-ED	nikon-f	17	55	2.8	2.8	22	2003	aps	
+Nikon	AF-S DX NIKKOR 10-24mm f/3.5-4.5G ED	nikon-f	10	24	3.5	4.5	22	2009	aps	
+Nikon	NIKKOR Z 24-70mm f/4 S	nikon-z	24	70	4	4	22	2018		
+Nikon	NIKKOR Z 24-70mm f/2.8 S	nikon-z	24	70	2.8	2.8	22	2019		
+Nikon	NIKKOR Z 14-30mm f/4 S	nikon-z	14	30	4	4	22	2019		
+Nikon	NIKKOR Z 24-200mm f/4-6.3 VR	nikon-z	24	200	4	6.3	22	2020		
+Nikon	NIKKOR Z 50mm f/1.8 S	nikon-z	50	50	1.8	1.8	16	2018		
+Nikon	NIKKOR Z 35mm f/1.8 S	nikon-z	35	35	1.8	1.8	16	2018		
+Nikon	NIKKOR Z 85mm f/1.8 S	nikon-z	85	85	1.8	1.8	16	2019		
+Nikon	NIKKOR Z 70-200mm f/2.8 VR S	nikon-z	70	200	2.8	2.8	22	2020		
+Nikon	NIKKOR Z 40mm f/2	nikon-z	40	40	2	2	16	2021		
+Nikon	NIKKOR Z 24-120mm f/4 S	nikon-z	24	120	4	4	22	2021		
+Nikon	NIKKOR Z 28mm f/2.8	nikon-z	28	28	2.8	2.8	16	2021		
+Nikon	NIKKOR Z 100-400mm f/4.5-5.6 VR S	nikon-z	100	400	4.5	5.6	32	2021		
+Nikon	NIKKOR Z 180-600mm f/5.6-6.3 VR	nikon-z	180	600	5.6	6.3	32	2023		
+Nikon	NIKKOR Z DX 16-50mm f/3.5-6.3 VR	nikon-z	16	50	3.5	6.3	22	2019	aps	
+Nikon	NIKKOR Z DX 50-250mm f/4.5-6.3 VR	nikon-z	50	250	4.5	6.3	22	2019	aps	
+Nikon	NIKKOR Z DX 18-140mm f/3.5-6.3 VR	nikon-z	18	140	3.5	6.3	22	2021	aps	
+Sony	FE 28-70mm F3.5-5.6 OSS	sony-e	28	70	3.5	5.6	22	2013		
+Sony	FE 24-70mm F2.8 GM	sony-e	24	70	2.8	2.8	22	2016		
+Sony	FE 24-70mm F2.8 GM II	sony-e	24	70	2.8	2.8	22	2022		
+Sony	FE 24-105mm F4 G OSS	sony-e	24	105	4	4	22	2017		
+Sony	FE 16-35mm F2.8 GM	sony-e	16	35	2.8	2.8	22	2017		
+Sony	FE 70-200mm F2.8 GM OSS	sony-e	70	200	2.8	2.8	22	2016		
+Sony	FE 70-200mm F4 G OSS	sony-e	70	200	4	4	22	2014		
+Sony	FE 85mm F1.8	sony-e	85	85	1.8	1.8	22	2017		
+Sony	FE 50mm F1.8	sony-e	50	50	1.8	1.8	22	2016		
+Sony	Sonnar T* FE 55mm F1.8 ZA	sony-e	55	55	1.8	1.8	22	2013		
+Sony	FE 35mm F1.8	sony-e	35	35	1.8	1.8	22	2019		
+Sony	FE 85mm F1.4 GM	sony-e	85	85	1.4	1.4	16	2016		
+Sony	FE 24mm F1.4 GM	sony-e	24	24	1.4	1.4	16	2018		
+Sony	FE 200-600mm F5.6-6.3 G OSS	sony-e	200	600	5.6	6.3	32	2019		
+Sony	FE 100-400mm F4.5-5.6 GM OSS	sony-e	100	400	4.5	5.6	32	2017		
+Sony	FE 90mm F2.8 Macro G OSS	sony-e	90	90	2.8	2.8	22	2015		
+Sony	FE 20mm F1.8 G	sony-e	20	20	1.8	1.8	16	2020		
+Sony	FE 28-60mm F4-5.6	sony-e	28	60	4	5.6	22	2020		
+Sony	FE 50mm F1.2 GM	sony-e	50	50	1.2	1.2	16	2021		
+Sony	E PZ 16-50mm F3.5-5.6 OSS	sony-e	16	50	3.5	5.6	22	2012	aps	
+Sony	E 18-55mm F3.5-5.6 OSS	sony-e	18	55	3.5	5.6	22	2010	aps	
+Sony	E 55-210mm F4.5-6.3 OSS	sony-e	55	210	4.5	6.3	22	2011	aps	
+Sony	E 18-135mm F3.5-5.6 OSS	sony-e	18	135	3.5	5.6	22	2018	aps	
+Sony	E 35mm F1.8 OSS	sony-e	35	35	1.8	1.8	22	2012	aps	
+Sony	E 50mm F1.8 OSS	sony-e	50	50	1.8	1.8	22	2011	aps	
+Sony	E 16mm F2.8	sony-e	16	16	2.8	2.8	22	2010	aps	
+Sony	E 10-18mm F4 OSS	sony-e	10	18	4	4	22	2012	aps	
+Sony	E 16-55mm F2.8 G	sony-e	16	55	2.8	2.8	22	2019	aps	
+Sony	E 70-350mm F4.5-6.3 G OSS	sony-e	70	350	4.5	6.3	32	2019	aps	
+Sony	E 18-200mm F3.5-6.3 OSS	sony-e	18	200	3.5	6.3	22	2010	aps	
+Sony	Vario-Tessar T* E 16-70mm F4 ZA OSS	sony-e	16	70	4	4	22	2013	aps	
+Sony	50mm F1.4	a	50	50	1.4	1.4	22	2006		
+Sony	70-300mm F4.5-5.6 G SSM	a	70	300	4.5	5.6	22	2006		
+Sony	Vario-Sonnar T* 24-70mm F2.8 ZA SSM	a	24	70	2.8	2.8	22	2008		
+Sony	70-200mm F2.8 G	a	70	200	2.8	2.8	32	2006		
+Sony	Planar T* 85mm F1.4 ZA	a	85	85	1.4	1.4	22	2006		
+Sony	DT 18-55mm F3.5-5.6 SAM	a	18	55	3.5	5.6	22	2009	aps	
+Sony	DT 18-70mm F3.5-5.6	a	18	70	3.5	5.6	22	2006	aps	
+Sony	DT 16-105mm F3.5-5.6	a	16	105	3.5	5.6	22	2007	aps	
+Sony	DT 55-200mm F4-5.6 SAM	a	55	200	4	5.6	32	2009	aps	
+Sony	DT 35mm F1.8 SAM	a	35	35	1.8	1.8	22	2010	aps	
+Sony	DT 50mm F1.8 SAM	a	50	50	1.8	1.8	22	2009	aps	
+Sony	DT 16-50mm F2.8 SSM	a	16	50	2.8	2.8	22	2011	aps	
+Minolta	AF 50mm F1.7	a	50	50	1.7	1.7	22	1985		
+Minolta	AF 50mm F1.4	a	50	50	1.4	1.4	22	1985		
+Minolta	AF 28mm F2.8	a	28	28	2.8	2.8	22	1985		
+Minolta	AF 35-70mm F4	a	35	70	4	4	22	1985		
+Minolta	AF 70-210mm F4	a	70	210	4	4	32	1985		
+Minolta	AF 100mm F2.8 Macro	a	100	100	2.8	2.8	32	1986		
+Minolta	AF 28-85mm F3.5-4.5	a	28	85	3.5	4.5	22	1985		
+Minolta	AF 85mm F1.4 G	a	85	85	1.4	1.4	22	1987		
+Minolta	AF 24-105mm F3.5-4.5 (D)	a	24	105	3.5	4.5	22	2000		
+Minolta	AF 17-35mm F2.8-4 (D)	a	17	35	2.8	4	22	2003		
+Minolta	AF 28-75mm F2.8 (D)	a	28	75	2.8	2.8	32	2004		
+Minolta	AF 80-200mm F2.8 APO G	a	80	200	2.8	2.8	32	1988		
+Minolta	AF 135mm F2.8	a	135	135	2.8	2.8	32	1985		
+Konica Minolta	AF DT 18-70mm F3.5-5.6 (D)	a	18	70	3.5	5.6	22	2004	aps	
+Minolta	MD Rokkor 50mm f/1.4	minolta-md	50	50	1.4	1.4	16	1977	manual	
+Minolta	MD Rokkor-X 45mm f/2	minolta-md	45	45	2	2	22	1977	manual	
+Minolta	MD 50mm f/1.7	minolta-md	50	50	1.7	1.7	22	1981	manual	
+Minolta	MC Rokkor-PG 58mm f/1.2	minolta-md	58	58	1.2	1.2	16	1968	manual	
+Minolta	MD W.Rokkor 28mm f/2.8	minolta-md	28	28	2.8	2.8	22	1977	manual	
+Minolta	MD Rokkor 135mm f/3.5	minolta-md	135	135	3.5	3.5	22	1977	manual	
+Minolta	MD Zoom 35-70mm f/3.5	minolta-md	35	70	3.5	3.5	22	1981	manual	
+Minolta	MD Tele Rokkor 200mm f/4	minolta-md	200	200	4	4	22	1977	manual	
+Minolta	MD Rokkor 100mm f/2.5	minolta-md	100	100	2.5	2.5	22	1978	manual	
+Olympus	OM Zuiko Auto-S 50mm f/1.8	olympus-om	50	50	1.8	1.8	16	1972	manual	
+Olympus	OM Zuiko Auto-S 50mm f/1.4	olympus-om	50	50	1.4	1.4	16	1972	manual	
+Olympus	OM Zuiko Auto-W 28mm f/2.8	olympus-om	28	28	2.8	2.8	16	1972	manual	
+Olympus	OM Zuiko Auto-T 135mm f/3.5	olympus-om	135	135	3.5	3.5	22	1972	manual	
+Olympus	OM Zuiko Auto-T 100mm f/2.8	olympus-om	100	100	2.8	2.8	22	1972	manual	
+Olympus	OM Zuiko Auto-W 24mm f/2.8	olympus-om	24	24	2.8	2.8	16	1972	manual	
+Olympus	ZUIKO DIGITAL 14-42mm F3.5-5.6	four-thirds	14	42	3.5	5.6	22	2006		
+Olympus	ZUIKO DIGITAL 40-150mm F4.0-5.6	four-thirds	40	150	4	5.6	22	2006		
+Olympus	ZUIKO DIGITAL 14-54mm F2.8-3.5	four-thirds	14	54	2.8	3.5	22	2003		
+Olympus	ZUIKO DIGITAL 50mm F2.0 Macro	four-thirds	50	50	2	2	22	2003		
+Olympus	ZUIKO DIGITAL ED 12-60mm F2.8-4.0 SWD	four-thirds	12	60	2.8	4	22	2007		
+Olympus	ZUIKO DIGITAL ED 50-200mm F2.8-3.5	four-thirds	50	200	2.8	3.5	22	2004		
+Olympus	ZUIKO DIGITAL ED 14-35mm F2.0 SWD	four-thirds	14	35	2	2	22	2008		
+Olympus	ZUIKO DIGITAL 25mm F2.8	four-thirds	25	25	2.8	2.8	22	2008		
+Olympus	ZUIKO DIGITAL 14-45mm F3.5-5.6	four-thirds	14	45	3.5	5.6	22	2003		
+Olympus	M.ZUIKO DIGITAL 14-42mm F3.5-5.6 II R	mft	14	42	3.5	5.6	22	2011		
+Olympus	M.ZUIKO DIGITAL ED 14-42mm F3.5-5.6 EZ	mft	14	42	3.5	5.6	22	2014		
+Olympus	M.ZUIKO DIGITAL ED 12-40mm F2.8 PRO	mft	12	40	2.8	2.8	22	2013		
+Olympus	M.ZUIKO DIGITAL ED 40-150mm F2.8 PRO	mft	40	150	2.8	2.8	22	2014		
+Olympus	M.ZUIKO DIGITAL ED 12-100mm F4.0 IS PRO	mft	12	100	4	4	22	2016		
+Olympus	M.ZUIKO DIGITAL ED 40-150mm F4.0-5.6 R	mft	40	150	4	5.6	22	2010		
+Olympus	M.ZUIKO DIGITAL 25mm F1.8	mft	25	25	1.8	1.8	22	2014		
+Olympus	M.ZUIKO DIGITAL 45mm F1.8	mft	45	45	1.8	1.8	22	2011		
+Olympus	M.ZUIKO DIGITAL 17mm F1.8	mft	17	17	1.8	1.8	22	2012		
+Olympus	M.ZUIKO DIGITAL ED 75mm F1.8	mft	75	75	1.8	1.8	22	2012		
+Olympus	M.ZUIKO DIGITAL ED 60mm F2.8 Macro	mft	60	60	2.8	2.8	22	2012		
+Olympus	M.ZUIKO DIGITAL ED 14-150mm F4.0-5.6 II	mft	14	150	4	5.6	22	2015		
+Olympus	M.ZUIKO DIGITAL ED 75-300mm F4.8-6.7 II	mft	75	300	4.8	6.7	22	2012		
+Olympus	M.ZUIKO DIGITAL ED 300mm F4.0 IS PRO	mft	300	300	4	4	22	2016		
+OM Digital Solutions	M.Zuiko Digital ED 12-45mm F4.0 PRO	mft	12	45	4	4	22	2020		
+OM Digital Solutions	M.Zuiko Digital ED 100-400mm F5.0-6.3 IS	mft	100	400	5	6.3	22	2020		
+OM Digital Solutions	OM 12-40mm F2.8 PRO II	mft	12	40	2.8	2.8	22	2022		
+OM Digital Solutions	OM 20mm F1.4 PRO	mft	20	20	1.4	1.4	16	2021		
+Panasonic	LUMIX G VARIO 14-42mm F3.5-5.6 II ASPH. MEGA O.I.S.	mft	14	42	3.5	5.6	22	2013		
+Panasonic	LUMIX G X VARIO PZ 14-42mm F3.5-5.6 ASPH. POWER O.I.S.	mft	14	42	3.5	5.6	22	2011		
+Panasonic	LUMIX G 20mm F1.7 ASPH.	mft	20	20	1.7	1.7	16	2009		
+Panasonic	LUMIX G 25mm F1.7 ASPH.	mft	25	25	1.7	1.7	16	2015		
+Panasonic	LUMIX G VARIO 12-60mm F3.5-5.6 ASPH. POWER O.I.S.	mft	12	60	3.5	5.6	22	2017		
+Panasonic	LUMIX G X VARIO 12-35mm F2.8 ASPH. POWER O.I.S.	mft	12	35	2.8	2.8	22	2012		
+Panasonic	LUMIX G X VARIO 35-100mm F2.8 POWER O.I.S.	mft	35	100	2.8	2.8	22	2012		
+Panasonic	LUMIX G VARIO 45-150mm F4.0-5.6 ASPH. MEGA O.I.S.	mft	45	150	4	5.6	22	2012		
+Panasonic	LUMIX G VARIO 100-300mm F4.0-5.6 II POWER O.I.S.	mft	100	300	4	5.6	22	2016		
+Panasonic	LUMIX G 14mm F2.5 ASPH.	mft	14	14	2.5	2.5	22	2010		
+Panasonic	LUMIX G VARIO 14-140mm F3.5-5.6 ASPH. POWER O.I.S.	mft	14	140	3.5	5.6	22	2013		
+Panasonic	LEICA DG SUMMILUX 25mm F1.4 ASPH.	mft	25	25	1.4	1.4	16	2011		
+Panasonic	LEICA DG NOCTICRON 42.5mm F1.2 ASPH. POWER O.I.S.	mft	42.5	42.5	1.2	1.2	16	2014		
+Panasonic	LEICA DG VARIO-ELMARIT 12-60mm F2.8-4.0 ASPH. POWER O.I.S.	mft	12	60	2.8	4	22	2017		
+Panasonic	LEICA DG SUMMILUX 15mm F1.7 ASPH.	mft	15	15	1.7	1.7	16	2014		
+Panasonic	LEICA DG VARIO-ELMAR 100-400mm F4.0-6.3 ASPH. POWER O.I.S.	mft	100	400	4	6.3	22	2016		
+Panasonic	LUMIX S 20-60mm F3.5-5.6	leica-l	20	60	3.5	5.6	22	2020		
+Panasonic	LUMIX S 24-105mm F4 MACRO O.I.S.	leica-l	24	105	4	4	22	2019		
+Panasonic	LUMIX S 50mm F1.8	leica-l	50	50	1.8	1.8	22	2021		
+Panasonic	LUMIX S PRO 24-70mm F2.8	leica-l	24	70	2.8	2.8	22	2019		
+Panasonic	LUMIX S 85mm F1.8	leica-l	85	85	1.8	1.8	22	2020		
+Pentax	smc PENTAX-M 50mm F1.7	pentax-k	50	50	1.7	1.7	22	1977	manual	
+Pentax	smc PENTAX-A 50mm F1.7	pentax-k	50	50	1.7	1.7	22	1983		
+Pentax	smc PENTAX-FA 50mm F1.4	pentax-k	50	50	1.4	1.4	22	1991		
+Pentax	smc PENTAX-FA 43mm F1.9 Limited	pentax-k	43	43	1.9	1.9	22	1997		
+Pentax	smc PENTAX-FA 31mm F1.8 AL Limited	pentax-k	31	31	1.8	1.8	22	2001		
+Pentax	smc PENTAX-FA 77mm F1.8 Limited	pentax-k	77	77	1.8	1.8	22	1999		
+Pentax	HD PENTAX-D FA 24-70mm F2.8 ED SDM WR	pentax-k	24	70	2.8	2.8	22	2016		
+Pentax	HD PENTAX-D FA 28-105mm F3.5-5.6 ED DC WR	pentax-k	28	105	3.5	5.6	22	2016		
+Pentax	HD PENTAX-D FA 15-30mm F2.8 ED SDM WR	pentax-k	15	30	2.8	2.8	22	2016		
+Pentax	smc PENTAX-D FA MACRO 100mm F2.8 WR	pentax-k	100	100	2.8	2.8	32	2009		
+Pentax	smc PENTAX-DA 18-55mm F3.5-5.6 AL	pentax-k	18	55	3.5	5.6	22	2003	aps	
+Pentax	smc PENTAX-DA L 18-55mm F3.5-5.6 AL	pentax-k	18	55	3.5	5.6	22	2009	aps	
+Pentax	smc PENTAX-DA 18-135mm F3.5-5.6 ED AL [IF] DC WR	pentax-k	18	135	3.5	5.6	22	2010	aps	
+Pentax	smc PENTAX-DA 50-200mm F4-5.6 ED	pentax-k	50	200	4	5.6	22	2005	aps	
+Pentax	smc PENTAX-DA 16-45mm F4 ED AL	pentax-k	16	45	4	4	22	2003	aps	
+Pentax	smc PENTAX-DA 35mm F2.4 AL	pentax-k	35	35	2.4	2.4	22	2010	aps	
+Pentax	smc PENTAX-DA 40mm F2.8 Limited	pentax-k	40	40	2.8	2.8	22	2004	aps	
+Pentax	smc PENTAX-DA 21mm F3.2 AL Limited	pentax-k	21	21	3.2	3.2	22	2006	aps	
+Pentax	smc PENTAX-DA* 16-50mm F2.8 ED AL [IF] SDM	pentax-k	16	50	2.8	2.8	22	2007	aps	
+Pentax	smc PENTAX-DA* 50-135mm F2.8 ED [IF] SDM	pentax-k	50	135	2.8	2.8	22	2007	aps	
+Pentax	HD PENTAX-DA 16-85mm F3.5-5.6 ED DC WR	pentax-k	16	85	3.5	5.6	22	2014	aps	
+Pentax	HD PENTAX-DA 55-300mm F4.5-6.3 ED PLM WR RE	pentax-k	55	300	4.5	6.3	22	2016	aps	
+Pentax	smc PENTAX-DA 55-300mm F4-5.8 ED	pentax-k	55	300	4	5.8	22	2007	aps	
+Asahi	Super-Takumar 50mm F1.4	m42	50	50	1.4	1.4	16	1964	manual	
+Asahi	Super-Multi-Coated Takumar 55mm F1.8	m42	55	55	1.8	1.8	16	1971	manual	
+Asahi	SMC Takumar 28mm F3.5	m42	28	28	3.5	3.5	16	1971	manual	
+Asahi	SMC Takumar 135mm F3.5	m42	135	135	3.5	3.5	22	1971	manual	
+Asahi	Super-Takumar 105mm F2.8	m42	105	105	2.8	2.8	22	1965	manual	
+Carl Zeiss Jena	Pancolar 50mm f/1.8	m42	50	50	1.8	1.8	16	1965	manual	
+Carl Zeiss Jena	Flektogon 35mm f/2.4	m42	35	35	2.4	2.4	16	1977	manual	
+KMZ	Helios-44-2 58mm f/2	m42	58	58	2	2	16	1974	manual	
+Schneider-Kreuznach	Xenon 50mm f/1.9	m42	50	50	1.9	1.9	16	1960	manual	
+Rodenstock	Heligon 50mm f/1.9	m42	50	50	1.9	1.9	16	1960	manual	
+FUJIFILM	XF35mmF1.4 R	fuji-x	35	35	1.4	1.4	16	2012		
+FUJIFILM	XF18-55mmF2.8-4 R LM OIS	fuji-x	18	55	2.8	4	22	2012		
+FUJIFILM	XF23mmF2 R WR	fuji-x	23	23	2	2	16	2016		
+FUJIFILM	XF35mmF2 R WR	fuji-x	35	35	2	2	16	2015		
+FUJIFILM	XF56mmF1.2 R	fuji-x	56	56	1.2	1.2	16	2014		
+FUJIFILM	XF16-55mmF2.8 R LM WR	fuji-x	16	55	2.8	2.8	22	2015		
+FUJIFILM	XF50-140mmF2.8 R LM OIS WR	fuji-x	50	140	2.8	2.8	22	2014		
+FUJIFILM	XF10-24mmF4 R OIS	fuji-x	10	24	4	4	22	2014		
+FUJIFILM	XF16-80mmF4 R OIS WR	fuji-x	16	80	4	4	22	2019		
+FUJIFILM	XF27mmF2.8	fuji-x	27	27	2.8	2.8	16	2013		
+FUJIFILM	XF23mmF1.4 R	fuji-x	23	23	1.4	1.4	16	2013		
+FUJIFILM	XF18mmF2 R	fuji-x	18	18	2	2	16	2012		
+FUJIFILM	XF14mmF2.8 R	fuji-x	14	14	2.8	2.8	22	2013		
+FUJIFILM	XF60mmF2.4 R Macro	fuji-x	60	60	2.4	2.4	22	2012		
+FUJIFILM	XF55-200mmF3.5-4.8 R LM OIS	fuji-x	55	200	3.5	4.8	22	2013		
+FUJIFILM	XF100-400mmF4.5-5.6 R LM OIS WR	fuji-x	100	400	4.5	5.6	22	2016		
+FUJIFILM	XF90mmF2 R LM WR	fuji-x	90	90	2	2	16	2015		
+FUJIFILM	XF33mmF1.4 R LM WR	fuji-x	33	33	1.4	1.4	16	2021		
+FUJIFILM	XC15-45mmF3.5-5.6 OIS PZ	fuji-x	15	45	3.5	5.6	22	2018		
+FUJIFILM	XC16-50mmF3.5-5.6 OIS II	fuji-x	16	50	3.5	5.6	22	2015		
+FUJIFILM	XC50-230mmF4.5-6.7 OIS II	fuji-x	50	230	4.5	6.7	22	2015		
+FUJIFILM	XF70-300mmF4-5.6 R LM OIS WR	fuji-x	70	300	4	5.6	22	2021		
+FUJIFILM	XF18-135mmF3.5-5.6 R LM OIS WR	fuji-x	18	135	3.5	5.6	22	2014		
+FUJIFILM	GF63mmF2.8 R WR	fuji-g	63	63	2.8	2.8	32	2017		
+FUJIFILM	GF32-64mmF4 R LM WR	fuji-g	32	64	4	4	32	2017		
+FUJIFILM	GF120mmF4 R LM OIS WR Macro	fuji-g	120	120	4	4	32	2017		
+FUJIFILM	GF45mmF2.8 R WR	fuji-g	45	45	2.8	2.8	32	2017		
+FUJIFILM	GF110mmF2 R LM WR	fuji-g	110	110	2	2	22	2017		
+FUJIFILM	GF23mmF4 R LM WR	fuji-g	23	23	4	4	32	2017		
+FUJIFILM	GF35-70mmF4.5-5.6 WR	fuji-g	35	70	4.5	5.6	32	2021		
+FUJIFILM	GF80mmF1.7 R WR	fuji-g	80	80	1.7	1.7	22	2021		
+FUJIFILM	GF50mmF3.5 R LM WR	fuji-g	50	50	3.5	3.5	32	2019		
+Leica	SUMMICRON-M 35 f/2 ASPH.	leica-m	35	35	2	2	16	1997		
+Leica	SUMMICRON-M 50 f/2	leica-m	50	50	2	2	16	1994		
+Leica	SUMMILUX-M 50 f/1.4 ASPH.	leica-m	50	50	1.4	1.4	16	2004		
+Leica	SUMMILUX-M 35 f/1.4 ASPH.	leica-m	35	35	1.4	1.4	16	2010		
+Leica	ELMARIT-M 28 f/2.8 ASPH.	leica-m	28	28	2.8	2.8	16	2006		
+Leica	NOCTILUX-M 50 f/0.95 ASPH.	leica-m	50	50	0.95	0.95	16	2008		
+Leica	APO-SUMMICRON-M 90 f/2 ASPH.	leica-m	90	90	2	2	16	1998		
+Leica	SUMMARIT-M 35 f/2.5	leica-m	35	35	2.5	2.5	16	2007		
+Leica	ELMAR-M 24 f/3.8 ASPH.	leica-m	24	24	3.8	3.8	16	2008		
+Leica	TRI-ELMAR-M 16-18-21 f/4 ASPH.	leica-m	16	21	4	4	16	2006		
+Leica	SUMMARON-M 28 f/5.6	leica-m	28	28	5.6	5.6	22	2016		
+Leica	SUMMICRON-R 50 f/2	leica-r	50	50	2	2	16	1976	manual	
+Leica	SUMMILUX-R 50 f/1.4	leica-r	50	50	1.4	1.4	16	1970	manual	
+Leica	ELMARIT-R 28 f/2.8	leica-r	28	28	2.8	2.8	22	1970	manual	
+Leica	ELMARIT-R 90 f/2.8	leica-r	90	90	2.8	2.8	22	1983	manual	
+Leica	APO-SUMMICRON-R 90 f/2 ASPH.	leica-r	90	90	2	2	16	2002	manual	
+Leica	VARIO-ELMAR-R 35-70 f/4	leica-r	35	70	4	4	22	1988	manual	
+Leica	SUMMICRON-R 35 f/2	leica-r	35	35	2	2	16	1976	manual	
+Leica	ELMARIT-R 135 f/2.8	leica-r	135	135	2.8	2.8	22	1968	manual	
+Schneider-Kreuznach	PC-Super-Angulon-R 28mm f/2.8	leica-r	28	28	2.8	2.8	22	1988	manual	
+Leica	APO-SUMMICRON-SL 50 f/2 ASPH.	leica-l	50	50	2	2	22	2019		
+Leica	VARIO-ELMARIT-SL 24-90 f/2.8-4 ASPH.	leica-l	24	90	2.8	4	22	2015		
+Leica	SUMMILUX-TL 35 f/1.4 ASPH.	leica-l	35	35	1.4	1.4	16	2016	aps	
+ZEISS	Batis 2/25	sony-e	25	25	2	2	22	2015		
+ZEISS	Batis 1.8/85	sony-e	85	85	1.8	1.8	22	2015		
+ZEISS	Batis 2.8/18	sony-e	18	18	2.8	2.8	22	2016		
+ZEISS	Batis 2/40 CF	sony-e	40	40	2	2	22	2018		
+ZEISS	Loxia 2/35	sony-e	35	35	2	2	22	2014		
+ZEISS	Loxia 2/50	sony-e	50	50	2	2	22	2014		
+ZEISS	Touit 2.8/12	fuji-x,sony-e	12	12	2.8	2.8	22	2013	aps	
+ZEISS	Touit 1.8/32	fuji-x,sony-e	32	32	1.8	1.8	22	2013	aps	
+ZEISS	Milvus 1.4/50	canon-ef,nikon-f	50	50	1.4	1.4	16	2015		
+ZEISS	Milvus 1.4/85	canon-ef,nikon-f	85	85	1.4	1.4	16	2015		
+ZEISS	Otus 1.4/55	canon-ef,nikon-f	55	55	1.4	1.4	16	2013		
+ZEISS	Planar T* 1.4/50	canon-ef,nikon-f	50	50	1.4	1.4	16	2006		
+ZEISS	Makro-Planar T* 2/100	canon-ef,nikon-f	100	100	2	2	22	2006		
+ZEISS	Distagon T* 2.8/21	canon-ef,nikon-f	21	21	2.8	2.8	22	2008		
+Carl Zeiss	Planar T* 50mm f/1.4	contax-yashica	50	50	1.4	1.4	16	1975	manual	
+Carl Zeiss	Planar T* 85mm f/1.4	contax-yashica	85	85	1.4	1.4	16	1975	manual	
+Carl Zeiss	Distagon T* 28mm f/2.8	contax-yashica	28	28	2.8	2.8	22	1975	manual	
+Carl Zeiss	Sonnar T* 135mm f/2.8	contax-yashica	135	135	2.8	2.8	22	1975	manual	
+Carl Zeiss	Tessar T* 45mm f/2.8	contax-yashica	45	45	2.8	2.8	22	1982	manual	
+Carl Zeiss	Vario-Sonnar T* 28-70mm f/3.5-4.5	contax-yashica	28	70	3.5	4.5	22	1985	manual	
+Carl Zeiss	Planar T* 50mm F1.4	contax-n	50	50	1.4	1.4	16	2000		
+Carl Zeiss	Vario-Sonnar T* 24-85mm F3.5-4.5	contax-n	24	85	3.5	4.5	22	2000		
+Carl Zeiss	Vario-Sonnar T* 17-35mm F2.8	contax-n	17	35	2.8	2.8	22	2001		
+Carl Zeiss	Planar T* 85mm F1.4	contax-n	85	85	1.4	1.4	16	2001		
+Carl Zeiss	Makro-Planar T* 100mm F2.8	contax-n	100	100	2.8	2.8	22	2001		
+Carl Zeiss	Vario-Sonnar T* 70-300mm F4-5.6	contax-n	70	300	4	5.6	32	2000		
+ZEISS	Biogon T* 2/35 ZM	leica-m	35	35	2	2	22	2004		
+ZEISS	C Sonnar T* 1.5/50 ZM	leica-m	50	50	1.5	1.5	16	2006		
+ZEISS	Planar T* 2/50 ZM	leica-m	50	50	2	2	22	2004		
+ZEISS	Biogon T* 2.8/28 ZM	leica-m	28	28	2.8	2.8	22	2004		
+ZEISS	Distagon T* 1.4/35 ZM	leica-m	35	35	1.4	1.4	16	2013		
+Voigtlander	NOKTON classic 35mm F1.4	leica-m	35	35	1.4	1.4	16	2003		
+Voigtlander	NOKTON 50mm F1.5 Aspherical	leica-m	50	50	1.5	1.5	16	2013		
+Voigtlander	ULTRON 35mm F1.7 Aspherical	leica-m	35	35	1.7	1.7	16	2016		
+Voigtlander	COLOR-SKOPAR 21mm F4 P	leica-m	21	21	4	4	22	2003		
+Voigtlander	HELIAR 15mm F4.5 Aspherical III	leica-m	15	15	4.5	4.5	22	2015		
+Voigtlander	NOKTON 40mm F1.2 Aspherical	sony-e	40	40	1.2	1.2	22	2018		
+Voigtlander	APO-LANTHAR 65mm F2 Macro Aspherical	sony-e	65	65	2	2	22	2017		
+Voigtlander	APO-LANTHAR 50mm F2 Aspherical	sony-e	50	50	2	2	16	2019		
+Voigtlander	NOKTON 10.5mm F0.95	mft	10.5	10.5	0.95	0.95	16	2015	manual	
+Voigtlander	NOKTON 25mm F0.95 Type II	mft	25	25	0.95	0.95	16	2015	manual	
+Voigtlander	NOKTON 17.5mm F0.95	mft	17.5	17.5	0.95	0.95	16	2013	manual	
+Voigtlander	NOKTON 42.5mm F0.95	mft	42.5	42.5	0.95	0.95	16	2013	manual	
+Voigtlander	NOKTON 58mm F1.4 SL II	nikon-f	58	58	1.4	1.4	16	2007		
+Voigtlander	ULTRON 40mm F2 SL II Aspherical	nikon-f,canon-ef	40	40	2	2	22	2007		
+Voigtlander	NOKTON 23mm F1.2 Aspherical	fuji-x	23	23	1.2	1.2	16	2022	aps	
+SIGMA	35mm F1.4 DG HSM | Art	canon-ef,nikon-f,a,pentax-k,sigma-sa	35	35	1.4	1.4	16	2012		
+SIGMA	50mm F1.4 DG HSM | Art	canon-ef,nikon-f,a,pentax-k,sigma-sa	50	50	1.4	1.4	16	2014		
+SIGMA	18-35mm F1.8 DC HSM | Art	canon-ef,nikon-f,a,pentax-k,sigma-sa	18	35	1.8	1.8	16	2013	aps	
+SIGMA	24-70mm F2.8 DG OS HSM | Art	canon-ef,nikon-f,sigma-sa	24	70	2.8	2.8	22	2017		
+SIGMA	150-600mm F5-6.3 DG OS HSM | Contemporary	canon-ef,nikon-f,a,sigma-sa	150	600	5	6.3	22	2014		
+SIGMA	17-50mm F2.8 EX DC OS HSM	canon-ef,nikon-f,a,pentax-k,sigma-sa	17	50	2.8	2.8	22	2010	aps	
+SIGMA	18-250mm F3.5-6.3 DC Macro OS HSM	canon-ef,nikon-f,a,pentax-k,sigma-sa	18	250	3.5	6.3	22	2012	aps	
+SIGMA	10-20mm F4-5.6 EX DC HSM	canon-ef,nikon-f,a,pentax-k,sigma-sa	10	20	4	5.6	22	2005	aps	
+SIGMA	70-300mm F4-5.6 DG Macro	canon-ef,nikon-f,a,pentax-k,sigma-sa	70	300	4	5.6	22	2003		
+SIGMA	17-70mm F2.8-4.5 DC Macro	canon-ef,nikon-f,a,pentax-k,sigma-sa	17	70	2.8	4.5	22	2004	aps	
+SIGMA	24-70mm F2.8 DG DN | Art	sony-e,leica-l	24	70	2.8	2.8	22	2019		
+SIGMA	28-70mm F2.8 DG DN | Contemporary	sony-e,leica-l	28	70	2.8	2.8	22	2021		
+SIGMA	35mm F2 DG DN | Contemporary	sony-e,leica-l	35	35	2	2	22	2020		
+SIGMA	85mm F1.4 DG DN | Art	sony-e,leica-l	85	85	1.4	1.4	16	2020		
+SIGMA	14-24mm F2.8 DG DN | Art	sony-e,leica-l	14	24	2.8	2.8	22	2019		
+SIGMA	100-400mm F5-6.3 DG DN OS | Contemporary	sony-e,leica-l	100	400	5	6.3	22	2020		
+SIGMA	56mm F1.4 DC DN | Contemporary	sony-e,mft,canon-efm,leica-l	56	56	1.4	1.4	16	2018	aps	
+SIGMA	30mm F1.4 DC DN | Contemporary	sony-e,mft,canon-efm,leica-l	30	30	1.4	1.4	16	2016	aps	
+SIGMA	16mm F1.4 DC DN | Contemporary	sony-e,mft,canon-efm,leica-l	16	16	1.4	1.4	16	2017	aps	
+SIGMA	18-50mm F2.8 DC DN | Contemporary	sony-e,leica-l	18	50	2.8	2.8	22	2021	aps	
+TAMRON	SP 24-70mm F/2.8 Di VC USD (A007)	canon-ef,nikon-f,a	24	70	2.8	2.8	22	2012		
+TAMRON	28-75mm F/2.8 Di III RXD (A036)	sony-e	28	75	2.8	2.8	22	2018		
+TAMRON	28-75mm F/2.8 Di III VXD G2 (A063)	sony-e,nikon-z	28	75	2.8	2.8	22	2021		
+TAMRON	17-28mm F/2.8 Di III RXD (A046)	sony-e	17	28	2.8	2.8	22	2019		
+TAMRON	70-180mm F/2.8 Di III VXD (A056)	sony-e	70	180	2.8	2.8	22	2020		
+TAMRON	28-200mm F/2.8-5.6 Di III RXD (A071)	sony-e	28	200	2.8	5.6	22	2020		
+TAMRON	17-70mm F/2.8 Di III-A VC RXD (B070)	sony-e,fuji-x	17	70	2.8	2.8	22	2021	aps	
+TAMRON	18-300mm F/3.5-6.3 Di III-A VC VXD (B061)	sony-e,fuji-x	18	300	3.5	6.3	22	2021	aps	
+TAMRON	150-500mm F/5-6.7 Di III VC VXD (A057)	sony-e	150	500	5	6.7	22	2021		
+TAMRON	18-200mm F/3.5-6.3 Di II VC (B018)	canon-ef,nikon-f,a	18	200	3.5	6.3	22	2014	aps	
+TAMRON	16-300mm F/3.5-6.3 Di II VC PZD MACRO (B016)	canon-ef,nikon-f,a	16	300	3.5	6.3	22	2014	aps	
+TAMRON	SP AF 17-50mm F/2.8 XR Di II LD Aspherical [IF] (A16)	canon-ef,nikon-f,a,pentax-k	17	50	2.8	2.8	32	2006	aps	
+TAMRON	SP AF 28-75mm F/2.8 XR Di LD Aspherical [IF] Macro (A09)	canon-ef,nikon-f,a,pentax-k	28	75	2.8	2.8	32	2003		
+TAMRON	AF 18-200mm F/3.5-6.3 XR Di II LD Aspherical [IF] Macro (A14)	canon-ef,nikon-f,a,pentax-k	18	200	3.5	6.3	22	2005	aps	
+TAMRON	SP 150-600mm F/5-6.3 Di VC USD (A011)	canon-ef,nikon-f,a	150	600	5	6.3	32	2014		
+TAMRON	SP 90mm F/2.8 Di MACRO 1:1 VC USD (F004)	canon-ef,nikon-f,a	90	90	2.8	2.8	32	2012		
+TAMRON	AF 70-300mm F/4-5.6 Di LD MACRO 1:2 (A17)	canon-ef,nikon-f,a,pentax-k	70	300	4	5.6	32	2006		
+Tokina	AT-X 116 PRO DX 11-16mm F2.8	canon-ef,nikon-f	11	16	2.8	2.8	22	2008	aps	
+Tokina	AT-X 11-20 PRO DX 11-20mm F2.8	canon-ef,nikon-f	11	20	2.8	2.8	22	2015	aps	
+Tokina	AT-X 124 PRO DX 12-24mm F4	canon-ef,nikon-f	12	24	4	4	22	2004	aps	
+Tokina	AT-X M100 PRO D 100mm F2.8 Macro	canon-ef,nikon-f	100	100	2.8	2.8	32	2006		
+Tokina	AT-X 16-28 PRO FX 16-28mm F2.8	canon-ef,nikon-f	16	28	2.8	2.8	22	2011		
+Tokina	opera 50mm F1.4 FF	canon-ef,nikon-f	50	50	1.4	1.4	16	2018		
+Tokina	atx-m 23mm F1.4 X	fuji-x	23	23	1.4	1.4	16	2020	aps	
+Tokina	atx-m 33mm F1.4 X	fuji-x	33	33	1.4	1.4	16	2020	aps	
+Tokina	atx-m 85mm F1.8 FE	sony-e	85	85	1.8	1.8	16	2019		
+Samyang	14mm F2.8 ED AS IF UMC	canon-ef,nikon-f,a,pentax-k,sony-e,fuji-x,mft,canon-rf,nikon-z,leica-l	14	14	2.8	2.8	22	2009	manual	
+Samyang	8mm F3.5 UMC Fish-eye CS	canon-ef,nikon-f,a,pentax-k,sony-e,fuji-x,mft,canon-rf,nikon-z,leica-l	8	8	3.5	3.5	22	2009	manual,aps	
+Samyang	35mm F1.4 AS UMC	canon-ef,nikon-f,a,pentax-k,sony-e,fuji-x,mft,canon-rf,nikon-z,leica-l	35	35	1.4	1.4	22	2010	manual	
+Samyang	85mm F1.4 AS IF UMC	canon-ef,nikon-f,a,pentax-k,sony-e,fuji-x,mft,canon-rf,nikon-z,leica-l	85	85	1.4	1.4	22	2008	manual	
+Samyang	12mm F2.0 NCS CS	sony-e,fuji-x,mft,canon-efm,samsung-nx	12	12	2	2	22	2014	manual,aps	
+Samyang	AF 14mm F2.8 FE	sony-e	14	14	2.8	2.8	22	2017		
+Samyang	AF 24mm F2.8 FE	sony-e	24	24	2.8	2.8	22	2018		
+Samyang	AF 35mm F2.8 FE	sony-e	35	35	2.8	2.8	22	2017		
+Samyang	AF 45mm F1.8 FE	sony-e	45	45	1.8	1.8	22	2019		
+Samyang	AF 75mm F1.8 FE	sony-e	75	75	1.8	1.8	16	2020		
+Samyang	AF 85mm F1.4 FE	sony-e	85	85	1.4	1.4	16	2018		
+Samyang	AF 12mm F2 X	fuji-x	12	12	2	2	22	2021	aps	
+Rokinon	14mm F2.8 IF ED UMC	canon-ef,nikon-f,a,pentax-k,sony-e,fuji-x,mft,canon-rf,nikon-z,leica-l	14	14	2.8	2.8	22	2009	manual	
+Rokinon	8mm F3.5 HD Fisheye	canon-ef,nikon-f,a,pentax-k,sony-e,fuji-x,mft,canon-rf,nikon-z,leica-l	8	8	3.5	3.5	22	2009	manual,aps	
+VILTROX	AF 23mm F1.4 XF	fuji-x	23	23	1.4	1.4	16	2020	aps	
+VILTROX	AF 33mm F1.4 XF	fuji-x	33	33	1.4	1.4	16	2020	aps	
+VILTROX	AF 56mm F1.4 XF	fuji-x	56	56	1.4	1.4	16	2020	aps	
+VILTROX	AF 13mm F1.4 XF	fuji-x	13	13	1.4	1.4	16	2022	aps	
+VILTROX	AF 75mm F1.2 XF	fuji-x	75	75	1.2	1.2	16	2022	aps	
+VILTROX	AF 27mm F1.2 Pro XF	fuji-x	27	27	1.2	1.2	16	2023	aps	
+VILTROX	AF 85mm F1.8 FE	sony-e	85	85	1.8	1.8	16	2019		
+VILTROX	AF 85mm F1.8 XF	fuji-x	85	85	1.8	1.8	16	2019		
+VILTROX	AF 24mm F1.8 FE	sony-e	24	24	1.8	1.8	16	2021		
+VILTROX	AF 33mm F1.4 Z	nikon-z	33	33	1.4	1.4	16	2021	aps	
+LAOWA	12mm f/2.8 Zero-D	canon-ef,nikon-f,a,pentax-k,sony-e	12	12	2.8	2.8	22	2016	manual	
+LAOWA	9mm f/2.8 Zero-D	sony-e,fuji-x,canon-efm,mft	9	9	2.8	2.8	16	2017	manual,aps	
+LAOWA	15mm f/2 FE Zero-D	sony-e,nikon-z,canon-rf	15	15	2	2	22	2016	manual	
+LAOWA	100mm f/2.8 2x Ultra Macro APO	canon-ef,nikon-f,sony-e	100	100	2.8	2.8	22	2018	manual	
+LAOWA	7.5mm f/2 MFT	mft	7.5	7.5	2	2	22	2016	manual	
+LAOWA	10mm f/2 Zero-D MFT	mft	10	10	2	2	22	2021	manual	
+LAOWA	24mm f/14 2x Macro Probe	canon-ef,nikon-f,a,pentax-k,sony-e	24	24	14	14	40	2018	manual	
+LAOWA	65mm f/2.8 2x Ultra Macro APO	sony-e,fuji-x,canon-efm	65	65	2.8	2.8	22	2019	manual,aps	
+TTArtisan	50mm f/1.2 C	sony-e,fuji-x,canon-efm,nikon-z,mft,leica-l	50	50	1.2	1.2	16	2020	manual,aps	
+TTArtisan	35mm f/1.4 C	sony-e,fuji-x,canon-efm,nikon-z,mft,leica-l	35	35	1.4	1.4	16	2020	manual,aps	
+TTArtisan	17mm f/1.4 C	sony-e,fuji-x,canon-efm,nikon-z,mft,leica-l	17	17	1.4	1.4	16	2020	manual,aps	
+TTArtisan	23mm f/1.4 C	sony-e,fuji-x,canon-efm,nikon-z,mft,leica-l	23	23	1.4	1.4	16	2021	manual,aps	
+TTArtisan	7.5mm f/2 C Fisheye	sony-e,fuji-x,canon-efm,nikon-z,mft,leica-l	7.5	7.5	2	2	11	2020	manual,aps	
+TTArtisan	50mm f/0.95 ASPH	leica-m	50	50	0.95	0.95	16	2020	manual	
+TTArtisan	28mm f/5.6	leica-m	28	28	5.6	5.6	22	2021	manual	
+TTArtisan	11mm f/2.8 Fisheye	canon-ef,nikon-f,sony-e,nikon-z,canon-rf,leica-l	11	11	2.8	2.8	16	2020	manual	
+TTArtisan	AF 27mm F2.8	fuji-x	27	27	2.8	2.8	16	2022	aps	
+TTArtisan	AF 56mm F1.8	fuji-x	56	56	1.8	1.8	16	2023	aps	
+7artisans	25mm F1.8	sony-e,fuji-x,mft,canon-efm	25	25	1.8	1.8	16	2017	manual,aps	
+7artisans	35mm F1.2	sony-e,fuji-x,mft,canon-efm	35	35	1.2	1.2	16	2017	manual,aps	
+7artisans	55mm F1.4	sony-e,fuji-x,mft,canon-efm	55	55	1.4	1.4	16	2018	manual,aps	
+7artisans	12mm F2.8	sony-e,fuji-x,mft,canon-efm	12	12	2.8	2.8	22	2018	manual,aps	
+7artisans	50mm F1.1	leica-m	50	50	1.1	1.1	16	2018	manual	
+7artisans	28mm F1.4	leica-m	28	28	1.4	1.4	16	2019	manual	
+7artisans	35mm F0.95	sony-e,fuji-x,canon-efm,nikon-z,mft,leica-l	35	35	0.95	0.95	16	2021	manual,aps	
+Meike	50mm F1.7	sony-e,fuji-x,nikon-z,canon-rf,leica-l	50	50	1.7	1.7	16	2019	manual	
+Meike	35mm F1.7	sony-e,fuji-x,canon-efm,nikon-z,mft,leica-l	35	35	1.7	1.7	16	2018	manual,aps	
+Meike	6.5mm F2.0 Fisheye	sony-e,fuji-x,mft,canon-efm	6.5	6.5	2	2	16	2017	manual,aps	
+Meike	25mm F1.8	sony-e,fuji-x,canon-efm,nikon-z,mft,leica-l	25	25	1.8	1.8	16	2018	manual,aps	
+Meike	85mm F1.8 AF	sony-e,fuji-x,nikon-z	85	85	1.8	1.8	22	2021		
+Meike	33mm F1.4 AF	sony-e,fuji-x	33	33	1.4	1.4	16	2022	aps	
+YONGNUO	YN50mm F1.8	canon-ef,nikon-f	50	50	1.8	1.8	22	2015		
+YONGNUO	YN35mm F2	canon-ef,nikon-f	35	35	2	2	22	2015		
+YONGNUO	YN85mm F1.8	canon-ef,nikon-f	85	85	1.8	1.8	22	2017		
+YONGNUO	YN100mm F2	canon-ef,nikon-f	100	100	2	2	22	2016		
+YONGNUO	YN14mm F2.8	canon-ef	14	14	2.8	2.8	22	2018		
+YONGNUO	YN50mm F1.8S DF DSM	sony-e	50	50	1.8	1.8	16	2020		
+YONGNUO	YN42.5mm F1.7M II	mft	42.5	42.5	1.7	1.7	16	2021		
+Schneider-Kreuznach	PC TS Makro-Symmar 90mm f/4.0 HM	canon-ef,nikon-f,pentax-k	90	90	4	4	32	2010	manual	
+Schneider-Kreuznach	PC TS Super-Angulon 50mm f/2.8 HM	canon-ef,nikon-f,pentax-k	50	50	2.8	2.8	32	2010	manual	
+Schneider-Kreuznach	Xenar 45mm f/2.8 (Kodak Retina)	large-format	45	45	2.8	2.8	22	1950	manual	
+Rodenstock	HR Digaron-W 32mm f/4	large-format	32	32	4	4	22	2009	manual	
+Rodenstock	HR Digaron-S 70mm f/5.6	large-format	70	70	5.6	5.6	22	2008	manual	
+Rodenstock	Apo-Sironar Digital 100mm f/5.6	large-format	100	100	5.6	5.6	32	2004	manual	
+Rodenstock	HR Digaron-S 23mm f/5.6	large-format	23	23	5.6	5.6	22	2007	manual	
+Mamiya	Sekor C 80mm f/2.8 N	mamiya-645	80	80	2.8	2.8	22	1985	manual	
+Mamiya	Sekor C 55mm f/2.8 N	mamiya-645	55	55	2.8	2.8	22	1985	manual	
+Mamiya	Sekor C 150mm f/3.5 N	mamiya-645	150	150	3.5	3.5	32	1985	manual	
+Mamiya	Sekor C 45mm f/2.8 N	mamiya-645	45	45	2.8	2.8	22	1985	manual	
+Mamiya	Sekor C 110mm f/2.8	mamiya-645	110	110	2.8	2.8	22	1975	manual	
+Mamiya	Sekor AF 80mm f/2.8	mamiya-645	80	80	2.8	2.8	22	1999	manual	
+Mamiya	Sekor AF 55-110mm f/4.5	mamiya-645	55	110	4.5	4.5	32	2000	manual	
+SAMSUNG	18-55mm F3.5-5.6 OIS	samsung-nx	18	55	3.5	5.6	22	2010		
+SAMSUNG	20-50mm F3.5-5.6 ED II	samsung-nx	20	50	3.5	5.6	22	2013		
+SAMSUNG	16-50mm F3.5-5.6 Power Zoom ED OIS	samsung-nx	16	50	3.5	5.6	22	2013		
+SAMSUNG	30mm F2 Pancake	samsung-nx	30	30	2	2	22	2010		
+SAMSUNG	16mm F2.4	samsung-nx	16	16	2.4	2.4	22	2011		
+SAMSUNG	50-200mm F4-5.6 ED OIS	samsung-nx	50	200	4	5.6	22	2010		
+SAMSUNG	85mm F1.4 ED SSA	samsung-nx	85	85	1.4	1.4	22	2011		
+SAMSUNG	45mm F1.8	samsung-nx	45	45	1.8	1.8	22	2013		
+SAMSUNG	16-50mm F2-2.8 S ED OIS	samsung-nx	16	50	2	2.8	22	2014		
+SAMSUNG	50-150mm F2.8 S ED OIS	samsung-nx	50	150	2.8	2.8	22	2014		
+SAMSUNG	18-200mm F3.5-6.3 ED OIS	samsung-nx	18	200	3.5	6.3	22	2011		
+SAMSUNG	12-24mm F4-5.6 ED	samsung-nx	12	24	4	5.6	22	2013		
+SAMSUNG	60mm F2.8 Macro ED OIS SSA	samsung-nx	60	60	2.8	2.8	22	2011		
+Hasselblad	XCD 45mm F3.5	xcd	45	45	3.5	3.5	32	2016		
+Hasselblad	XCD 90mm F3.2	xcd	90	90	3.2	3.2	32	2016		
+Hasselblad	XCD 30mm F3.5	xcd	30	30	3.5	3.5	32	2016		
+Hasselblad	XCD 21mm F4	xcd	21	21	4	4	32	2017		
+Hasselblad	XCD 80mm F1.9	xcd	80	80	1.9	1.9	32	2019		
+Canon	8.8-36.8 mm f/1.8-2.8	fixed:canon-g7x	8.8	36.8	1.8	2.8	11	2014	fixed	
+Sony	10.4-37.1 mm F1.8-4.9	fixed:sony-rx100	10.4	37.1	1.8	4.9	11	2012	fixed	
+Sony	8.8-25.7 mm F1.8-2.8	fixed:sony-rx100m3	8.8	25.7	1.8	2.8	11	2014	fixed	
+FUJIFILM	23mm F2	fixed:fuji-x100	23	23	2	2	16	2011	fixed	
+Panasonic	LEICA DC VARIO-SUMMILUX 10.9-34mm F1.7-2.8	fixed:pana-lx100	10.9	34	1.7	2.8	16	2014	fixed	
+Panasonic	LEICA DC VARIO-ELMARIT 9.1-146mm F2.8-4.0	fixed:pana-fz1000	9.1	146	2.8	4	8	2014	fixed	
+RICOH	GR LENS 18.3mm F2.8	fixed:ricoh-gr3	18.3	18.3	2.8	2.8	16	2019	fixed	
+Leica	SUMMILUX 28 f/1.7 ASPH.	fixed:leica-q2	28	28	1.7	1.7	16	2019	fixed	
+Minolta	GT 7.2-50.8mm F2.8-3.5	fixed:minolta-dimage7	7.2	50.8	2.8	3.5	11	2001	fixed	
+Schneider-Kreuznach	Variogon 6.3-63mm f/2.8-3.7	fixed:kodak-6-63	6.3	63	2.8	3.7	8	2003	fixed	
+CASIO	5.8-17.4mm F2.6-4.8	fixed:casio-exz3	5.8	17.4	2.6	4.8	8	2003	fixed	
+CASIO	7.9-23.7mm F2.8-5.1	fixed:casio-exz750	7.9	23.7	2.8	5.1	8	2005	fixed	
+CASIO	7.3-87.6mm F2.7-4.6	fixed:casio-exf1	7.3	87.6	2.7	4.6	8	2008	fixed	
+SIGMA	30mm F2.8	fixed:sigma-dp2m	30	30	2.8	2.8	16	2012	fixed	
+GoPro	3mm f/2.8	fixed:gopro-hero6	3	3	2.8	2.8	2.8	2017	fixed	
+Apple	iPhone 7 back camera 3.99mm f/1.8	fixed:apple-iphone-7	3.99	3.99	1.8	1.8	1.8	2016	phone	28
+Apple	iPhone 11 back dual wide camera 4.25mm f/1.8	fixed:apple-iphone-11	4.25	4.25	1.8	1.8	1.8	2019	phone	26
+Apple	iPhone 11 back dual wide camera 1.54mm f/2.4	fixed:apple-iphone-11	1.54	1.54	2.4	2.4	2.4	2019	phone	13
+Apple	iPhone 12 back dual wide camera 4.2mm f/1.6	fixed:apple-iphone-12	4.2	4.2	1.6	1.6	1.6	2020	phone	26
+Apple	iPhone 12 back dual wide camera 1.55mm f/2.4	fixed:apple-iphone-12	1.55	1.55	2.4	2.4	2.4	2020	phone	14
+Apple	iPhone 13 back dual wide camera 5.1mm f/1.6	fixed:apple-iphone-13	5.1	5.1	1.6	1.6	1.6	2021	phone	26
+Apple	iPhone 13 back dual wide camera 1.54mm f/2.4	fixed:apple-iphone-13	1.54	1.54	2.4	2.4	2.4	2021	phone	13
+Apple	iPhone 14 back dual wide camera 5.7mm f/1.5	fixed:apple-iphone-14	5.7	5.7	1.5	1.5	1.5	2022	phone	26
+Apple	iPhone 14 back dual wide camera 1.54mm f/2.4	fixed:apple-iphone-14	1.54	1.54	2.4	2.4	2.4	2022	phone	13
+Apple	iPhone 15 back dual wide camera 6.06mm f/1.6	fixed:apple-iphone-15	6.06	6.06	1.6	1.6	1.6	2023	phone	26
+Apple	iPhone 15 back dual wide camera 1.54mm f/2.4	fixed:apple-iphone-15	1.54	1.54	2.4	2.4	2.4	2023	phone	13
+Google	Pixel 6 back camera 6.81mm f/1.85	fixed:google-pixel-6	6.81	6.81	1.85	1.85	1.85	2021	phone	24
+Google	Pixel 7 back camera 6.81mm f/1.85	fixed:google-pixel-7	6.81	6.81	1.85	1.85	1.85	2022	phone	24
+Google	Pixel 7 back camera 2.23mm f/2.2	fixed:google-pixel-7	2.23	2.23	2.2	2.2	2.2	2022	phone	16
+Google	Pixel 8 Pro back camera 6.9mm f/1.68	fixed:google-pixel-8-pro	6.9	6.9	1.68	1.68	1.68	2023	phone	24
+		fixed:samsung-galaxy-a12	4.6	4.6	2.0	2.0	2.0	2020	phone	25
+		fixed:samsung-galaxy-a12	1.1	1.1	2.2	2.2	2.2	2020	phone	13
