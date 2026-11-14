@@ -58,6 +58,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.core.content.IntentCompat
 import androidx.lifecycle.lifecycleScope
+import com.oiuy.exifwipe.meta.WipeOptions
 import com.oiuy.exifwipe.strip.StripException
 import com.oiuy.exifwipe.strip.UnsupportedFormatException
 import kotlinx.coroutines.CompletableDeferred
@@ -119,11 +120,12 @@ class WipeActivity : ComponentActivity() {
         return list.toList()
     }
 
-    private data class Item(val name: String, var resolution: Resolution, var message: String? = null, var outcome: WipeOutcome? = null)
+    private data class Item(val name: String, var resolution: Resolution, var message: String? = null, var outcome: WipeOutcome? = null, var warning: String? = null)
 
     private suspend fun process(uris: List<Uri>) {
         val resolver = TargetResolver(this)
         val writer = InPlaceWriter(this)
+        val options = SettingsStore(this).load()
         ui = Ui.Working(0, uris.size)
 
         val items = withContext(Dispatchers.IO) { uris.map { resolve(resolver, it) } }
@@ -180,7 +182,7 @@ class WipeActivity : ComponentActivity() {
                 if (editDenied && r.mediaStore) {
                     item.message = "Permission to modify the photo was not given."
                 } else {
-                    wipeOne(resolver, writer, item, r)
+                    wipeOne(resolver, writer, item, r, options)
                 }
             } else if (r is Resolution.Failed) {
                 item.message = r.reason
@@ -201,7 +203,7 @@ class WipeActivity : ComponentActivity() {
         return Item(r.name, r)
     }
 
-    private suspend fun wipeOne(resolver: TargetResolver, writer: InPlaceWriter, item: Item, r: Resolution.Found) {
+    private suspend fun wipeOne(resolver: TargetResolver, writer: InPlaceWriter, item: Item, r: Resolution.Found, options: WipeOptions) {
         var attempts = 0
         while (true) {
             try {
@@ -211,7 +213,9 @@ class WipeActivity : ComponentActivity() {
                             "The shared copy does not match any photo stored on this phone, so nothing was changed. $NOT_LOCAL_REASON",
                         )
                     }
-                    item.outcome = writer.wipe(r.target)
+                    val result = writer.wipe(r.target, options)
+                    item.outcome = result.outcome
+                    item.warning = result.warning
                 }
                 return
             } catch (e: SecurityException) {
@@ -262,17 +266,17 @@ class WipeActivity : ComponentActivity() {
     private fun report(items: List<Item>) {
         val cleaned = items.count { it.outcome == WipeOutcome.CLEANED }
         val clean = items.count { it.outcome == WipeOutcome.ALREADY_CLEAN }
-        val failed = items.filter { it.outcome == null }
+        val failed = items.filter { it.outcome == null || it.warning != null }
         val summary = buildString {
-            append("Removed metadata from $cleaned of ${items.size} ")
+            append("Changed metadata of $cleaned of ${items.size} ")
             append(if (items.size == 1) "photo" else "photos")
-            if (clean > 0) append(" ($clean already had none)")
+            if (clean > 0) append(" ($clean needed no change)")
         }
         if (failed.isEmpty()) {
             Toast.makeText(applicationContext, summary, Toast.LENGTH_LONG).show()
             finish()
         } else {
-            ui = Ui.Report(summary, failed.map { "${it.name}: ${it.message ?: "Unknown error."}" })
+            ui = Ui.Report(summary, failed.map { "${it.name}: ${it.message ?: it.warning ?: "Unknown error."}" })
         }
     }
 
