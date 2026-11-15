@@ -190,9 +190,17 @@ treat the photo as sRGB.
    - Android 8 and 9: a one-time "photos and media" permission prompt.
    - If the sharing app did not pass a direct link to the stored photo,
      Exif Wipe may also ask once for photo access so it can find the original.
-4. A short message shows how many photos were cleaned. If any photo could not
-   be cleaned, a dialog lists each one with the reason. Failed photos are left
-   unchanged.
+4. A short message shows how many photos were changed. If any photo could not
+   be changed, a dialog lists each one with the reason. Failed photos are left
+   unchanged. The dialog's "Copy error details" button copies a technical
+   report you can send to the developer.
+
+If something goes wrong, open Exif Wipe from the app drawer: the "Last errors"
+section (shown only after an error) lists the recent problems, including app
+crashes, with buttons to copy or clear them. The report contains the app and
+Android version, the phone model, the settings, file names and the error, but
+no photo contents, metadata values or locations. The app never sends it
+anywhere; it has no internet permission.
 
 Opening Exif Wipe from the app drawer shows these instructions.
 

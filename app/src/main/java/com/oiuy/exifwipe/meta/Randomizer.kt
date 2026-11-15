@@ -18,6 +18,7 @@
 
 package com.oiuy.exifwipe.meta
 
+import java.util.Locale
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -39,10 +40,10 @@ data class Moment(val local: LocalDateTime, val offset: ZoneOffset, val millis: 
     val utc: LocalDateTime get() = local.minusSeconds(offset.totalSeconds.toLong())
     val exif: String get() = local.format(EXIF_FORMAT)
     val offsetText: String get() = if (offset.totalSeconds == 0) "+00:00" else offset.id
-    val subSec: String get() = "%03d".format(millis)
+    val subSec: String get() = "%03d".format(Locale.ROOT, millis)
 
     companion object {
-        val EXIF_FORMAT: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm:ss")
+        val EXIF_FORMAT: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm:ss", Locale.ROOT)
     }
 }
 
@@ -95,7 +96,13 @@ object PlaceRandomizer {
                 return subset.last()
             }
         }
-        return ds.placeByPopulation((r.nextDouble() * ds.totalPopulation).toLong().coerceAtMost(ds.totalPopulation - 1))
+        // Places whose time zone is unknown to this phone's time zone data are skipped.
+        var p = ds.placeByPopulation((r.nextDouble() * ds.totalPopulation).toLong().coerceAtMost(ds.totalPopulation - 1))
+        var tries = 0
+        while (!Zones.isAvailable(p.zone) && tries++ < 50) {
+            p = ds.placeByPopulation((r.nextDouble() * ds.totalPopulation).toLong().coerceAtMost(ds.totalPopulation - 1))
+        }
+        return p
     }
 
     /** A random point inside a random land cell of [p]. Returns (latitude, longitude). */
@@ -266,20 +273,22 @@ object Patterns {
         }
     }
 
-    private val TOKEN = Regex("""\{([a-z0-9]+)(?::([^}]*))?}""", RegexOption.IGNORE_CASE)
+    // Every brace is escaped: Android's regex engine (ICU) rejects an unescaped '}', which the
+    // desktop JVM accepts. See RegexPortabilityTest.
+    private val TOKEN = Regex("""\{([a-z0-9]+)(?::([^\}]*))?\}""", RegexOption.IGNORE_CASE)
 
     /** File name from [pattern] for a photo taken at [m]. Counters are random. */
     fun fileName(r: Random, pattern: String, m: Moment): String = TOKEN.replace(pattern) { t ->
         val (name, arg) = t.destructured
         when (name) {
-            "n4" -> "%04d".format(1 + r.nextInt(9999))
-            "n5" -> "%05d".format(1 + r.nextInt(9999))
-            "n7" -> "%07d".format(1 + r.nextInt(999999))
+            "n4" -> "%04d".format(Locale.ROOT, 1 + r.nextInt(9999))
+            "n5" -> "%05d".format(Locale.ROOT, 1 + r.nextInt(9999))
+            "n7" -> "%07d".format(Locale.ROOT, 1 + r.nextInt(999999))
             "f3" -> (100 + r.nextInt(100)).toString()
             "M" -> "123456789ABC"[m.local.monthValue - 1].toString()
-            "dd" -> "%02d".format(m.local.dayOfMonth)
-            "local" -> m.local.withNano(m.millis * 1_000_000).format(DateTimeFormatter.ofPattern(arg))
-            "utc" -> m.utc.withNano(m.millis * 1_000_000).format(DateTimeFormatter.ofPattern(arg))
+            "dd" -> "%02d".format(Locale.ROOT, m.local.dayOfMonth)
+            "local" -> m.local.withNano(m.millis * 1_000_000).format(DateTimeFormatter.ofPattern(arg, Locale.ROOT))
+            "utc" -> m.utc.withNano(m.millis * 1_000_000).format(DateTimeFormatter.ofPattern(arg, Locale.ROOT))
             else -> t.value
         }
     }

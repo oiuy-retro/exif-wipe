@@ -21,6 +21,8 @@ package com.oiuy.exifwipe
 import android.Manifest
 import android.app.Activity
 import android.app.RecoverableSecurityException
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
@@ -61,6 +63,7 @@ import androidx.lifecycle.lifecycleScope
 import com.oiuy.exifwipe.meta.WipeOptions
 import com.oiuy.exifwipe.strip.StripException
 import com.oiuy.exifwipe.strip.UnsupportedFormatException
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -70,7 +73,7 @@ import kotlinx.coroutines.withContext
 class WipeActivity : ComponentActivity() {
     private sealed interface Ui {
         data class Working(val done: Int, val total: Int) : Ui
-        data class Report(val title: String, val lines: List<String>) : Ui
+        data class Report(val title: String, val lines: List<String>, val details: String?) : Ui
     }
 
     private var ui by mutableStateOf<Ui>(Ui.Working(0, 0))
@@ -93,7 +96,7 @@ class WipeActivity : ComponentActivity() {
             ExifWipeTheme {
                 when (val state = ui) {
                     is Ui.Working -> Progress(state)
-                    is Ui.Report -> Report(state) { finish() }
+                    is Ui.Report -> Report(state, ::copy) { finish() }
                 }
             }
         }
@@ -103,7 +106,22 @@ class WipeActivity : ComponentActivity() {
             finish()
             return
         }
-        lifecycleScope.launch { process(uris) }
+        lifecycleScope.launch {
+            // Nothing that goes wrong while processing may crash the app: show it instead.
+            try {
+                process(uris)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (t: Throwable) {
+                val entry = ErrorLog.entry(this@WipeActivity, "Unexpected error while processing ${uris.size} shared item(s)", t, options)
+                ErrorLog.record(this@WipeActivity, entry)
+                ui = Ui.Report(
+                    "Nothing was changed",
+                    listOf("Unexpected error: ${describe(t)}. The photos were left unchanged unless a message above said otherwise."),
+                    entry,
+                )
+            }
+        }
     }
 
     private fun sharedUris(intent: Intent?): List<Uri> {
@@ -120,12 +138,32 @@ class WipeActivity : ComponentActivity() {
         return list.toList()
     }
 
-    private data class Item(val name: String, var resolution: Resolution, var message: String? = null, var outcome: WipeOutcome? = null, var warning: String? = null)
+    private data class Item(
+        val name: String,
+        var resolution: Resolution,
+        var message: String? = null,
+        var outcome: WipeOutcome? = null,
+        var warning: String? = null,
+        var error: Throwable? = null,
+    )
+
+    private var options: WipeOptions? = null
+
+    private fun describe(t: Throwable): String {
+        val root = generateSequence(t) { it.cause?.takeIf { c -> c !== it } }.last()
+        val base = "${t.javaClass.simpleName}${t.message?.let { ": $it" } ?: ""}"
+        return if (root === t) base else "$base (cause: ${root.javaClass.simpleName}${root.message?.let { ": $it" } ?: ""})"
+    }
 
     private suspend fun process(uris: List<Uri>) {
         val resolver = TargetResolver(this)
         val writer = InPlaceWriter(this)
-        val options = SettingsStore(this).load()
+        val options = try {
+            SettingsStore(this).load()
+        } catch (e: Exception) {
+            WipeOptions.DEFAULT
+        }
+        this.options = options
         ui = Ui.Working(0, uris.size)
 
         val items = withContext(Dispatchers.IO) { uris.map { resolve(resolver, it) } }
@@ -197,8 +235,8 @@ class WipeActivity : ComponentActivity() {
     private fun resolve(resolver: TargetResolver, uri: Uri): Item {
         val r = try {
             resolver.resolve(uri)
-        } catch (e: Exception) {
-            Resolution.Failed(uri, uri.lastPathSegment ?: "image", "Could not read the shared image (${e.message}).")
+        } catch (e: Throwable) {
+            Resolution.Failed(uri, uri.lastPathSegment ?: "image", "Could not read the shared image (${describe(e)}).")
         }
         return Item(r.name, r)
     }
@@ -237,9 +275,19 @@ class WipeActivity : ComponentActivity() {
                 return
             } catch (e: RestoreFailedException) {
                 item.message = e.message
+                item.error = e
                 return
-            } catch (e: Exception) {
-                item.message = "${e.message ?: e.javaClass.simpleName}. The original was left unchanged."
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: OutOfMemoryError) {
+                item.message = "Not enough memory to process this photo. The original was left unchanged."
+                item.error = e
+                return
+            } catch (e: Throwable) {
+                // Includes Errors (for example a failed class initialisation), which must not crash the app.
+                item.message = if (e is Exception && e.message != null) "${e.message}. The original was left unchanged."
+                else "Unexpected error (${describe(e)}). The original was left unchanged."
+                item.error = e
                 return
             }
         }
@@ -276,7 +324,16 @@ class WipeActivity : ComponentActivity() {
             Toast.makeText(applicationContext, summary, Toast.LENGTH_LONG).show()
             finish()
         } else {
-            ui = Ui.Report(summary, failed.map { "${it.name}: ${it.message ?: it.warning ?: "Unknown error."}" })
+            val lines = failed.map { "${it.name}: ${it.message ?: it.warning ?: "Unknown error."}" }
+            val details = buildString {
+                append(ErrorLog.entry(this@WipeActivity, summary, null, options))
+                failed.forEach { item ->
+                    append("\n- ").append(item.name).append(": ").append(item.message ?: item.warning ?: "Unknown error.").append('\n')
+                    item.error?.let { append(ErrorLog.stackTrace(it).take(6_000)) }
+                }
+            }
+            ErrorLog.record(this, details)
+            ui = Ui.Report(summary, lines, details)
         }
     }
 
@@ -292,15 +349,28 @@ class WipeActivity : ComponentActivity() {
         }
     }
 
+    private fun copy(text: String) {
+        val cm = getSystemService(ClipboardManager::class.java)
+        cm?.setPrimaryClip(ClipData.newPlainText("Exif Wipe error details", text))
+        if (Build.VERSION.SDK_INT < 33) Toast.makeText(applicationContext, "Error details copied", Toast.LENGTH_SHORT).show()
+    }
+
     @Composable
-    private fun Report(state: Ui.Report, onClose: () -> Unit) {
+    private fun Report(state: Ui.Report, onCopy: (String) -> Unit, onClose: () -> Unit) {
         AlertDialog(
             onDismissRequest = onClose,
             confirmButton = { TextButton(onClick = onClose) { Text("OK") } },
+            dismissButton = state.details?.let { d -> { TextButton(onClick = { onCopy(d) }) { Text("Copy error details") } } },
             title = { Text(state.title) },
             text = {
                 Column(Modifier.heightIn(max = 360.dp).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(12.dp)) {
                     state.lines.forEach { Text(it, style = MaterialTheme.typography.bodyMedium) }
+                    if (state.details != null) {
+                        Text(
+                            "The details are also saved under \"Last errors\" in the Exif Wipe app.",
+                            style = MaterialTheme.typography.bodySmall,
+                        )
+                    }
                 }
             },
         )

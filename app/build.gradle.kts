@@ -25,8 +25,8 @@ android {
         applicationId = "com.oiuy.exifwipe"
         minSdk = 26
         targetSdk = 36
-        versionCode = 4
-        versionName = "0.2.0-test1"
+        versionCode = 5
+        versionName = "0.2.0-test2"
     }
 
     signingConfigs {
@@ -68,6 +68,14 @@ android {
         }
     }
 
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
+        unitTests.all {
+            // Optional local photos for AllRandomStressTest (never committed): EXIFWIPE_PHOTOS=<dir>.
+            System.getenv("EXIFWIPE_PHOTOS")?.let { dir -> it.systemProperty("exifwipe.photos", dir) }
+        }
+    }
+
     dependenciesInfo {
         // Do not embed the Google Play dependency metadata block in the APK.
         includeInApk = false
@@ -88,4 +96,6 @@ dependencies {
     implementation(libs.androidx.compose.material3)
 
     testImplementation(libs.junit)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.androidx.test.core)
 }

@@ -18,7 +18,13 @@
 
 package com.oiuy.exifwipe
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.os.Build
+import android.widget.Toast
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.ui.text.font.FontFamily
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -93,6 +99,7 @@ private fun MainScreen() {
                 "and nothing is shared onward.",
         )
         Settings(options, ::update)
+        LastErrors()
         Instructions()
     }
 }
@@ -181,6 +188,40 @@ private fun Segmented(labels: List<String>, selected: Int, onSelect: (Int) -> Un
                 shape = SegmentedButtonDefaults.itemShape(index = i, count = labels.size),
             ) { Text(label, maxLines = 1) }
         }
+    }
+}
+
+@Composable
+private fun LastErrors() {
+    val context = LocalContext.current
+    var log by remember { mutableStateOf(ErrorLog.read(context)) }
+    if (log == null) return
+    Text("Last errors", style = MaterialTheme.typography.titleMedium)
+    Text(
+        "Details of recent problems, newest first. They contain the app and Android version, phone model, " +
+            "settings, file names and the error, but no photo contents, metadata values or locations. " +
+            "Copy them to send them to the developer.",
+        style = MaterialTheme.typography.bodySmall,
+    )
+    OutlinedCard(Modifier.fillMaxWidth()) {
+        SelectionContainer {
+            Text(
+                log!!,
+                Modifier
+                    .padding(12.dp)
+                    .heightIn(max = 240.dp)
+                    .verticalScroll(rememberScrollState()),
+                style = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
+            )
+        }
+    }
+    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        TextButton(onClick = {
+            context.getSystemService(ClipboardManager::class.java)
+                ?.setPrimaryClip(ClipData.newPlainText("Exif Wipe error details", log))
+            if (Build.VERSION.SDK_INT < 33) Toast.makeText(context, "Error details copied", Toast.LENGTH_SHORT).show()
+        }) { Text("Copy error details") }
+        TextButton(onClick = { ErrorLog.clear(context); log = null }) { Text("Clear") }
     }
 }
 

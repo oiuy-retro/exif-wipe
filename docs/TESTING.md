@@ -64,6 +64,24 @@ Earth land data (needs Python with shapely, pyshp and numpy, and the
 
     python3 tools/check_gps_sample.py /path/to/naturalearth
 
+### All settings on Random, and Android differences
+
+- `AllRandomStressTest` runs every group on Random with each device preset,
+  colour profile target and file name style over hundreds of random seeds. To
+  include your own photos (never commit them), set `EXIFWIPE_PHOTOS`:
+
+      EXIFWIPE_PHOTOS=/path/to/photos ./gradlew testDebugUnitTest --tests '*AllRandomStressTest*'
+
+- `PortabilityTest` checks that every regular expression in the app is also
+  valid for Android's ICU regex engine (an unescaped `}` is accepted by the
+  desktop JVM but not on Android; this caused the 0.2.0-test1 crash), that all
+  bundled time zones resolve, and that numbers are written with ASCII digits
+  in any language setting.
+- `app/src/test/java/com/oiuy/exifwipe/device/` holds Robolectric tests that
+  run the Android code (bitmap decoding with the real native graphics library,
+  the in-place writer, the share screen and the settings screen). The first
+  run downloads Robolectric's Android framework jar.
+
 ## On a phone
 
 See the checklist in the pull request. To inspect a cleaned photo, copy it to

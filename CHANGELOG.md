@@ -2,6 +2,29 @@
 
 All notable changes to this project are listed here.
 
+## 0.2.0-test2 (versionCode 5) - test build
+
+- Fixed: with any group set to Random (or a file name setting other than
+  Keep), sharing a photo closed the app without changing it, and sharing again
+  showed Android's crash message. A pattern used to build file names and
+  software strings was valid on a computer but rejected by Android's regular
+  expression engine, so the part of the app that makes random values could not
+  start. All patterns are now checked against Android's rules by a test.
+- Any unexpected error while processing photos is now shown in a dialog
+  instead of closing the app; the photo is left unchanged. The dialog has a
+  "Copy error details" button.
+- New "Last errors" section on the settings screen (only shown after an error)
+  with the details of recent problems and of any crash, to copy and send.
+  It holds the app and Android version, phone model, settings, file names and
+  the error, but no photo contents, metadata values or locations.
+- Numbers in file names and dates always use the digits 0-9, whatever the
+  phone's language.
+- Random locations skip time zones the phone's time zone data does not know
+  yet (older names such as Europe/Kiev are used where needed).
+- Tests: every setting on Random with each device preset over many random
+  seeds, Robolectric tests of the share screen, settings screen and in-place
+  writer, and the Android regular expression check.
+
 ## 0.2.0-test1 (versionCode 4) - test build
 
 - New settings screen (open the app from the app drawer). Metadata is sorted

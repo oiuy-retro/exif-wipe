@@ -117,13 +117,13 @@ class MetadataPlanner(
         var position: Pair<Double, Double>? = null
         if (mode(Group.LOCATION) == Mode.REPLACE) {
             place = if (mode(Group.DATE) == Mode.KEEP && srcLocal != null && srcOffset != null) {
-                PlaceRandomizer.place(random, ds) { ZoneId.of(it.zone).rules.getOffset(srcLocal) == srcOffset }
+                PlaceRandomizer.place(random, ds) { p -> Zones.find(p.zone)?.rules?.getOffset(srcLocal) == srcOffset }
             } else {
                 PlaceRandomizer.place(random, ds)
             }
             position = PlaceRandomizer.point(random, place)
         }
-        val zone: ZoneId = ZoneId.of(
+        val zone: ZoneId = Zones.of(
             when {
                 place != null -> place.zone
                 mode(Group.LOCATION) == Mode.KEEP && srcPosition != null -> PlaceRandomizer.nearest(ds, srcPosition.first, srcPosition.second).zone
@@ -396,7 +396,7 @@ class MetadataPlanner(
         val u = m.utc
         return listOf(
             TiffEntry.rational(Tags.GPS_TIME_STAMP, u.hour.toLong() to 1L, u.minute.toLong() to 1L, u.second.toLong() to 1L),
-            TiffEntry.ascii(Tags.GPS_DATE_STAMP, u.format(DateTimeFormatter.ofPattern("yyyy:MM:dd"))),
+            TiffEntry.ascii(Tags.GPS_DATE_STAMP, u.format(DateTimeFormatter.ofPattern("yyyy:MM:dd", java.util.Locale.ROOT))),
         )
     }
 
