@@ -2,6 +2,22 @@
 
 All notable changes to this project are listed here.
 
+## 0.2.0 (versionCode 7)
+
+Release of the 0.2.0 test builds below, with the same code as 0.2.0-test3,
+which was checked on a Samsung Galaxy S24+ (Android 17).
+
+- Settings per group (location, date and time, camera and device, lens and
+  exposure, author and copyright, other details): Keep, Wipe or Random.
+- Random values describe a real camera or phone from the bundled list, with a
+  lens that fits it, a date in its era, a place on land and a matching time zone.
+- Device presets: Pixel 7, iPhone 13 and Galaxy A12.
+- Colour profile: keep, wipe, or replace with a generated sRGB or Display P3
+  profile.
+- File name: keep, generic (IMG_1234.JPG) or in the style of the device.
+- Errors are recorded and shown on the settings screen with a copy button.
+- Read-back after writing works with Android's location redaction.
+
 ## 0.2.0-test3 (versionCode 6) - test build
 
 - Fixed: with Location set to Random (or Keep), photos taken by the camera app
