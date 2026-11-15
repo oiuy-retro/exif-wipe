@@ -25,8 +25,8 @@ android {
         applicationId = "com.oiuy.exifwipe"
         minSdk = 26
         targetSdk = 36
-        versionCode = 8
-        versionName = "0.3.0-test1"
+        versionCode = 9
+        versionName = "0.3.0"
     }
 
     signingConfigs {

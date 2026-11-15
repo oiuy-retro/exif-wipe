@@ -2,6 +2,17 @@
 
 All notable changes to this project are listed here.
 
+## 0.3.0 (versionCode 9)
+
+Release of 0.3.0-test1 with the same code.
+
+- "Common devices" (renamed from "Device for random values").
+- "Camera brand" setting with 22 brands: random values of that brand only, with
+  lenses for the camera's mount, dates in its years of use, and its file
+  names, software and colour profile.
+- "Only valid combinations" setting, on by default.
+- Device settings are grayed out with an explanation when they have no effect.
+
 ## 0.3.0-test1 (versionCode 8) - test build
 
 - The "Device for random values" section is now called "Common devices".
