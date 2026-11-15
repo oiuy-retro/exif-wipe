@@ -4,8 +4,15 @@
 
     ./gradlew testDebugUnitTest
 
-The tests cover JPEG, PNG and WebP stripping, ICC profile cleaning, the
-orientation tag, the output safety check and format detection. Test fixtures
+The tests cover JPEG, PNG and WebP rewriting, ICC profile cleaning and
+generation, the orientation tag, the output safety check, format detection,
+and the metadata settings: every group in every mode, all 729 group
+combinations (with colour profile, file name and preset varied) through the
+safety checks, consistency of random values (lens fits body and date, focal
+length and aperture within the lens range, 35 mm equivalent, ISO range, time
+zone and GPS time, position near the chosen place), the date weighting, the
+time of day distribution, population weighting of places, file names, colour
+profile modes, the MPF index update and the TIFF writer. Test fixtures
 are generated in code (`app/src/test/java/com/oiuy/exifwipe/strip/`); no real
 photos are stored in the repository. `CameraFixtures.kt` builds files shaped
 like a Samsung Galaxy Ultra HDR photo with invented identifying values.
@@ -29,6 +36,33 @@ white point, chromatic adaptation, matrix columns, tone curves). There should
 be no Make, Model, Software, Copyright, Artist, GPS, dates, maker notes,
 thumbnail, XMP, IPTC, MPF, comments, ProfileCopyright, DeviceManufacturer,
 DeviceModel, PrimaryPlatform or ProfileCreator values.
+
+Files written by the metadata-settings tests (`app/src/test/java/com/oiuy/exifwipe/meta/`):
+
+- `mode-<group>-<keep|wipe|replace>.jpg`: one group changed, all others wiped
+- `preset-iphone.jpg`, `preset-pixel.jpg`, `preset-samsung.jpg`: everything
+  random with a device preset and a replaced colour profile
+- `icc-srgb.jpg`, `icc-display_p3.jpg`, `icc-replace.png`, `generated-*.icc`:
+  generated colour profiles
+- `extras-keep-mpf.jpg`: kept MPF index and second image
+- `replace-all.png`: random metadata in a PNG eXIf chunk
+
+Check them with:
+
+    exiftool -validate -warning -a app/build/test-output/*.jpg app/build/test-output/*.png
+    exiftool -a -G1 -s app/build/test-output/preset-pixel.jpg
+
+All files written with a full EXIF block validate without warnings. Files with
+only the orientation tag (the 0.1.0 behaviour) get the expected warning about
+the missing YCbCrPositioning tag.
+
+### Random locations on land
+
+`gps-sample.csv` holds 5,000 random points. To check them against Natural
+Earth land data (needs Python with shapely, pyshp and numpy, and the
+`ne_10m_land`, `ne_10m_minor_islands` and `ne_10m_lakes` shapefiles):
+
+    python3 tools/check_gps_sample.py /path/to/naturalearth
 
 ## On a phone
 

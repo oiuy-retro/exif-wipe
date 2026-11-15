@@ -387,4 +387,43 @@ class MetadataModesTest {
         assertFalse(contains(replaced, "MOTION-PHOTO-VIDEO-DATA"))
         assertArrayEquals(thumb, exifOf(replaced)!!.thumbnail)
     }
+
+    @Test
+    fun mpfIndexIsUpdatedWhenExtrasAreKept() {
+        val second = JpegStripper.strip(Fixtures.jpeg(progressive = true))
+        // MPF: big-endian TIFF header, IFD with version, image count and two 16-byte MP entries.
+        val bb = java.nio.ByteBuffer.allocate(8 + 2 + 3 * 12 + 4 + 32)
+        bb.put("MM".toByteArray()).putShort(42).putInt(8)
+        bb.putShort(3)
+        bb.putShort(0xB000.toShort()).putShort(7).putInt(4).put("0100".toByteArray())
+        bb.putShort(0xB001.toShort()).putShort(4).putInt(1).putInt(2)
+        bb.putShort(0xB002.toShort()).putShort(7).putInt(32).putInt(8 + 2 + 36 + 4)
+        bb.putInt(0)
+        val entries = bb.position()
+        bb.putInt(0x20030000).putInt(0).putInt(0).putInt(0)
+        bb.putInt(0).putInt(second.size).putInt(0).putInt(0)
+        val mpf = bb.array()
+        val main = Fixtures.insertAfterSoi(
+            Fixtures.jpeg(),
+            Fixtures.segment(0xE1, JpegStripper.EXIF_ID + TestPhotos.sourceTiff()),
+            Fixtures.segment(0xE2, "MPF\u0000".toByteArray() + mpf),
+        )
+        val header = TestPhotos.indexOf(main, "MPF\u0000".toByteArray()) + 4
+        val buf = java.nio.ByteBuffer.wrap(main)
+        buf.putInt(header + entries + 4, main.size)
+        buf.putInt(header + entries + 16 + 8, main.size - header)
+        val input = main + second
+
+        val o = only(Group.EXTRAS, Mode.KEEP).with(Group.CAMERA, Mode.REPLACE)
+        val out = run(o, input).first.output
+        val h = TestPhotos.indexOf(out, "MPF\u0000".toByteArray()) + 4
+        val ob = java.nio.ByteBuffer.wrap(out)
+        val e = h + entries
+        val mainSize = ob.getInt(e + 4)
+        val offset = ob.getInt(e + 16 + 8)
+        assertEquals(out.size - second.size, mainSize)
+        assertEquals(mainSize, h + offset)
+        assertArrayEquals(second, out.copyOfRange(h + offset, out.size))
+        TestPhotos.save("extras-keep-mpf.jpg", out)
+    }
 }
