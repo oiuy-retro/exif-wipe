@@ -79,7 +79,10 @@ Earth land data (needs Python with shapely, pyshp and numpy, and the
   in any language setting.
 - `app/src/test/java/com/oiuy/exifwipe/device/` holds Robolectric tests that
   run the Android code (bitmap decoding with the real native graphics library,
-  the in-place writer, the share screen and the settings screen). The first
+  the in-place writer, the share screen and the settings screen).
+  `ReadBackRobolectricTest` simulates storage that zeroes GPS values on
+  read-only links (Android's location redaction), storage that ignores the
+  truncate flag, and a real read-back mismatch. The first
   run downloads Robolectric's Android framework jar.
 
 ## On a phone

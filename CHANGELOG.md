@@ -2,6 +2,27 @@
 
 All notable changes to this project are listed here.
 
+## 0.2.0-test3 (versionCode 6) - test build
+
+- Fixed: with Location set to Random (or Keep), photos taken by the camera app
+  failed with "The file read back after writing did not match" and were put
+  back. Android hides the GPS values of other apps' photos from apps without
+  the "access media location" permission by returning zeros for them when the
+  file is opened read-only, so the read-back never matched the written file.
+  The app now reads the original and the written file through a read-write
+  link, which Android does not redact. If only a read-only link is available,
+  a read-back that differs only by zeros in the written GPS values is
+  accepted.
+- Because the original was read through the redacted link, 0.2.0-test2 and
+  earlier copied zeros instead of the real values when Location was set to
+  Keep, and a photo restored after a failed write got zeros in its GPS values.
+- After writing, the file is explicitly truncated to the new length and synced,
+  in case the storage ignores the truncate flag, and it is checked through the
+  same descriptor before being reopened and checked again.
+- When a read-back still differs, the error details give both lengths, the
+  first and last differing offsets, the part of the file affected, a few bytes
+  of context (never from metadata) and which read path was used.
+
 ## 0.2.0-test2 (versionCode 5) - test build
 
 - Fixed: with any group set to Random (or a file name setting other than

@@ -224,7 +224,10 @@ can compare with the file you downloaded.
 
 For each photo the app:
 
-1. reads the whole original into memory and plans the new metadata there,
+1. reads the whole original into memory and plans the new metadata there. It
+   reads through a read-write link where possible, because Android replaces
+   the GPS values of other apps' photos with zeros on read-only links for apps
+   without the "access media location" permission,
 2. re-checks the new copy independently: it must be well formed, contain only
    the parts needed to decode the image plus exactly the planned metadata
    (compared byte for byte), contain no known metadata signatures outside the
@@ -232,8 +235,10 @@ For each photo the app:
    exactly the same pixels as the original (the same colours if the colour
    profile is kept),
 3. keeps a temporary backup of the original inside the app's private storage,
-4. overwrites the original, reads it back from storage, and reports success
-   only if it is exactly the new copy and passes the check again,
+4. overwrites the original, truncates it to the new length, reads it back
+   through the same descriptor and again after reopening it, and reports
+   success only if it is exactly the new copy (or, on a read-only link,
+   differs only by Android's zeroed GPS values) and passes the check again,
 5. if anything fails after the file was opened for writing, writes the backup
    back. The temporary backup is deleted afterwards.
 

@@ -40,7 +40,10 @@ import com.oiuy.exifwipe.strip.OutputVerifier
 import java.io.ByteArrayOutputStream
 import java.security.SecureRandom
 import java.io.File
+import com.oiuy.exifwipe.strip.ReadBack
+import java.io.FileInputStream
 import java.io.FileNotFoundException
+import java.nio.ByteBuffer
 import java.io.FileOutputStream
 import java.io.IOException
 import java.util.UUID
@@ -74,7 +77,10 @@ class InPlaceWriter(private val context: Context) {
     private val random = SecureRandom()
 
     fun wipe(uri: Uri, options: WipeOptions = WipeOptions.DEFAULT): WipeResult {
-        val original = readAll(uri)
+        // Read through a read-write link if possible: Android hides (zeroes) the GPS values of other
+        // apps' photos only on read-only links, so this gives the real original. A read-only
+        // fallback is used for links that cannot be opened for writing.
+        val (original, originalPath) = readTarget(uri)
         val planner = MetadataPlanner(options, random, thumbnailMaker = { thumbnail(original) })
         val result = MetadataStripper.process(original, options, planner)
         val meta = result.meta!!
@@ -93,33 +99,29 @@ class InPlaceWriter(private val context: Context) {
 
         val backup = File(context.cacheDir, "backup-${UUID.randomUUID()}")
         backup.writeBytes(original)
+        val outputGps = ReadBack.gpsValueRanges(result.output, meta.exif)
         try {
             var opened = false
             try {
                 openForOverwrite(uri).use { pfd ->
                     opened = true
-                    FileOutputStream(pfd.fileDescriptor).use { out ->
-                        out.write(result.output)
-                        out.flush()
-                        pfd.fileDescriptor.sync()
-                    }
+                    val truncated = writeFully(pfd, result.output)
+                    // First check through the descriptor that was written to.
+                    readFd(pfd)?.let { check(result.output, it, outputGps, "same read-write descriptor", truncated) }
                 }
-                // Success is only reported if the stored file, read back from storage, is exactly the
-                // new version and passes the safety check against the planned metadata again.
-                val written = readAll(uri)
-                if (!written.contentEquals(result.output)) throw IOException("The file read back after writing did not match")
-                OutputVerifier.verify(result.format, written, meta)
+                // Success is only reported if the stored file, opened again and read back from
+                // storage, is exactly the new version and passes the safety check against the
+                // planned metadata again.
+                val (written, path) = readTarget(uri)
+                val same = check(result.output, written, outputGps, "reopened ($path)", null)
+                OutputVerifier.verify(result.format, if (same) written else result.output, meta)
             } catch (e: Exception) {
                 if (!opened) throw e // nothing was written
                 try {
-                    openForOverwrite(uri).use { pfd ->
-                        FileOutputStream(pfd.fileDescriptor).use { out ->
-                            out.write(original)
-                            out.flush()
-                            pfd.fileDescriptor.sync()
-                        }
-                    }
-                    if (!readAll(uri).contentEquals(original)) throw IOException("restore mismatch")
+                    openForOverwrite(uri).use { pfd -> writeFully(pfd, original) }
+                    val (restored, path) = readTarget(uri)
+                    val r = ReadBack.compare(original, restored, ReadBack.gpsValueRangesInFile(original))
+                    if (r is ReadBack.Result.Different) throw IOException("restore mismatch via $path: ${r.details}")
                 } catch (restoreError: Exception) {
                     val kept = File(context.getExternalFilesDir(null) ?: context.filesDir, "unrestored-${backup.name}")
                     backup.copyTo(kept, overwrite = true)
@@ -127,7 +129,8 @@ class InPlaceWriter(private val context: Context) {
                         "Writing failed and the original could not be put back. A copy of the original was saved to $kept",
                     )
                 }
-                throw IOException("Writing failed (${e.message}); the original was restored", e)
+                val note = if (originalPath != MODE_RW) " (the original was read through a read-only link, so Android may have hidden its location values)" else ""
+                throw IOException("Writing failed (${e.message}); the original was restored$note", e)
             }
         } finally {
             backup.delete()
@@ -232,20 +235,125 @@ class InPlaceWriter(private val context: Context) {
         throw IOException("this kind of link cannot be renamed")
     }
 
-    private fun readAll(uri: Uri): ByteArray {
-        val size = try {
-            cr.openFileDescriptor(uri, "r")?.use { it.statSize } ?: -1L
-        } catch (_: Exception) {
-            -1L
+    /**
+     * Compares [actual] (read back through [path]) with [expected]. Returns true if identical,
+     * false if the only difference is Android's location redaction (zeros in the GPS values, which
+     * the file itself does not contain), and throws with a diagnostic description otherwise.
+     */
+    private fun check(expected: ByteArray, actual: ByteArray, gps: List<IntRange>, path: String, truncated: Boolean?): Boolean =
+        when (val r = ReadBack.compare(expected, actual, gps)) {
+            ReadBack.Result.Same -> true
+            is ReadBack.Result.OnlyLocationRedacted -> false
+            is ReadBack.Result.Different -> throw IOException(
+                "The file read back after writing did not match [read path: $path" +
+                    (if (truncated == false) "; explicit truncate not supported" else "") + "; ${r.details}]",
+            )
         }
-        if (size > MAX_BYTES) throw IOException("File is too large (${size / (1024 * 1024)} MB)")
-        val bytes = cr.openInputStream(uri)?.use { it.readBytes() } ?: throw FileNotFoundException("Cannot open $uri")
+
+    /**
+     * Reads the whole file, preferring a read-write link (see [wipe]). Returns the bytes and the
+     * mode that was used.
+     */
+    private fun readTarget(uri: Uri): Pair<ByteArray, String> {
+        var last: Exception? = null
+        for (mode in listOf(MODE_RW, "r")) {
+            try {
+                val pfd = cr.openFileDescriptor(uri, mode) ?: continue
+                pfd.use { fd ->
+                    val bytes = readFd(fd) ?: return@use null
+                    return bytes to mode
+                }
+            } catch (e: Exception) {
+                if (e is IOException && e.message?.startsWith("File is too large") == true) throw e
+                last = e
+            }
+        }
+        // Last resort: a plain stream (some providers only serve pipes).
+        val bytes = try {
+            cr.openInputStream(uri)?.use { it.readBytes() }
+        } catch (e: Exception) {
+            throw last ?: e
+        } ?: throw (last ?: FileNotFoundException("Cannot open $uri"))
         if (bytes.size > MAX_BYTES) throw IOException("File is too large")
-        return bytes
+        return bytes to "stream"
+    }
+
+    /** Reads the whole file behind [pfd] from offset 0 without moving or closing it; null if not readable. */
+    private fun readFd(pfd: ParcelFileDescriptor): ByteArray? {
+        val ch = try {
+            FileInputStream(pfd.fileDescriptor).channel
+        } catch (_: Exception) {
+            return null
+        }
+        return try {
+            val size = ch.size()
+            if (size > MAX_BYTES) throw IOException("File is too large (${size / (1024 * 1024)} MB)")
+            val buf = ByteBuffer.allocate(size.toInt())
+            var pos = 0L
+            while (buf.hasRemaining()) {
+                val n = ch.read(buf, pos)
+                if (n < 0) break
+                pos += n
+            }
+            // A file that grew while reading would be cut off here; read the rest so a size change shows.
+            val extra = ByteArrayOutputStream()
+            val more = ByteBuffer.allocate(64 * 1024)
+            while (true) {
+                more.clear()
+                val n = ch.read(more, pos)
+                if (n <= 0) break
+                extra.write(more.array(), 0, n)
+                pos += n
+            }
+            val head = if (buf.position() == buf.capacity()) buf.array() else buf.array().copyOf(buf.position())
+            if (extra.size() == 0) head else head + extra.toByteArray()
+        } catch (e: IOException) {
+            if (e.message?.startsWith("File is too large") == true) throw e
+            null
+        } catch (_: java.nio.channels.NonReadableChannelException) {
+            null
+        }
+    }
+
+    /**
+     * Writes [bytes] from offset 0, then explicitly truncates the file to their length (some
+     * storage layers do not honour the truncate flag of the open mode), flushes and syncs.
+     * Returns whether the explicit truncation worked (null if the descriptor is not seekable).
+     */
+    private fun writeFully(pfd: ParcelFileDescriptor, bytes: ByteArray): Boolean? {
+        val out = FileOutputStream(pfd.fileDescriptor)
+        val ch = out.channel
+        val seekable = try {
+            ch.position(0)
+            true
+        } catch (_: IOException) {
+            false
+        }
+        val buf = ByteBuffer.wrap(bytes)
+        while (buf.hasRemaining()) ch.write(buf)
+        var truncated: Boolean? = null
+        if (seekable) {
+            truncated = try {
+                if (ch.size() > bytes.size) ch.truncate(bytes.size.toLong())
+                ch.size() == bytes.size.toLong()
+            } catch (_: IOException) {
+                false
+            }
+        }
+        out.flush()
+        try {
+            ch.force(true)
+        } catch (_: IOException) {
+        }
+        try {
+            pfd.fileDescriptor.sync()
+        } catch (_: Exception) {
+        }
+        return truncated
     }
 
     private fun openForOverwrite(uri: Uri): ParcelFileDescriptor {
-        val modes = listOf("rwt", "wt")
+        val modes = listOf("rwt", "wt", MODE_RW)
         var last: Exception? = null
         for (mode in modes) {
             try {
@@ -316,5 +424,6 @@ class InPlaceWriter(private val context: Context) {
 
     companion object {
         const val MAX_BYTES = 200L * 1024 * 1024
+        private const val MODE_RW = "rw"
     }
 }
