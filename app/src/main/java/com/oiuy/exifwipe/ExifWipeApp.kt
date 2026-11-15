@@ -29,5 +29,7 @@ class ExifWipeApp : Application() {
             ErrorLog.record(this, ErrorLog.entry(this, "Crash in thread ${thread.name}", e, null))
             previous?.uncaughtException(thread, e)
         }
+        // Parse the bundled camera list early so the settings screen does not wait for it.
+        Thread({ runCatching { com.oiuy.exifwipe.meta.Dataset.get() } }, "dataset-preload").start()
     }
 }

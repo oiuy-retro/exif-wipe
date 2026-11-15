@@ -108,13 +108,13 @@ If Location is Random and Date & time is Keep, only places whose time zone had
 the photo's original offset on that date are used. If Location is Keep and
 Date & time is Random, the time zone of the nearest listed place is used.
 
-### Device preset
+### Common devices
 
-"Device for random values" chooses which device the random values describe:
+"Common devices" chooses one widely used phone that all random values describe:
 
-| Preset | Why this model |
+| Choice | Why this model |
 |---|---|
-| Random | A random camera or phone from the built-in list for each photo. |
+| None | A random camera or phone (of the camera brand below, if one is chosen) for each photo. |
 | Google Pixel 7 | The most used non-Pro Pixel: as common as the Pixel 8 Pro in US government web analytics (October 2026) and among the most owned Pixels in 2026 owner surveys. |
 | Apple iPhone 13 | The most used iPhone model (about 11% of iPhones in TelemetryDeck's October 2026 data). |
 | Samsung Galaxy A12 | The most used Android phone model in AppBrain's November 2026 device statistics, and one of the best-selling phones of 2021. |
@@ -123,6 +123,55 @@ Values follow real files from these phones: make and model strings, software
 versions, lens names, focal lengths, apertures, colour profile, byte order and
 file names (iPhone `IMG_1234.JPG`, Pixel `PXL_20240501_103015123.jpg` in UTC,
 Samsung `20240501_103015.jpg` in local time).
+
+### Camera brand
+
+"Camera brand" limits the random camera or phone to one of the 22 brands in
+the built-in list (Apple, Canon, Casio, Contax, Epson, Fujifilm, GoPro, Google,
+Hasselblad, Kodak, Konica Minolta, Leica, Minolta, Nikon, OM System, Olympus,
+Panasonic, Pentax, Ricoh, Samsung, Sigma, Sony). "Any brand" uses all of them.
+
+Common devices and Camera brand exclude each other: choosing a common device
+sets the brand back to "Any brand", and choosing a brand sets the common
+device back to "None".
+
+With a brand chosen, every random value fits the random camera:
+
+- The lens is made for the camera's own mount, or for the mount of the maker's
+  own adapter (Canon EF lenses on Canon RF and EF-M cameras, Nikon F lenses on
+  Nikon Z cameras, Minolta and Sony A lenses on Sony E cameras, Four Thirds
+  lenses on Micro Four Thirds cameras). Lenses by other makers for that mount
+  count (for example Sigma or Tamron lenses for Nikon F). Lenses for another
+  brand's mount on a mechanical adapter are never used, so a Leica never gets a
+  Minolta lens. Manual lenses made for the mount itself, such as Leica M
+  lenses, are allowed. Compact cameras and phones use their built-in lens.
+- The date lies between January of the year after both the camera and the lens
+  came out (not before 2002) and ten years after the camera was discontinued.
+- File name, software version and colour profile follow the camera, for
+  example `L1001234.JPG` for Leica or `PICT1234.JPG` for Minolta.
+
+For a few legacy brands (Contax, Epson, Hasselblad, Konica Minolta, Minolta)
+the model strings and file names come from reference sources rather than
+checked sample files, and are only used when that brand is chosen.
+
+### Only valid combinations
+
+On by default. The camera or phone is still picked at random, but the lens,
+dates, file name style, software and colour profile fit it, as described under
+Camera brand (with "Any brand", legacy lenses on adapters are also possible,
+as before). Off: each group is randomized on its own, so any lens can appear
+with any camera, the date is any day since 2002 and the file name follows
+another random device. This setting is always on while a common device or a
+camera brand is chosen.
+
+### Which settings use the device
+
+These three settings are grayed out when they have no effect: when Camera &
+device is set to Keep (values then follow the photo's own camera), or when no
+group that describes the device (Camera & device, Lens & exposure, Date &
+time) is on Random, the file name is not Device and the colour profile does
+not match the device. When a common device or brand is chosen, a short note
+under each affected setting says that it follows that choice.
 
 ### Colour profile
 

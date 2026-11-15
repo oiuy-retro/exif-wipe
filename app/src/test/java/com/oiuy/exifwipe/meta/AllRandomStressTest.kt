@@ -79,4 +79,27 @@ class AllRandomStressTest {
         failures.groupBy { it.substringAfter(": ") }.forEach { (msg, l) -> println("${l.size}x $msg  e.g. ${l.first()}") }
         assertTrue("${failures.size} failures, first: ${failures.take(5)}", failures.isEmpty())
     }
+
+    /** Every group on Random with "Only valid combinations" off, and with each brand. */
+    @Test
+    fun independentAndBrandRandomNeverFail() {
+        val failures = ArrayList<String>()
+        val photos = inputs()
+        val seeds = Integer.getInteger("exifwipe.seeds", 500) / 5
+        val variants = listOf(null to false) + Brands.all.map { it to true }
+        for ((name, input) in photos) for ((brand, valid) in variants) {
+            val o = WipeOptions(Group.entries.associateWith { Mode.REPLACE }, IccMode.REPLACE, IccTarget.MATCH_DEVICE, FileNameMode.DEVICE, DevicePreset.RANDOM, brand, valid)
+            val n = if (brand == null) seeds * 5 else seeds / 5
+            for (seed in 0 until n) {
+                try {
+                    val planner = MetadataPlanner(o, Random(seed.toLong()), Instant.parse("2026-11-15T18:00:00Z").plusSeconds(seed * 7919L), thumbnailMaker = { thumb })
+                    val r = MetadataStripper.process(input, o, planner)
+                    OutputVerifier.verify(r.format, r.output, r.meta!!)
+                } catch (e: Throwable) {
+                    failures += "$name ${brand ?: "independent"} seed $seed: ${e.javaClass.simpleName}: ${e.message}"
+                }
+            }
+        }
+        assertTrue("${failures.size} failures, first: ${failures.take(5)}", failures.isEmpty())
+    }
 }

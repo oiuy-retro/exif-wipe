@@ -25,6 +25,7 @@ import com.oiuy.exifwipe.meta.Group
 import com.oiuy.exifwipe.meta.IccMode
 import com.oiuy.exifwipe.meta.IccTarget
 import com.oiuy.exifwipe.meta.Mode
+import com.oiuy.exifwipe.meta.Brands
 import com.oiuy.exifwipe.meta.WipeOptions
 
 /** Stores [WipeOptions] in the app's private preferences. Missing or unknown values fall back to the defaults. */
@@ -41,6 +42,8 @@ class SettingsStore(context: Context) {
             iccTarget = read("iccTarget", IccTarget.entries.toTypedArray(), d.iccTarget),
             fileName = read("fileName", FileNameMode.entries.toTypedArray(), d.fileName),
             preset = read("preset", DevicePreset.entries.toTypedArray(), d.preset),
+            brand = prefs.getString("brand", null)?.takeIf { it in Brands.all },
+            validOnly = prefs.getBoolean("validOnly", d.validOnly),
         )
     }
 
@@ -51,6 +54,8 @@ class SettingsStore(context: Context) {
             putString("iccTarget", o.iccTarget.name)
             putString("fileName", o.fileName.name)
             putString("preset", o.preset.name)
+            if (o.brand == null) remove("brand") else putString("brand", o.brand)
+            putBoolean("validOnly", o.validOnly)
         }.apply()
     }
 }

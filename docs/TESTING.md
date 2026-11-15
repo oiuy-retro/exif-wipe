@@ -72,6 +72,21 @@ Earth land data (needs Python with shapely, pyshp and numpy, and the
 
       EXIFWIPE_PHOTOS=/path/to/photos ./gradlew testDebugUnitTest --tests '*AllRandomStressTest*'
 
+  It also runs every brand, and every group on Random with "Only valid
+  combinations" off.
+- `BrandTest` runs every camera brand with 300 seeds each and checks that the
+  camera is of that brand, make and model are written as in the list, the lens
+  is made for the camera's mount (or its maker's adapter), the date lies in the
+  camera's and lens's years, the file name matches the brand's pattern,
+  software and colour profile follow the camera, and the output file verifies.
+  It also checks that a Leica never gets a Minolta lens, that a common device
+  wins over a brand, and that with "Only valid combinations" off lens, date and
+  file name are independent of the camera. The seed count can be changed with
+  `-Dexifwipe.brandSeeds=<n>` in the test JVM.
+- `SettingsScreenRobolectricTest` opens the settings screen and checks that
+  Common devices, Camera brand and Only valid combinations are disabled while
+  Camera & device is on Keep, that choosing a brand clears the common device
+  and the other way round, and that the notes appear.
 - `PortabilityTest` checks that every regular expression in the app is also
   valid for Android's ICU regex engine (an unescaped `}` is accepted by the
   desktop JVM but not on Android; this caused the 0.2.0-test1 crash), that all
