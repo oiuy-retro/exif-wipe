@@ -190,6 +190,10 @@ enum class Compat {
             "pentax-k" to setOf("m42"),
         )
 
+        /** True if [lens] was made for [body]'s mount or for one of the maker's electronic adapters for it. */
+        fun isOwnMount(body: Body, lens: Lens): Boolean =
+            lens.mounts.any { m -> m == body.mount || ELECTRONIC_ADAPTERS[body.mount]?.contains(m) == true }
+
         fun of(body: Body, lens: Lens): Compat? {
             if (body.mount.startsWith("fixed:")) return if (body.mount in lens.mounts) NATIVE else null
             if (lens.mounts.any { it.startsWith("fixed:") }) return null

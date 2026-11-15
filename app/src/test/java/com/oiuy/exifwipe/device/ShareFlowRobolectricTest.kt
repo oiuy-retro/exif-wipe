@@ -60,6 +60,16 @@ class ShareFlowRobolectricTest {
     }
 
     @Test
+    fun brandAndValidOnlyAreSaved() {
+        val o = allRandom.copy(brand = "Leica", validOnly = false)
+        SettingsStore(context).save(o)
+        assertEquals(o, SettingsStore(context).load())
+        context.getSharedPreferences("settings", android.content.Context.MODE_PRIVATE).edit().putString("brand", "NoSuchBrand").commit()
+        val loaded = SettingsStore(context).load()
+        assertEquals(null, loaded.brand)
+    }
+
+    @Test
     fun shareScreenReportsInsteadOfCrashing() {
         SettingsStore(context).save(allRandom)
         ErrorLog.clear(context)

@@ -25,8 +25,8 @@ android {
         applicationId = "com.oiuy.exifwipe"
         minSdk = 26
         targetSdk = 36
-        versionCode = 7
-        versionName = "0.2.0"
+        versionCode = 8
+        versionName = "0.3.0-test1"
     }
 
     signingConfigs {
@@ -98,4 +98,7 @@ dependencies {
     testImplementation(libs.junit)
     testImplementation(libs.robolectric)
     testImplementation(libs.androidx.test.core)
+    testImplementation(platform(libs.androidx.compose.bom))
+    testImplementation(libs.androidx.compose.ui.test.junit4)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
 }

@@ -51,7 +51,7 @@ object ErrorLog {
     fun describe(options: WipeOptions): String =
         Group.entries.joinToString(", ") { "${it.title}=${options.mode(it).name.lowercase(Locale.ROOT)}" } +
             ", colour profile=${options.icc.name.lowercase(Locale.ROOT)}/${options.iccTarget.name.lowercase(Locale.ROOT)}" +
-            ", file name=${options.fileName.name.lowercase(Locale.ROOT)}, device=${options.preset.name.lowercase(Locale.ROOT)}"
+            ", file name=${options.fileName.name.lowercase(Locale.ROOT)}, device=${options.preset.name.lowercase(Locale.ROOT)}, brand=${options.brand ?: "any"}, valid only=${options.validOnly}"
 
     fun stackTrace(t: Throwable): String = StringWriter().also { t.printStackTrace(PrintWriter(it)) }.toString()
 

@@ -61,6 +61,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExposedDropdownMenuAnchorType
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.ui.graphics.Color
+import androidx.compose.foundation.selection.toggleable
+import androidx.compose.material3.Switch
+import androidx.compose.ui.platform.testTag
+import com.oiuy.exifwipe.meta.Brands
 import com.oiuy.exifwipe.meta.DevicePreset
 import com.oiuy.exifwipe.meta.FileNameMode
 import com.oiuy.exifwipe.meta.Group
@@ -104,8 +115,30 @@ private fun MainScreen() {
     }
 }
 
+/** What the chosen common device or brand is called in notes, or null if neither is chosen. */
+private fun chosenDevice(o: WipeOptions): String? = when {
+    o.preset.bodyId != null -> o.preset.label
+    o.brand != null -> o.brand
+    else -> null
+}
+
+/** One line under a setting that follows the chosen device or brand. */
+@Composable
+private fun FollowsNote(text: String, tag: String) {
+    Text(
+        text,
+        Modifier.testTag(tag),
+        style = MaterialTheme.typography.bodySmall,
+        color = MaterialTheme.colorScheme.primary,
+    )
+}
+
 @Composable
 private fun Settings(o: WipeOptions, update: (WipeOptions) -> Unit) {
+    val device = chosenDevice(o)
+    // Notes only appear while the chosen device or brand is actually used.
+    val follows = device != null && o.usesGeneratedDevice
+    val brandBodies = o.effectiveBrand?.let { Brands.bodies(it) }
     Text("Settings", style = MaterialTheme.typography.titleLarge)
     Text(
         "For each group: Keep leaves the original values, Wipe removes them, Random removes them and " +
@@ -118,7 +151,25 @@ private fun Settings(o: WipeOptions, update: (WipeOptions) -> Unit) {
                 if (i > 0) HorizontalDivider()
                 Text(g.title, style = MaterialTheme.typography.titleSmall)
                 Text(g.summary, style = MaterialTheme.typography.bodySmall)
-                Segmented(listOf("Keep", "Wipe", "Random"), o.mode(g).ordinal) { update(o.with(g, Mode.entries[it])) }
+                Segmented(listOf("Keep", "Wipe", "Random"), o.mode(g).ordinal, "group-${g.name}") { update(o.with(g, Mode.entries[it])) }
+                if (follows && o.mode(g) == Mode.REPLACE) {
+                    val note = when (g) {
+                        Group.CAMERA -> if (brandBodies != null) "Follows $device: a random $device ${Brands.kinds(device!!).removeSuffix("s")} for each photo."
+                        else "Follows $device: always this device."
+                        Group.LENS -> if (brandBodies != null) "Follows $device: lenses made for the chosen camera's mount (including other makers' lenses for that mount), or its built-in lens."
+                        else "Follows $device: its own camera modules."
+                        Group.DATE -> "Follows $device: dates when the chosen ${if (brandBodies != null) "camera" else "device"} was in use."
+                        else -> null
+                    }
+                    note?.let { FollowsNote(it, "follows-${g.name}") }
+                }
+                if (!o.checksCombinations && o.usesGeneratedDevice && o.mode(g) == Mode.REPLACE) {
+                    when (g) {
+                        Group.LENS -> FollowsNote("Not matched to the camera: any lens, even one that does not fit it.", "unmatched-LENS")
+                        Group.DATE -> FollowsNote("Not matched to the camera: any date since 2002.", "unmatched-DATE")
+                        else -> {}
+                    }
+                }
             }
         }
     }
@@ -129,29 +180,10 @@ private fun Settings(o: WipeOptions, update: (WipeOptions) -> Unit) {
         )
     }
 
-    Text("Device for random values", style = MaterialTheme.typography.titleMedium)
-    Column(Modifier.selectableGroup()) {
-        DevicePreset.entries.forEach { p ->
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .selectable(selected = o.preset == p, role = Role.RadioButton) { update(o.copy(preset = p)) }
-                    .padding(vertical = 4.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                RadioButton(selected = o.preset == p, onClick = null)
-                Text(p.label, Modifier.padding(start = 12.dp))
-            }
-        }
-    }
-    Text(
-        "Used by every group set to Random and by device-style file names. Random picks a camera or phone " +
-            "from the built-in list for each photo. If Camera & device is set to Keep, values follow the photo's own camera.",
-        style = MaterialTheme.typography.bodySmall,
-    )
+    DeviceChoice(o, update)
 
     Text("Colour profile", style = MaterialTheme.typography.titleMedium)
-    Segmented(listOf("Keep", "Wipe", "Replace"), o.icc.ordinal) { update(o.copy(icc = IccMode.entries[it])) }
+    Segmented(listOf("Keep", "Wipe", "Replace"), o.icc.ordinal, "icc") { update(o.copy(icc = IccMode.entries[it])) }
     Text(
         when (o.icc) {
             IccMode.KEEP -> "Keeps the colour data of the original profile; its copyright and manufacturer text is removed."
@@ -161,28 +193,148 @@ private fun Settings(o: WipeOptions, update: (WipeOptions) -> Unit) {
         style = MaterialTheme.typography.bodySmall,
     )
     if (o.icc == IccMode.REPLACE) {
-        Segmented(IccTarget.entries.map { it.label }, o.iccTarget.ordinal) { update(o.copy(iccTarget = IccTarget.entries[it])) }
+        Segmented(IccTarget.entries.map { it.label }, o.iccTarget.ordinal, "iccTarget") { update(o.copy(iccTarget = IccTarget.entries[it])) }
+        if (follows && o.iccTarget == IccTarget.MATCH_DEVICE) {
+            val spaces = (brandBodies ?: listOfNotNull(o.preset.bodyId?.let { id -> com.oiuy.exifwipe.meta.Dataset.get().body(id) }))
+                .map { if (it.icc == "p3") "Display P3" else "sRGB" }.distinct()
+            FollowsNote("Match device follows $device: ${if (spaces.size == 1) spaces[0] else spaces.joinToString(" or ") + ", depending on the model"}.", "follows-icc")
+        }
     }
 
     Text("File name", style = MaterialTheme.typography.titleMedium)
-    Segmented(listOf("Keep", "Generic", "Device"), o.fileName.ordinal) { update(o.copy(fileName = FileNameMode.entries[it])) }
+    Segmented(listOf("Keep", "Generic", "Device"), o.fileName.ordinal, "fileName") { update(o.copy(fileName = FileNameMode.entries[it])) }
     Text(
         when (o.fileName) {
             FileNameMode.KEEP -> "The file keeps its name."
             FileNameMode.GENERIC -> "Renames to the iPhone style IMG_1234.JPG with a random number."
-            FileNameMode.DEVICE -> "Renames in the style of the chosen device, for example PXL_20240501_103015123.jpg or DSC_1234.JPG."
+            FileNameMode.DEVICE -> "Renames in the style of the random device, for example PXL_20240501_103015123.jpg or DSC_1234.JPG."
         },
         style = MaterialTheme.typography.bodySmall,
     )
+    if (follows && o.fileName == FileNameMode.DEVICE) {
+        val examples = brandBodies?.let { Brands.exampleFileNames(o.effectiveBrand!!) }
+            ?: listOfNotNull(o.preset.bodyId?.let { id -> com.oiuy.exifwipe.meta.Dataset.get().body(id)?.let(Brands::exampleFileName) })
+        FollowsNote("Follows $device, for example ${examples.joinToString(", ")}.", "follows-fileName")
+    }
     TextButton(onClick = { update(WipeOptions.DEFAULT) }) { Text("Reset to defaults (wipe everything)") }
+}
+
+/**
+ * "Common devices" and "Camera brand": two pickers that exclude each other (choosing one resets
+ * the other to "None"/"Any brand"). Both are disabled while no generated device is used.
+ */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun DeviceChoice(o: WipeOptions, update: (WipeOptions) -> Unit) {
+    val enabled = o.usesGeneratedDevice
+    val disabledColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
+    val textColor = if (enabled) Color.Unspecified else disabledColor
+    Text("Common devices", style = MaterialTheme.typography.titleMedium, color = textColor)
+    Text(
+        when {
+            o.mode(Group.CAMERA) == Mode.KEEP ->
+                "Not used while Camera & device is set to Keep: random values then follow the photo's own camera."
+            !enabled ->
+                "Not used with these settings. It applies when Camera & device, Lens & exposure or Date & time is set to " +
+                    "Random, or File name to Device."
+            else -> "Random values describe this device. Choosing a common device clears the camera brand below, and the other way round."
+        },
+        Modifier.testTag("device-help"),
+        style = MaterialTheme.typography.bodySmall,
+    )
+    Column(Modifier.selectableGroup()) {
+        DevicePreset.entries.forEach { p ->
+            val label = if (p == DevicePreset.RANDOM) "None (use the camera brand below)" else p.label
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .testTag("preset-${p.name}")
+                    .selectable(selected = o.preset == p, enabled = enabled, role = Role.RadioButton) {
+                        update(o.copy(preset = p, brand = if (p.bodyId != null) null else o.brand))
+                    }
+                    .padding(vertical = 4.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                RadioButton(selected = o.preset == p, onClick = null, enabled = enabled)
+                Text(label, Modifier.padding(start = 12.dp), color = textColor)
+            }
+        }
+    }
+
+    Text("Camera brand", style = MaterialTheme.typography.titleMedium, color = textColor)
+    var expanded by remember { mutableStateOf(false) }
+    val current = o.brand?.let { "$it (${Brands.kinds(it)})" } ?: "Any brand"
+    ExposedDropdownMenuBox(expanded = expanded && enabled, onExpandedChange = { if (enabled) expanded = it }) {
+        OutlinedTextField(
+            value = current,
+            onValueChange = {},
+            readOnly = true,
+            enabled = enabled,
+            singleLine = true,
+            label = { Text("Brand") },
+            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded && enabled) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag("brand-field")
+                .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable, enabled),
+        )
+        DropdownMenu(expanded = expanded && enabled, onDismissRequest = { expanded = false }, modifier = Modifier.exposedDropdownSize()) {
+            DropdownMenuItem(
+                text = { Text("Any brand") },
+                onClick = { update(o.copy(brand = null)); expanded = false },
+                modifier = Modifier.testTag("brand-any"),
+            )
+            Brands.all.forEach { b ->
+                DropdownMenuItem(
+                    text = { Text("$b (${Brands.kinds(b)})") },
+                    onClick = { update(o.copy(brand = b, preset = DevicePreset.RANDOM)); expanded = false },
+                    modifier = Modifier.testTag("brand-$b"),
+                )
+            }
+        }
+    }
+    Text(
+        "Picks a random camera or phone of this brand for each photo, with a lens made for its mount, dates when it was " +
+            "in use, the brand's file names and software. Legacy brands such as Minolta and Kodak are included.",
+        style = MaterialTheme.typography.bodySmall,
+        color = textColor,
+    )
+    val toggleEnabled = enabled && !o.deviceChosen
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .testTag("valid-only")
+            .toggleable(value = o.checksCombinations, enabled = toggleEnabled, role = Role.Switch) { update(o.copy(validOnly = it)) }
+            .padding(vertical = 4.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            "Only valid combinations",
+            Modifier.weight(1f),
+            style = MaterialTheme.typography.titleMedium,
+            color = if (toggleEnabled) Color.Unspecified else disabledColor,
+        )
+        Switch(checked = o.checksCombinations, onCheckedChange = null, enabled = toggleEnabled)
+    }
+    Text(
+        when {
+            !enabled -> "Not used with these settings."
+            o.deviceChosen -> "Always on while a common device or camera brand is chosen."
+            o.validOnly -> "The camera or phone is still picked at random, but the lens, dates, file name, software and colour profile fit it."
+            else -> "Each group is randomized on its own: any lens with any camera, any date since 2002 and file names of another device."
+        },
+        Modifier.testTag("valid-only-help"),
+        style = MaterialTheme.typography.bodySmall,
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun Segmented(labels: List<String>, selected: Int, onSelect: (Int) -> Unit) {
+private fun Segmented(labels: List<String>, selected: Int, tag: String, onSelect: (Int) -> Unit) {
     SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
         labels.forEachIndexed { i, label ->
             SegmentedButton(
+                modifier = Modifier.testTag("$tag-$i"),
                 selected = i == selected,
                 onClick = { onSelect(i) },
                 shape = SegmentedButtonDefaults.itemShape(index = i, count = labels.size),

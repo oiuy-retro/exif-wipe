@@ -52,10 +52,42 @@ data class WipeOptions(
     val iccTarget: IccTarget = IccTarget.MATCH_DEVICE,
     val fileName: FileNameMode = FileNameMode.KEEP,
     val preset: DevicePreset = DevicePreset.RANDOM,
+    /**
+     * Camera brand (the brand column of bodies.tsv) that random devices are picked from, or null
+     * for any brand. Only one of [preset] and [brand] is used: a common device wins.
+     */
+    val brand: String? = null,
+    /**
+     * Only valid combinations: lens, dates, file name style, software and colour profile fit the
+     * random body. Off: these are randomized independently of each other (any lens on any body,
+     * any date since 2002). Always on while a common device or a brand is chosen.
+     */
+    val validOnly: Boolean = true,
 ) {
+    /** True while a common device or a brand is chosen; combinations are then always valid. */
+    val deviceChosen: Boolean get() = preset.bodyId != null || brand != null
+
+    /** True if generated values must fit the generated body. */
+    val checksCombinations: Boolean get() = validOnly || deviceChosen
+
     fun mode(g: Group): Mode = modes[g] ?: Mode.WIPE
 
     fun with(g: Group, m: Mode) = copy(modes = modes + (g to m))
+
+    /** The brand that applies (none while a common device is chosen). */
+    val effectiveBrand: String? get() = if (preset.bodyId != null) null else brand
+
+    /**
+     * True if a generated device is used for anything: a group on Random that describes the device
+     * or the capture, device-style file names or a colour profile matched to the device. A device
+     * is only generated while Camera & device is not on Keep (otherwise the photo's own camera is
+     * used).
+     */
+    val usesGeneratedDevice: Boolean
+        get() = mode(Group.CAMERA) != Mode.KEEP && (
+            mode(Group.CAMERA) == Mode.REPLACE || mode(Group.LENS) == Mode.REPLACE || mode(Group.DATE) == Mode.REPLACE ||
+                fileName == FileNameMode.DEVICE || (icc == IccMode.REPLACE && iccTarget == IccTarget.MATCH_DEVICE)
+            )
 
     /** True if the result depends on random choices, so processing the same file twice differs. */
     val randomizes: Boolean

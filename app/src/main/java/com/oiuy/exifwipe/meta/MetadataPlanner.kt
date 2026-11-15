@@ -109,7 +109,8 @@ class MetadataPlanner(
         var compat: Compat? = null
         if (mode(Group.LENS) == Mode.REPLACE && body != null) {
             val maxYear = if (mode(Group.DATE) == Mode.KEEP && srcLocal != null) srcLocal.year else rangeFor(body).second.year
-            pickLens(body, maxYear)?.let { lens = it.first; compat = it.second }
+            val picked = if (options.checksCombinations) pickLens(body, maxYear) else anyLens()
+            picked?.let { lens = it.first; compat = it.second }
         }
 
         // 3. Place and time.
@@ -130,7 +131,7 @@ class MetadataPlanner(
                 else -> PlaceRandomizer.place(random, ds).zone
             },
         )
-        val (from, to) = rangeFor(body, lens)
+        val (from, to) = if (options.checksCombinations) rangeFor(body, lens) else rangeFor(null)
         val moment: Moment? = when (mode(Group.DATE)) {
             Mode.REPLACE -> DateRandomizer.moment(random, from, to, zone, now)
             Mode.KEEP -> srcLocal?.let { Moment(it, srcOffset ?: zone.rules.getOffset(it), (srcSubSec ?: 0).coerceIn(0, 999)) }
@@ -140,7 +141,8 @@ class MetadataPlanner(
 
         // 4. Exposure.
         val exposure: Exposure? = if (mode(Group.LENS) != Mode.REPLACE) null else when {
-            body != null && body.isPhone && lens != null -> ExposureRandomizer.phone(random, body, lens!!)
+            body != null && body.isPhone && lens != null && lens!!.mounts.any { it.startsWith("fixed:") } ->
+                ExposureRandomizer.phone(random, body, lens!!)
             body != null && lens != null -> ExposureRandomizer.camera(random, body, lens, compat)
             else -> ExposureRandomizer.camera(random, body ?: GENERIC, null, null) // exposure only
         }
@@ -292,7 +294,11 @@ class MetadataPlanner(
     // ---- device and lens -------------------------------------------------------------------
 
     private fun randomBody(srcMake: String?, srcLensModel: String?, keptDate: LocalDate?): Body {
-        var candidates = ds.bodies.filter { !it.unverified }
+        val brand = options.effectiveBrand
+        // With a brand chosen, bodies whose model string or naming was not confirmed from a real
+        // file are allowed if the brand has no confirmed ones (some legacy brands).
+        var candidates = if (brand == null) ds.bodies.filter { !it.unverified }
+        else ds.bodies.filter { it.brand == brand }.let { all -> all.filter { !it.unverified }.ifEmpty { all } }
         if (keptDate != null) {
             candidates = candidates.filter { keptDate.year >= it.yearFrom && (it.yearTo == 0 || keptDate.year <= it.yearTo + 10) }
                 .ifEmpty { candidates }
@@ -304,7 +310,8 @@ class MetadataPlanner(
             candidates = byLens.ifEmpty { byMake }.ifEmpty { candidates }
         }
         // Keep bodies that can be given a lens.
-        candidates = candidates.filter { b -> ds.lenses.any { Compat.of(b, it) == Compat.NATIVE } }.ifEmpty { candidates }
+        candidates = if (brand == null) candidates.filter { b -> ds.lenses.any { Compat.of(b, it) == Compat.NATIVE } }.ifEmpty { candidates }
+        else candidates.filter { b -> ds.lenses.any { l -> Compat.isOwnMount(b, l) } }.ifEmpty { candidates }
         val phones = candidates.filter { it.isPhone }
         val cameras = candidates.filter { !it.isPhone }
         val pool = when {
@@ -316,8 +323,23 @@ class MetadataPlanner(
         return pool[random.nextInt(pool.size)]
     }
 
+    /**
+     * With a brand chosen, only lenses made for the body's own mount (or for the maker's own
+     * electronic adapter, such as EF lenses on RF bodies or Minolta/Sony A lenses on E bodies)
+     * are used: no legacy lenses on mechanical adapters. Third-party lenses for that mount count.
+     * Manual lenses made for the mount itself (for example Leica M lenses on a Leica M) are allowed.
+     */
+    private fun lensAllowed(body: Body, lens: Lens, compat: Compat?): Boolean {
+        if (compat == null) return false
+        if (options.effectiveBrand == null) return true
+        return Compat.isOwnMount(body, lens)
+    }
+
     private fun pickLens(body: Body, maxYear: Int): Pair<Lens, Compat>? {
-        val all = ds.lensesFor(body).filter { it.first.year <= maxYear }
+        // Prefer lenses released before the last year the body is in use, so the date can be
+        // after both the body's and the lens's first full year.
+        val fitting = ds.lensesFor(body).filter { it.first.year <= maxYear && lensAllowed(body, it.first, it.second) }
+        val all = fitting.filter { it.first.year < maxYear }.ifEmpty { fitting }
         if (all.isEmpty()) return null
         if (body.mount.startsWith("fixed:")) {
             // Phones: mostly the main camera (the module closest to a 26 mm equivalent).
@@ -330,6 +352,12 @@ class MetadataPlanner(
         val ownBrand = pool.filter { sameBrand(body.brand, it.first.make) }
         val list = if (ownBrand.isNotEmpty() && random.nextDouble() < 0.6) ownBrand else pool
         return list[random.nextInt(list.size)]
+    }
+
+    /** Any interchangeable lens, ignoring mount and year ("Only valid combinations" off). */
+    private fun anyLens(): Pair<Lens, Compat>? {
+        val all = ds.lenses.filter { l -> l.mounts.none { it.startsWith("fixed:") } }
+        return if (all.isEmpty()) null else all[random.nextInt(all.size)] to Compat.NATIVE
     }
 
     private fun sameBrand(a: String, b: String): Boolean {
@@ -382,7 +410,7 @@ class MetadataPlanner(
                 Tags.LENS_SPECIFICATION,
                 r(lens.focalMin), r(lens.focalMax), r(lens.apertureWide), r(lens.apertureTele),
             )
-            if (body.isPhone) out += TiffEntry.ascii(Tags.LENS_MAKE, body.make)
+            if (body.isPhone && lens.mounts.any { it.startsWith("fixed:") }) out += TiffEntry.ascii(Tags.LENS_MAKE, body.make)
             out += TiffEntry.ascii(Tags.LENS_MODEL, lens.model)
         }
         return out
@@ -421,7 +449,11 @@ class MetadataPlanner(
     private fun fileName(format: ImageFormat, body: Body?, moment: Moment?, zone: ZoneId, from: LocalDate, to: LocalDate): String? {
         if (options.fileName == FileNameMode.KEEP) return null
         val generic = "IMG_{n4}.JPG"
-        val pattern = if (options.fileName == FileNameMode.DEVICE && body != null && !body.unverified) body.fileName else generic
+        // A chosen brand uses its reported naming even where it was not confirmed from a real file.
+        // Without valid combinations the naming comes from another random device.
+        val namer = if (options.checksCombinations || options.fileName != FileNameMode.DEVICE) body
+        else ds.bodies.filter { !it.unverified }.let { it[random.nextInt(it.size)] }
+        val pattern = if (options.fileName == FileNameMode.DEVICE && namer != null && (!namer.unverified || options.effectiveBrand != null)) namer.fileName else generic
         val m = moment ?: DateRandomizer.moment(random, from, to, zone, now)
         val name = Patterns.fileName(random, pattern, m)
         return FileNames.withExtension(name, format)

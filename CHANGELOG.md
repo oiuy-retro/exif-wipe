@@ -2,6 +2,25 @@
 
 All notable changes to this project are listed here.
 
+## 0.3.0-test1 (versionCode 8) - test build
+
+- The "Device for random values" section is now called "Common devices".
+- New "Camera brand" setting with the 22 brands of the built-in camera list.
+  With a brand chosen, the random camera is of that brand, the lens is made
+  for its mount (including other makers' lenses for that mount, never another
+  brand's mount on an adapter), the date lies in the camera's years of use
+  (after 2002), and file name, software and colour profile follow it.
+  Choosing a brand clears the common device and the other way round.
+- New "Only valid combinations" setting, on by default. Off: lens, date and
+  file name style are randomized independently of the random camera. Always
+  on while a common device or brand is chosen.
+- Common devices, Camera brand and Only valid combinations are grayed out with
+  an explanation when they have no effect, and settings that follow a chosen
+  device or brand show a note.
+- Lenses are picked so that the photo date can be after the lens came out
+  (a few random photos had a date one day before the lens's first full year).
+- The error details include the brand and the Only valid combinations setting.
+
 ## 0.2.0 (versionCode 7)
 
 Release of the 0.2.0 test builds below, with the same code as 0.2.0-test3,
