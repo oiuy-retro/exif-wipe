@@ -191,6 +191,9 @@ object IccSanitizer {
         }
     }
 
+    /** Public form of [readDescription]. */
+    fun description(p: ByteArray, off: Int, len: Int): String? = readDescription(p, off, len)
+
     private fun textDescription(text: String): ByteArray {
         val ascii = latin1(text) + 0
         val out = ByteArrayOutputStream()

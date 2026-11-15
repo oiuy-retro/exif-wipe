@@ -1,0 +1,286 @@
+# Camera and phone bodies used for randomized metadata. Facts only (names, years, specifications).
+# id	make	model	brand	kind	mount	crop	year_from	year_to(0=current)	software_pattern	filename_pattern	width	height	iso_min	iso_max	byte_order	icc	exif_version	flags(u=model string or file name not verified)
+canon-300d	Canon	Canon EOS 300D DIGITAL	Canon	dslr	canon-ef	1.6	2003	2004		IMG_{n4}.JPG	3072	2048	100	1600	II	none	0221	
+canon-rebel	Canon	Canon EOS DIGITAL REBEL	Canon	dslr	canon-ef	1.6	2003	2004		IMG_{n4}.JPG	3072	2048	100	1600	II	none	0221	
+canon-350d	Canon	Canon EOS 350D DIGITAL	Canon	dslr	canon-ef	1.6	2005	2006		IMG_{n4}.JPG	3456	2304	100	1600	II	none	0221	
+canon-400d	Canon	Canon EOS 400D DIGITAL	Canon	dslr	canon-ef	1.6	2006	2008		IMG_{n4}.JPG	3888	2592	100	1600	II	none	0221	
+canon-450d	Canon	Canon EOS 450D	Canon	dslr	canon-ef	1.6	2008	2010		IMG_{n4}.JPG	4272	2848	100	1600	II	none	0221	
+canon-550d	Canon	Canon EOS 550D	Canon	dslr	canon-ef	1.6	2010	2012		IMG_{n4}.JPG	5184	3456	100	6400	II	none	0230	
+canon-600d	Canon	Canon EOS 600D	Canon	dslr	canon-ef	1.6	2011	2013		IMG_{n4}.JPG	5184	3456	100	6400	II	none	0230	
+canon-700d	Canon	Canon EOS 700D	Canon	dslr	canon-ef	1.6	2013	2016		IMG_{n4}.JPG	5184	3456	100	12800	II	none	0230	
+canon-750d	Canon	Canon EOS 750D	Canon	dslr	canon-ef	1.6	2015	2018		IMG_{n4}.JPG	6000	4000	100	12800	II	none	0230	
+canon-800d	Canon	Canon EOS 800D	Canon	dslr	canon-ef	1.6	2017	2019		IMG_{n4}.JPG	6000	4000	100	25600	II	none	0231	
+canon-2000d	Canon	Canon EOS 2000D	Canon	dslr	canon-ef	1.6	2018	2023		IMG_{n4}.JPG	6000	4000	100	6400	II	none	0231	
+canon-4000d	Canon	Canon EOS 4000D	Canon	dslr	canon-ef	1.6	2018	2023		IMG_{n4}.JPG	5184	3456	100	6400	II	none	0231	
+canon-20d	Canon	Canon EOS 20D	Canon	dslr	canon-ef	1.6	2004	2006		IMG_{n4}.JPG	3504	2336	100	1600	II	none	0221	
+canon-30d	Canon	Canon EOS 30D	Canon	dslr	canon-ef	1.6	2006	2007		IMG_{n4}.JPG	3504	2336	100	1600	II	none	0221	
+canon-40d	Canon	Canon EOS 40D	Canon	dslr	canon-ef	1.6	2007	2008		IMG_{n4}.JPG	3888	2592	100	1600	II	none	0221	
+canon-50d	Canon	Canon EOS 50D	Canon	dslr	canon-ef	1.6	2008	2010		IMG_{n4}.JPG	4752	3168	100	3200	II	none	0221	
+canon-60d	Canon	Canon EOS 60D	Canon	dslr	canon-ef	1.6	2010	2013		IMG_{n4}.JPG	5184	3456	100	6400	II	none	0230	
+canon-70d	Canon	Canon EOS 70D	Canon	dslr	canon-ef	1.6	2013	2016		IMG_{n4}.JPG	5472	3648	100	12800	II	none	0230	
+canon-80d	Canon	Canon EOS 80D	Canon	dslr	canon-ef	1.6	2016	2019		IMG_{n4}.JPG	6000	4000	100	16000	II	none	0231	
+canon-90d	Canon	Canon EOS 90D	Canon	dslr	canon-ef	1.6	2019	0		IMG_{n4}.JPG	6960	4640	100	25600	II	none	0231	
+canon-7d	Canon	Canon EOS 7D	Canon	dslr	canon-ef	1.6	2009	2014		IMG_{n4}.JPG	5184	3456	100	6400	II	none	0221	
+canon-7d2	Canon	Canon EOS 7D Mark II	Canon	dslr	canon-ef	1.6	2014	2021		IMG_{n4}.JPG	5472	3648	100	16000	II	none	0230	
+canon-5d	Canon	Canon EOS 5D	Canon	dslr	canon-ef	1.0	2005	2008		IMG_{n4}.JPG	4368	2912	100	1600	II	none	0221	
+canon-5d2	Canon	Canon EOS 5D Mark II	Canon	dslr	canon-ef	1.0	2008	2012		IMG_{n4}.JPG	5616	3744	100	6400	II	none	0221	
+canon-5d3	Canon	Canon EOS 5D Mark III	Canon	dslr	canon-ef	1.0	2012	2016		IMG_{n4}.JPG	5760	3840	100	25600	II	none	0230	
+canon-5d4	Canon	Canon EOS 5D Mark IV	Canon	dslr	canon-ef	1.0	2016	0		IMG_{n4}.JPG	6720	4480	100	32000	II	none	0231	
+canon-6d	Canon	Canon EOS 6D	Canon	dslr	canon-ef	1.0	2012	2017		IMG_{n4}.JPG	5472	3648	100	25600	II	none	0230	
+canon-6d2	Canon	Canon EOS 6D Mark II	Canon	dslr	canon-ef	1.0	2017	0		IMG_{n4}.JPG	6240	4160	100	40000	II	none	0231	
+canon-1d3	Canon	Canon EOS-1D Mark III	Canon	dslr	canon-ef	1.3	2007	2009		IMG_{n4}.JPG	3888	2592	100	3200	II	none	0221	
+canon-1dx	Canon	Canon EOS-1D X	Canon	dslr	canon-ef	1.0	2012	2016		IMG_{n4}.JPG	5184	3456	100	51200	II	none	0230	
+canon-r	Canon	Canon EOS R	Canon	mirrorless	canon-rf	1.0	2018	2022		IMG_{n4}.JPG	6720	4480	100	40000	II	none	0231	
+canon-rp	Canon	Canon EOS RP	Canon	mirrorless	canon-rf	1.0	2019	0		IMG_{n4}.JPG	6240	4160	100	25600	II	none	0231	
+canon-r5	Canon	Canon EOS R5	Canon	mirrorless	canon-rf	1.0	2020	0		IMG_{n4}.JPG	8192	5464	100	51200	II	none	0231	
+canon-r6	Canon	Canon EOS R6	Canon	mirrorless	canon-rf	1.0	2020	2022		IMG_{n4}.JPG	5472	3648	100	102400	II	none	0231	
+canon-r6m2	Canon	Canon EOS R6m2	Canon	mirrorless	canon-rf	1.0	2022	0		IMG_{n4}.JPG	6000	4000	100	102400	II	none	0231	u
+canon-r8	Canon	Canon EOS R8	Canon	mirrorless	canon-rf	1.0	2023	0		IMG_{n4}.JPG	6000	4000	100	102400	II	none	0231	
+canon-r3	Canon	Canon EOS R3	Canon	mirrorless	canon-rf	1.0	2021	0		IMG_{n4}.JPG	6000	4000	100	102400	II	none	0231	
+canon-r7	Canon	Canon EOS R7	Canon	mirrorless	canon-rf	1.6	2022	0		IMG_{n4}.JPG	6960	4640	100	32000	II	none	0231	
+canon-r10	Canon	Canon EOS R10	Canon	mirrorless	canon-rf	1.6	2022	0		IMG_{n4}.JPG	6000	4000	100	32000	II	none	0231	
+canon-r50	Canon	Canon EOS R50	Canon	mirrorless	canon-rf	1.6	2023	0		IMG_{n4}.JPG	6000	4000	100	32000	II	none	0231	
+canon-m	Canon	Canon EOS M	Canon	mirrorless	canon-efm	1.6	2012	2013		IMG_{n4}.JPG	5184	3456	100	12800	II	none	0230	
+canon-m50	Canon	Canon EOS M50	Canon	mirrorless	canon-efm	1.6	2018	2023		IMG_{n4}.JPG	6000	4000	100	25600	II	none	0231	
+canon-m6m2	Canon	Canon EOS M6 Mark II	Canon	mirrorless	canon-efm	1.6	2019	2023		IMG_{n4}.JPG	6960	4640	100	25600	II	none	0231	
+canon-g7x	Canon	Canon PowerShot G7 X	Canon	compact	fixed:canon-g7x	2.7	2014	2016		IMG_{n4}.JPG	5472	3648	125	12800	II	none	0230	
+nikon-d70	NIKON CORPORATION	NIKON D70	Nikon	dslr	nikon-f	1.5	2004	2005	Ver.1.0#	DSC_{n4}.JPG	3008	2000	200	1600	MM	none	0221	
+nikon-d50	NIKON CORPORATION	NIKON D50	Nikon	dslr	nikon-f	1.5	2005	2006	Ver.1.0#	DSC_{n4}.JPG	3008	2000	200	1600	MM	none	0221	
+nikon-d40	NIKON CORPORATION	NIKON D40	Nikon	dslr	nikon-f	1.5	2006	2008	Ver.1.0#	DSC_{n4}.JPG	3008	2000	200	1600	MM	none	0221	
+nikon-d80	NIKON CORPORATION	NIKON D80	Nikon	dslr	nikon-f	1.5	2006	2008	Ver.1.0#	DSC_{n4}.JPG	3872	2592	100	1600	MM	none	0221	
+nikon-d200	NIKON CORPORATION	NIKON D200	Nikon	dslr	nikon-f	1.5	2005	2007	Ver.1.0#	DSC_{n4}.JPG	3872	2592	100	1600	MM	none	0221	
+nikon-d300	NIKON CORPORATION	NIKON D300	Nikon	dslr	nikon-f	1.5	2007	2009	Ver.1.0#	DSC_{n4}.JPG	4288	2848	200	3200	MM	none	0221	
+nikon-d90	NIKON CORPORATION	NIKON D90	Nikon	dslr	nikon-f	1.5	2008	2010	Ver.1.0#	DSC_{n4}.JPG	4288	2848	200	3200	MM	none	0221	
+nikon-d3000	NIKON CORPORATION	NIKON D3000	Nikon	dslr	nikon-f	1.5	2009	2010	Ver.1.0#	DSC_{n4}.JPG	3872	2592	100	1600	MM	none	0221	
+nikon-d3100	NIKON CORPORATION	NIKON D3100	Nikon	dslr	nikon-f	1.5	2010	2012	Ver.1.0#	DSC_{n4}.JPG	4608	3072	100	3200	MM	none	0230	
+nikon-d3200	NIKON CORPORATION	NIKON D3200	Nikon	dslr	nikon-f	1.5	2012	2014	Ver.1.0#	DSC_{n4}.JPG	6016	4000	100	6400	MM	none	0230	
+nikon-d3300	NIKON CORPORATION	NIKON D3300	Nikon	dslr	nikon-f	1.5	2014	2016	Ver.1.0#	DSC_{n4}.JPG	6000	4000	100	12800	MM	none	0230	
+nikon-d3400	NIKON CORPORATION	NIKON D3400	Nikon	dslr	nikon-f	1.5	2016	2018	Ver.1.0#	DSC_{n4}.JPG	6000	4000	100	25600	MM	none	0231	
+nikon-d3500	NIKON CORPORATION	NIKON D3500	Nikon	dslr	nikon-f	1.5	2018	2023	Ver.1.0#	DSC_{n4}.JPG	6000	4000	100	25600	MM	none	0231	
+nikon-d5000	NIKON CORPORATION	NIKON D5000	Nikon	dslr	nikon-f	1.5	2009	2011	Ver.1.0#	DSC_{n4}.JPG	4288	2848	200	3200	MM	none	0221	
+nikon-d5100	NIKON CORPORATION	NIKON D5100	Nikon	dslr	nikon-f	1.5	2011	2013	Ver.1.0#	DSC_{n4}.JPG	4928	3264	100	6400	MM	none	0230	
+nikon-d5300	NIKON CORPORATION	NIKON D5300	Nikon	dslr	nikon-f	1.5	2013	2016	Ver.1.0#	DSC_{n4}.JPG	6000	4000	100	12800	MM	none	0230	
+nikon-d5600	NIKON CORPORATION	NIKON D5600	Nikon	dslr	nikon-f	1.5	2016	2023	Ver.1.0#	DSC_{n4}.JPG	6000	4000	100	25600	MM	none	0231	
+nikon-d7000	NIKON CORPORATION	NIKON D7000	Nikon	dslr	nikon-f	1.5	2010	2013	Ver.1.0#	DSC_{n4}.JPG	4928	3264	100	6400	MM	none	0230	
+nikon-d7100	NIKON CORPORATION	NIKON D7100	Nikon	dslr	nikon-f	1.5	2013	2015	Ver.1.0#	DSC_{n4}.JPG	6000	4000	100	6400	MM	none	0230	
+nikon-d7200	NIKON CORPORATION	NIKON D7200	Nikon	dslr	nikon-f	1.5	2015	2017	Ver.1.0#	DSC_{n4}.JPG	6000	4000	100	25600	MM	none	0230	
+nikon-d7500	NIKON CORPORATION	NIKON D7500	Nikon	dslr	nikon-f	1.5	2017	0	Ver.1.0#	DSC_{n4}.JPG	5568	3712	100	51200	MM	none	0231	
+nikon-d500	NIKON CORPORATION	NIKON D500	Nikon	dslr	nikon-f	1.5	2016	2022	Ver.1.0#	DSC_{n4}.JPG	5568	3712	100	51200	MM	none	0231	
+nikon-d3	NIKON CORPORATION	NIKON D3	Nikon	dslr	nikon-f	1.0	2007	2009	Ver.1.0#	DSC_{n4}.JPG	4256	2832	200	6400	MM	none	0221	
+nikon-d700	NIKON CORPORATION	NIKON D700	Nikon	dslr	nikon-f	1.0	2008	2012	Ver.1.0#	DSC_{n4}.JPG	4256	2832	200	6400	MM	none	0221	
+nikon-d600	NIKON CORPORATION	NIKON D600	Nikon	dslr	nikon-f	1.0	2012	2013	Ver.1.0#	DSC_{n4}.JPG	6016	4016	100	6400	MM	none	0230	
+nikon-d610	NIKON CORPORATION	NIKON D610	Nikon	dslr	nikon-f	1.0	2013	2020	Ver.1.0#	DSC_{n4}.JPG	6016	4016	100	6400	MM	none	0230	
+nikon-d750	NIKON CORPORATION	NIKON D750	Nikon	dslr	nikon-f	1.0	2014	2022	Ver.1.0#	DSC_{n4}.JPG	6016	4016	100	12800	MM	none	0230	
+nikon-d800	NIKON CORPORATION	NIKON D800	Nikon	dslr	nikon-f	1.0	2012	2014	Ver.1.0#	DSC_{n4}.JPG	7360	4912	100	6400	MM	none	0230	
+nikon-d810	NIKON CORPORATION	NIKON D810	Nikon	dslr	nikon-f	1.0	2014	2017	Ver.1.0#	DSC_{n4}.JPG	7360	4912	64	12800	MM	none	0230	
+nikon-d850	NIKON CORPORATION	NIKON D850	Nikon	dslr	nikon-f	1.0	2017	0	Ver.1.0#	DSC_{n4}.JPG	8256	5504	64	25600	MM	none	0231	
+nikon-d780	NIKON CORPORATION	NIKON D780	Nikon	dslr	nikon-f	1.0	2020	0	Ver.1.0#	DSC_{n4}.JPG	6048	4024	100	51200	MM	none	0231	
+nikon-z6	NIKON CORPORATION	NIKON Z 6	Nikon	mirrorless	nikon-z	1.0	2018	2020	Ver.0#.#0	DSC_{n4}.JPG	6048	4024	100	51200	MM	none	0231	
+nikon-z7	NIKON CORPORATION	NIKON Z 7	Nikon	mirrorless	nikon-z	1.0	2018	2020	Ver.0#.#0	DSC_{n4}.JPG	8256	5504	64	25600	MM	none	0231	
+nikon-z6ii	NIKON CORPORATION	NIKON Z 6_2	Nikon	mirrorless	nikon-z	1.0	2020	0	Ver.0#.#0	DSC_{n4}.JPG	6048	4024	100	51200	MM	none	0231	
+nikon-z5	NIKON CORPORATION	NIKON Z 5	Nikon	mirrorless	nikon-z	1.0	2020	0	Ver.0#.#0	DSC_{n4}.JPG	6016	4016	100	51200	MM	none	0231	
+nikon-z8	NIKON CORPORATION	NIKON Z 8	Nikon	mirrorless	nikon-z	1.0	2023	0	Ver.0#.#0	DSC_{n4}.JPG	8256	5504	64	25600	MM	none	0231	
+nikon-z9	NIKON CORPORATION	NIKON Z 9	Nikon	mirrorless	nikon-z	1.0	2021	0	Ver.0#.#0	DSC_{n4}.JPG	8256	5504	64	25600	MM	none	0231	
+nikon-zf	NIKON CORPORATION	NIKON Z f	Nikon	mirrorless	nikon-z	1.0	2023	0	Ver.0#.#0	DSC_{n4}.JPG	6048	4024	100	64000	MM	none	0231	
+nikon-z50	NIKON CORPORATION	NIKON Z 50	Nikon	mirrorless	nikon-z	1.5	2019	0	Ver.0#.#0	DSC_{n4}.JPG	5568	3712	100	51200	MM	none	0231	
+nikon-zfc	NIKON CORPORATION	NIKON Z fc	Nikon	mirrorless	nikon-z	1.5	2021	0	Ver.0#.#0	DSC_{n4}.JPG	5568	3712	100	51200	MM	none	0231	
+nikon-z30	NIKON CORPORATION	NIKON Z 30	Nikon	mirrorless	nikon-z	1.5	2022	0	Ver.0#.#0	DSC_{n4}.JPG	5568	3712	100	51200	MM	none	0231	
+sony-a100	SONY	DSLR-A100	Sony	dslr	a	1.5	2006	2007		DSC{n5}.JPG	3872	2592	100	1600	II	none	0221	
+sony-a200	SONY	DSLR-A200	Sony	dslr	a	1.5	2008	2009		DSC{n5}.JPG	3872	2592	100	3200	II	none	0221	
+sony-a700	SONY	DSLR-A700	Sony	dslr	a	1.5	2007	2009		DSC{n5}.JPG	4272	2848	100	6400	II	none	0221	
+sony-a900	SONY	DSLR-A900	Sony	dslr	a	1.0	2008	2011		DSC{n5}.JPG	6048	4032	200	6400	II	none	0221	
+sony-a55	SONY	SLT-A55V	Sony	dslr	a	1.5	2010	2012		DSC{n5}.JPG	4912	3264	100	12800	II	none	0230	
+sony-a58	SONY	SLT-A58	Sony	dslr	a	1.5	2013	2016		DSC{n5}.JPG	5456	3632	100	16000	II	none	0230	
+sony-a77	SONY	SLT-A77V	Sony	dslr	a	1.5	2011	2014		DSC{n5}.JPG	6000	4000	50	16000	II	none	0230	
+sony-a99	SONY	SLT-A99V	Sony	dslr	a	1.0	2012	2016		DSC{n5}.JPG	6000	4000	50	25600	II	none	0230	
+sony-a77ii	SONY	ILCA-77M2	Sony	dslr	a	1.5	2014	2021		DSC{n5}.JPG	6000	4000	50	25600	II	none	0230	
+sony-a99ii	SONY	ILCA-99M2	Sony	dslr	a	1.0	2016	2021		DSC{n5}.JPG	7952	5304	50	102400	II	none	0231	
+sony-nex5	SONY	NEX-5	Sony	mirrorless	sony-e	1.5	2010	2011	{model} v#.#0	DSC{n5}.JPG	4592	3056	200	12800	II	none	0230	
+sony-nex6	SONY	NEX-6	Sony	mirrorless	sony-e	1.5	2012	2014	{model} v#.#0	DSC{n5}.JPG	4912	3264	100	25600	II	none	0230	
+sony-nex7	SONY	NEX-7	Sony	mirrorless	sony-e	1.5	2011	2014	{model} v#.#0	DSC{n5}.JPG	6000	4000	100	16000	II	none	0230	
+sony-a5100	SONY	ILCE-5100	Sony	mirrorless	sony-e	1.5	2014	2020	{model} v#.#0	DSC{n5}.JPG	6000	4000	100	25600	II	none	0230	
+sony-a6000	SONY	ILCE-6000	Sony	mirrorless	sony-e	1.5	2014	0	{model} v#.#0	DSC{n5}.JPG	6000	4000	100	25600	II	none	0230	
+sony-a6300	SONY	ILCE-6300	Sony	mirrorless	sony-e	1.5	2016	2020	{model} v#.#0	DSC{n5}.JPG	6000	4000	100	51200	II	none	0231	
+sony-a6400	SONY	ILCE-6400	Sony	mirrorless	sony-e	1.5	2019	0	{model} v#.#0	DSC{n5}.JPG	6000	4000	100	102400	II	none	0231	
+sony-a6600	SONY	ILCE-6600	Sony	mirrorless	sony-e	1.5	2019	0	{model} v#.#0	DSC{n5}.JPG	6000	4000	100	102400	II	none	0231	
+sony-a6700	SONY	ILCE-6700	Sony	mirrorless	sony-e	1.5	2023	0	{model} v#.#0	DSC{n5}.JPG	6192	4128	100	102400	II	none	0231	
+sony-zve10	SONY	ZV-E10	Sony	mirrorless	sony-e	1.5	2021	0	{model} v#.#0	DSC{n5}.JPG	6000	4000	100	32000	II	none	0231	
+sony-a7	SONY	ILCE-7	Sony	mirrorless	sony-e	1.0	2013	2018	{model} v#.#0	DSC{n5}.JPG	6000	4000	100	25600	II	none	0230	
+sony-a7r	SONY	ILCE-7R	Sony	mirrorless	sony-e	1.0	2013	2016	{model} v#.#0	DSC{n5}.JPG	7360	4912	100	25600	II	none	0230	
+sony-a7s	SONY	ILCE-7S	Sony	mirrorless	sony-e	1.0	2014	2017	{model} v#.#0	DSC{n5}.JPG	4240	2832	100	409600	II	none	0230	
+sony-a7ii	SONY	ILCE-7M2	Sony	mirrorless	sony-e	1.0	2014	2021	{model} v#.#0	DSC{n5}.JPG	6000	4000	100	25600	II	none	0230	
+sony-a7rii	SONY	ILCE-7RM2	Sony	mirrorless	sony-e	1.0	2015	2019	{model} v#.#0	DSC{n5}.JPG	7952	5304	100	25600	II	none	0230	
+sony-a7riii	SONY	ILCE-7RM3	Sony	mirrorless	sony-e	1.0	2017	2022	{model} v#.#0	DSC{n5}.JPG	7952	5304	100	32000	II	none	0231	
+sony-a7iii	SONY	ILCE-7M3	Sony	mirrorless	sony-e	1.0	2018	0	{model} v#.#0	DSC{n5}.JPG	6000	4000	100	51200	II	none	0231	
+sony-a9	SONY	ILCE-9	Sony	mirrorless	sony-e	1.0	2017	2021	{model} v#.#0	DSC{n5}.JPG	6000	4000	100	51200	II	none	0231	
+sony-a7riv	SONY	ILCE-7RM4	Sony	mirrorless	sony-e	1.0	2019	2023	{model} v#.#0	DSC{n5}.JPG	9504	6336	100	32000	II	none	0231	
+sony-a7c	SONY	ILCE-7C	Sony	mirrorless	sony-e	1.0	2020	0	{model} v#.#0	DSC{n5}.JPG	6000	4000	100	51200	II	none	0231	
+sony-a1	SONY	ILCE-1	Sony	mirrorless	sony-e	1.0	2021	0	{model} v#.#0	DSC{n5}.JPG	8640	5760	100	32000	II	none	0231	
+sony-a7iv	SONY	ILCE-7M4	Sony	mirrorless	sony-e	1.0	2021	0	{model} v#.#0	DSC{n5}.JPG	7008	4672	100	51200	II	none	0231	
+sony-a7rv	SONY	ILCE-7RM5	Sony	mirrorless	sony-e	1.0	2022	0	{model} v#.#0	DSC{n5}.JPG	9504	6336	100	32000	II	none	0231	
+sony-a7cii	SONY	ILCE-7CM2	Sony	mirrorless	sony-e	1.0	2023	0	{model} v#.#0	DSC{n5}.JPG	7008	4672	100	51200	II	none	0231	
+sony-rx100	SONY	DSC-RX100	Sony	compact	fixed:sony-rx100	2.7	2012	2018		DSC{n5}.JPG	5472	3648	125	6400	II	none	0230	
+sony-rx100m3	SONY	DSC-RX100M3	Sony	compact	fixed:sony-rx100m3	2.7	2014	0		DSC{n5}.JPG	5472	3648	125	12800	II	none	0230	
+fuji-s5pro	FUJIFILM	FinePixS5Pro	Fujifilm	dslr	nikon-f	1.5	2007	2009	Digital Camera {model} Ver#.#0	DSCF{n4}.JPG	4256	2848	100	3200	II	none	0221	
+fuji-xpro1	FUJIFILM	X-Pro1	Fujifilm	mirrorless	fuji-x	1.5	2012	2016	Digital Camera {model} Ver#.#0	DSCF{n4}.JPG	4896	3264	200	6400	II	none	0230	
+fuji-xe1	FUJIFILM	X-E1	Fujifilm	mirrorless	fuji-x	1.5	2012	2014	Digital Camera {model} Ver#.#0	DSCF{n4}.JPG	4896	3264	200	6400	II	none	0230	
+fuji-xe2	FUJIFILM	X-E2	Fujifilm	mirrorless	fuji-x	1.5	2013	2016	Digital Camera {model} Ver#.#0	DSCF{n4}.JPG	4896	3264	200	6400	II	none	0230	
+fuji-xt1	FUJIFILM	X-T1	Fujifilm	mirrorless	fuji-x	1.5	2014	2017	Digital Camera {model} Ver#.#0	DSCF{n4}.JPG	4896	3264	200	6400	II	none	0230	
+fuji-xt10	FUJIFILM	X-T10	Fujifilm	mirrorless	fuji-x	1.5	2015	2017	Digital Camera {model} Ver#.#0	DSCF{n4}.JPG	4896	3264	200	6400	II	none	0230	
+fuji-xpro2	FUJIFILM	X-Pro2	Fujifilm	mirrorless	fuji-x	1.5	2016	2019	Digital Camera {model} Ver#.#0	DSCF{n4}.JPG	6000	4000	200	12800	II	none	0231	
+fuji-xt2	FUJIFILM	X-T2	Fujifilm	mirrorless	fuji-x	1.5	2016	2019	Digital Camera {model} Ver#.#0	DSCF{n4}.JPG	6000	4000	200	12800	II	none	0231	
+fuji-xt20	FUJIFILM	X-T20	Fujifilm	mirrorless	fuji-x	1.5	2017	2019	Digital Camera {model} Ver#.#0	DSCF{n4}.JPG	6000	4000	200	12800	II	none	0231	
+fuji-xe3	FUJIFILM	X-E3	Fujifilm	mirrorless	fuji-x	1.5	2017	2021	Digital Camera {model} Ver#.#0	DSCF{n4}.JPG	6000	4000	200	12800	II	none	0231	
+fuji-xa3	FUJIFILM	X-A3	Fujifilm	mirrorless	fuji-x	1.5	2016	2018	Digital Camera {model} Ver#.#0	DSCF{n4}.JPG	6000	4000	200	6400	II	none	0231	
+fuji-xa5	FUJIFILM	X-A5	Fujifilm	mirrorless	fuji-x	1.5	2018	2020	Digital Camera {model} Ver#.#0	DSCF{n4}.JPG	6000	4000	200	12800	II	none	0231	
+fuji-xh1	FUJIFILM	X-H1	Fujifilm	mirrorless	fuji-x	1.5	2018	2020	Digital Camera {model} Ver#.#0	DSCF{n4}.JPG	6000	4000	200	12800	II	none	0231	
+fuji-xt3	FUJIFILM	X-T3	Fujifilm	mirrorless	fuji-x	1.5	2018	2021	Digital Camera {model} Ver#.#0	DSCF{n4}.JPG	6240	4160	160	12800	II	none	0231	
+fuji-xt30	FUJIFILM	X-T30	Fujifilm	mirrorless	fuji-x	1.5	2019	2021	Digital Camera {model} Ver#.#0	DSCF{n4}.JPG	6240	4160	160	12800	II	none	0231	
+fuji-xt4	FUJIFILM	X-T4	Fujifilm	mirrorless	fuji-x	1.5	2020	2023	Digital Camera {model} Ver#.#0	DSCF{n4}.JPG	6240	4160	160	12800	II	none	0231	
+fuji-xs10	FUJIFILM	X-S10	Fujifilm	mirrorless	fuji-x	1.5	2020	2023	Digital Camera {model} Ver#.#0	DSCF{n4}.JPG	6240	4160	160	12800	II	none	0231	
+fuji-xt200	FUJIFILM	X-T200	Fujifilm	mirrorless	fuji-x	1.5	2020	2022	Digital Camera {model} Ver#.#0	DSCF{n4}.JPG	6000	4000	200	12800	II	none	0231	
+fuji-xe4	FUJIFILM	X-E4	Fujifilm	mirrorless	fuji-x	1.5	2021	2023	Digital Camera {model} Ver#.#0	DSCF{n4}.JPG	6240	4160	160	12800	II	none	0231	
+fuji-xt30ii	FUJIFILM	X-T30 II	Fujifilm	mirrorless	fuji-x	1.5	2021	0	Digital Camera {model} Ver#.#0	DSCF{n4}.JPG	6240	4160	160	12800	II	none	0231	
+fuji-xh2s	FUJIFILM	X-H2S	Fujifilm	mirrorless	fuji-x	1.5	2022	0	Digital Camera {model} Ver#.#0	DSCF{n4}.JPG	6240	4160	160	12800	II	none	0231	
+fuji-xh2	FUJIFILM	X-H2	Fujifilm	mirrorless	fuji-x	1.5	2022	0	Digital Camera {model} Ver#.#0	DSCF{n4}.JPG	7728	5152	125	12800	II	none	0231	
+fuji-xt5	FUJIFILM	X-T5	Fujifilm	mirrorless	fuji-x	1.5	2022	0	Digital Camera {model} Ver#.#0	DSCF{n4}.JPG	7728	5152	125	12800	II	none	0231	
+fuji-xs20	FUJIFILM	X-S20	Fujifilm	mirrorless	fuji-x	1.5	2023	0	Digital Camera {model} Ver#.#0	DSCF{n4}.JPG	6240	4160	160	12800	II	none	0231	
+fuji-xt50	FUJIFILM	X-T50	Fujifilm	mirrorless	fuji-x	1.5	2024	0	Digital Camera {model} Ver#.#0	DSCF{n4}.JPG	7728	5152	125	12800	II	none	0231	
+fuji-x100	FUJIFILM	X100	Fujifilm	compact	fixed:fuji-x100	1.5	2011	2013	Digital Camera {model} Ver#.#0	DSCF{n4}.JPG	4288	2848	200	6400	II	none	0230	
+fuji-x100s	FUJIFILM	X100S	Fujifilm	compact	fixed:fuji-x100	1.5	2013	2014	Digital Camera {model} Ver#.#0	DSCF{n4}.JPG	4896	3264	200	6400	II	none	0230	
+fuji-x100t	FUJIFILM	X100T	Fujifilm	compact	fixed:fuji-x100	1.5	2014	2017	Digital Camera {model} Ver#.#0	DSCF{n4}.JPG	4896	3264	200	6400	II	none	0230	
+fuji-x100f	FUJIFILM	X100F	Fujifilm	compact	fixed:fuji-x100	1.5	2017	2020	Digital Camera {model} Ver#.#0	DSCF{n4}.JPG	6000	4000	200	12800	II	none	0231	
+fuji-x100v	FUJIFILM	X100V	Fujifilm	compact	fixed:fuji-x100	1.5	2020	2024	Digital Camera {model} Ver#.#0	DSCF{n4}.JPG	6240	4160	160	12800	II	none	0231	
+fuji-x100vi	FUJIFILM	X100VI	Fujifilm	compact	fixed:fuji-x100	1.5	2024	0	Digital Camera {model} Ver#.#0	DSCF{n4}.JPG	7728	5152	125	12800	II	none	0231	
+fuji-gfx50s	FUJIFILM	GFX 50S	Fujifilm	mirrorless	fuji-g	0.79	2017	2021	Digital Camera {model} Ver#.#0	DSCF{n4}.JPG	8256	6192	100	12800	II	none	0231	
+fuji-gfx50r	FUJIFILM	GFX 50R	Fujifilm	mirrorless	fuji-g	0.79	2018	2022	Digital Camera {model} Ver#.#0	DSCF{n4}.JPG	8256	6192	100	12800	II	none	0231	
+fuji-gfx100	FUJIFILM	GFX100	Fujifilm	mirrorless	fuji-g	0.79	2019	2023	Digital Camera {model} Ver#.#0	DSCF{n4}.JPG	11648	8736	100	12800	II	none	0231	
+fuji-gfx100s	FUJIFILM	GFX100S	Fujifilm	mirrorless	fuji-g	0.79	2021	0	Digital Camera {model} Ver#.#0	DSCF{n4}.JPG	11648	8736	100	12800	II	none	0231	
+fuji-gfx50sii	FUJIFILM	GFX50S II	Fujifilm	mirrorless	fuji-g	0.79	2021	0	Digital Camera {model} Ver#.#0	DSCF{n4}.JPG	8256	6192	100	12800	II	none	0231	
+olympus-e1	OLYMPUS CORPORATION	E-1	Olympus	dslr	four-thirds	2.0	2003	2007	Version 1.#	P{M}{dd}{n4}.JPG	2560	1920	100	800	II	none	0221	
+olympus-e300	OLYMPUS IMAGING CORP.	E-300	Olympus	dslr	four-thirds	2.0	2004	2006	Version 1.#	P{M}{dd}{n4}.JPG	3264	2448	100	1600	II	none	0221	
+olympus-e500	OLYMPUS IMAGING CORP.	E-500	Olympus	dslr	four-thirds	2.0	2005	2007	Version 1.#	P{M}{dd}{n4}.JPG	3264	2448	100	1600	II	none	0221	
+olympus-e330	OLYMPUS IMAGING CORP.	E-330	Olympus	dslr	four-thirds	2.0	2006	2007	Version 1.#	P{M}{dd}{n4}.JPG	3136	2352	100	1600	II	none	0221	
+olympus-e400	OLYMPUS IMAGING CORP.	E-400	Olympus	dslr	four-thirds	2.0	2006	2008	Version 1.#	P{M}{dd}{n4}.JPG	3648	2736	100	1600	II	none	0221	
+olympus-e410	OLYMPUS IMAGING CORP.	E-410	Olympus	dslr	four-thirds	2.0	2007	2008	Version 1.#	P{M}{dd}{n4}.JPG	3648	2736	100	1600	II	none	0221	
+olympus-e510	OLYMPUS IMAGING CORP.	E-510	Olympus	dslr	four-thirds	2.0	2007	2008	Version 1.#	P{M}{dd}{n4}.JPG	3648	2736	100	1600	II	none	0221	
+olympus-e3	OLYMPUS IMAGING CORP.	E-3	Olympus	dslr	four-thirds	2.0	2007	2010	Version 1.#	P{M}{dd}{n4}.JPG	3648	2736	100	3200	II	none	0221	
+olympus-e420	OLYMPUS IMAGING CORP.	E-420	Olympus	dslr	four-thirds	2.0	2008	2010	Version 1.#	P{M}{dd}{n4}.JPG	3648	2736	100	1600	II	none	0221	
+olympus-e520	OLYMPUS IMAGING CORP.	E-520	Olympus	dslr	four-thirds	2.0	2008	2010	Version 1.#	P{M}{dd}{n4}.JPG	3648	2736	100	1600	II	none	0221	
+olympus-e30	OLYMPUS IMAGING CORP.	E-30	Olympus	dslr	four-thirds	2.0	2008	2010	Version 1.#	P{M}{dd}{n4}.JPG	4032	3024	100	3200	II	none	0221	
+olympus-e620	OLYMPUS IMAGING CORP.	E-620	Olympus	dslr	four-thirds	2.0	2009	2011	Version 1.#	P{M}{dd}{n4}.JPG	4032	3024	100	3200	II	none	0221	
+olympus-e5	OLYMPUS IMAGING CORP.	E-5	Olympus	dslr	four-thirds	2.0	2010	2013	Version 1.#	P{M}{dd}{n4}.JPG	4032	3024	100	6400	II	none	0230	
+olympus-ep1	OLYMPUS IMAGING CORP.	E-P1	Olympus	mirrorless	mft	2.0	2009	2010	Version 1.#	P{M}{dd}{n4}.JPG	4032	3024	100	6400	II	none	0221	
+olympus-epl1	OLYMPUS IMAGING CORP.	E-PL1	Olympus	mirrorless	mft	2.0	2010	2011	Version 1.#	P{M}{dd}{n4}.JPG	4032	3024	100	3200	II	none	0230	
+olympus-ep3	OLYMPUS IMAGING CORP.	E-P3	Olympus	mirrorless	mft	2.0	2011	2012	Version 1.#	P{M}{dd}{n4}.JPG	4032	3024	200	12800	II	none	0230	
+olympus-epl5	OLYMPUS IMAGING CORP.	E-PL5	Olympus	mirrorless	mft	2.0	2012	2014	Version 1.#	P{M}{dd}{n4}.JPG	4608	3456	200	25600	II	none	0230	
+olympus-em5	OLYMPUS IMAGING CORP.	E-M5	Olympus	mirrorless	mft	2.0	2012	2015	Version 1.#	P{M}{dd}{n4}.JPG	4608	3456	200	25600	II	none	0230	
+olympus-em1	OLYMPUS IMAGING CORP.	E-M1	Olympus	mirrorless	mft	2.0	2013	2016	Version 1.#	P{M}{dd}{n4}.JPG	4608	3456	100	25600	II	none	0230	
+olympus-em10	OLYMPUS IMAGING CORP.	E-M10	Olympus	mirrorless	mft	2.0	2014	2015	Version 1.#	P{M}{dd}{n4}.JPG	4608	3456	100	25600	II	none	0230	
+olympus-em5ii	OLYMPUS IMAGING CORP.	E-M5MarkII	Olympus	mirrorless	mft	2.0	2015	2019	Version 1.#	P{M}{dd}{n4}.JPG	4608	3456	100	25600	II	none	0230	
+olympus-em10ii	OLYMPUS IMAGING CORP.	E-M10MarkII	Olympus	mirrorless	mft	2.0	2015	2017	Version 1.#	P{M}{dd}{n4}.JPG	4608	3456	100	25600	II	none	0230	
+olympus-penf	OLYMPUS CORPORATION	PEN-F	Olympus	mirrorless	mft	2.0	2016	2020	Version 1.#	P{M}{dd}{n4}.JPG	5184	3888	80	25600	II	none	0231	
+olympus-em1ii	OLYMPUS CORPORATION	E-M1MarkII	Olympus	mirrorless	mft	2.0	2016	2020	Version 1.#	P{M}{dd}{n4}.JPG	5184	3888	64	25600	II	none	0231	
+olympus-em10iii	OLYMPUS CORPORATION	E-M10MarkIII	Olympus	mirrorless	mft	2.0	2017	2020	Version 1.#	P{M}{dd}{n4}.JPG	4608	3456	100	25600	II	none	0231	
+olympus-epl9	OLYMPUS CORPORATION	E-PL9	Olympus	mirrorless	mft	2.0	2018	2020	Version 1.#	P{M}{dd}{n4}.JPG	4608	3456	100	25600	II	none	0231	
+olympus-em1x	OLYMPUS CORPORATION	E-M1X	Olympus	mirrorless	mft	2.0	2019	2022	Version 1.#	P{M}{dd}{n4}.JPG	5184	3888	64	25600	II	none	0231	
+olympus-em5iii	OLYMPUS CORPORATION	E-M5MarkIII	Olympus	mirrorless	mft	2.0	2019	2022	Version 1.#	P{M}{dd}{n4}.JPG	5184	3888	64	25600	II	none	0231	
+olympus-em1iii	OLYMPUS CORPORATION	E-M1MarkIII	Olympus	mirrorless	mft	2.0	2020	2023	Version 1.#	P{M}{dd}{n4}.JPG	5184	3888	64	25600	II	none	0231	
+olympus-em10iv	OLYMPUS CORPORATION	E-M10MarkIV	Olympus	mirrorless	mft	2.0	2020	0	Version 1.#	P{M}{dd}{n4}.JPG	5184	3888	100	25600	II	none	0231	
+om-1	OM Digital Solutions	OM-1	OM System	mirrorless	mft	2.0	2022	0	Version 1.#	P{M}{dd}{n4}.JPG	5184	3888	80	102400	II	none	0231	
+om-5	OM Digital Solutions	OM-5	OM System	mirrorless	mft	2.0	2022	0	Version 1.#	P{M}{dd}{n4}.JPG	5184	3888	80	102400	II	none	0231	
+om-1ii	OM Digital Solutions	OM-1MarkII	OM System	mirrorless	mft	2.0	2024	0	Version 1.#	P{M}{dd}{n4}.JPG	5184	3888	80	102400	II	none	0231	
+pana-g1	Panasonic	DMC-G1	Panasonic	mirrorless	mft	2.0	2008	2010	Ver.#.#	P{f3}{n4}.JPG	4000	3000	100	3200	II	none	0221	
+pana-gh1	Panasonic	DMC-GH1	Panasonic	mirrorless	mft	2.0	2009	2010	Ver.#.#	P{f3}{n4}.JPG	4000	3000	100	3200	II	none	0221	
+pana-gf1	Panasonic	DMC-GF1	Panasonic	mirrorless	mft	2.0	2009	2010	Ver.#.#	P{f3}{n4}.JPG	4000	3000	100	3200	II	none	0221	
+pana-g3	Panasonic	DMC-G3	Panasonic	mirrorless	mft	2.0	2011	2012	Ver.#.#	P{f3}{n4}.JPG	4592	3448	160	6400	II	none	0230	
+pana-gx1	Panasonic	DMC-GX1	Panasonic	mirrorless	mft	2.0	2011	2013	Ver.#.#	P{f3}{n4}.JPG	4592	3448	160	12800	II	none	0230	
+pana-gh3	Panasonic	DMC-GH3	Panasonic	mirrorless	mft	2.0	2012	2014	Ver.#.#	P{f3}{n4}.JPG	4608	3456	125	12800	II	none	0230	
+pana-gx7	Panasonic	DMC-GX7	Panasonic	mirrorless	mft	2.0	2013	2016	Ver.#.#	P{f3}{n4}.JPG	4592	3448	125	25600	II	none	0230	
+pana-gh4	Panasonic	DMC-GH4	Panasonic	mirrorless	mft	2.0	2014	2017	Ver.#.#	P{f3}{n4}.JPG	4608	3456	100	25600	II	none	0230	
+pana-gx85	Panasonic	DMC-GX85	Panasonic	mirrorless	mft	2.0	2016	0	Ver.#.#	P{f3}{n4}.JPG	4592	3448	100	25600	II	none	0231	
+pana-gx80	Panasonic	DMC-GX80	Panasonic	mirrorless	mft	2.0	2016	0	Ver.#.#	P{f3}{n4}.JPG	4592	3448	100	25600	II	none	0231	
+pana-g85	Panasonic	DMC-G85	Panasonic	mirrorless	mft	2.0	2016	2020	Ver.#.#	P{f3}{n4}.JPG	4592	3448	100	25600	II	none	0231	
+pana-gh5	Panasonic	DC-GH5	Panasonic	mirrorless	mft	2.0	2017	0	Ver.#.#	P{f3}{n4}.JPG	5184	3888	100	25600	II	none	0231	
+pana-g9	Panasonic	DC-G9	Panasonic	mirrorless	mft	2.0	2018	2023	Ver.#.#	P{f3}{n4}.JPG	5184	3888	100	25600	II	none	0231	
+pana-gx9	Panasonic	DC-GX9	Panasonic	mirrorless	mft	2.0	2018	2022	Ver.#.#	P{f3}{n4}.JPG	5184	3888	100	25600	II	none	0231	
+pana-g100	Panasonic	DC-G100	Panasonic	mirrorless	mft	2.0	2020	0	Ver.#.#	P{f3}{n4}.JPG	5184	3888	100	25600	II	none	0231	
+pana-gh6	Panasonic	DC-GH6	Panasonic	mirrorless	mft	2.0	2022	0	Ver.#.#	P{f3}{n4}.JPG	5776	4336	100	25600	II	none	0231	
+pana-g9ii	Panasonic	DC-G9M2	Panasonic	mirrorless	mft	2.0	2023	0	Ver.#.#	P{f3}{n4}.JPG	5776	4336	100	25600	II	none	0231	
+pana-s1	Panasonic	DC-S1	Panasonic	mirrorless	leica-l	1.0	2019	0	Ver.#.#	P{f3}{n4}.JPG	6000	4000	100	51200	II	none	0231	
+pana-s1r	Panasonic	DC-S1R	Panasonic	mirrorless	leica-l	1.0	2019	0	Ver.#.#	P{f3}{n4}.JPG	8368	5584	100	25600	II	none	0231	
+pana-s5	Panasonic	DC-S5	Panasonic	mirrorless	leica-l	1.0	2020	2023	Ver.#.#	P{f3}{n4}.JPG	6000	4000	100	51200	II	none	0231	
+pana-s5ii	Panasonic	DC-S5M2	Panasonic	mirrorless	leica-l	1.0	2023	0	Ver.#.#	P{f3}{n4}.JPG	6000	4000	100	51200	II	none	0231	
+pana-lx100	Panasonic	DMC-LX100	Panasonic	compact	fixed:pana-lx100	2.2	2014	2018	Ver.#.#	P{f3}{n4}.JPG	4112	3088	200	25600	II	none	0230	
+pana-fz1000	Panasonic	DMC-FZ1000	Panasonic	compact	fixed:pana-fz1000	2.7	2014	2019	Ver.#.#	P{f3}{n4}.JPG	5472	3648	125	12800	II	none	0230	
+pentax-istd	PENTAX Corporation	PENTAX *ist D	Pentax	dslr	pentax-k	1.5	2003	2004	*ist D Ver 1.#0	IMGP{n4}.JPG	3008	2008	200	3200	MM	none	0221	
+pentax-istds	PENTAX Corporation	PENTAX *ist DS	Pentax	dslr	pentax-k	1.5	2004	2006	*ist DS Ver 1.#0	IMGP{n4}.JPG	3008	2008	200	3200	MM	none	0221	
+pentax-k100d	PENTAX Corporation	PENTAX K100D	Pentax	dslr	pentax-k	1.5	2006	2007	K100D Ver 1.#0	IMGP{n4}.JPG	3008	2008	200	3200	MM	none	0221	
+pentax-k10d	PENTAX Corporation	PENTAX K10D	Pentax	dslr	pentax-k	1.5	2006	2008	K10D Ver 1.#0	IMGP{n4}.JPG	3872	2592	100	1600	MM	none	0221	
+pentax-k20d	PENTAX Corporation	PENTAX K20D	Pentax	dslr	pentax-k	1.5	2008	2009	K20D Ver 1.#0	IMGP{n4}.JPG	4672	3104	100	6400	MM	none	0221	
+pentax-k200d	PENTAX Corporation	PENTAX K200D	Pentax	dslr	pentax-k	1.5	2008	2009	K200D Ver 1.#0	IMGP{n4}.JPG	3872	2592	100	1600	MM	none	0221	
+pentax-k7	PENTAX Corporation	PENTAX K-7	Pentax	dslr	pentax-k	1.5	2009	2010	K-7 Ver 1.#0	IMGP{n4}.JPG	4672	3104	100	6400	MM	none	0221	
+pentax-kx	PENTAX Corporation	PENTAX K-x	Pentax	dslr	pentax-k	1.5	2009	2010	K-x Ver 1.#0	IMGP{n4}.JPG	4288	2848	100	12800	MM	none	0221	
+pentax-k5	PENTAX Corporation	PENTAX K-5	Pentax	dslr	pentax-k	1.5	2010	2012	K-5 Ver 1.#0	IMGP{n4}.JPG	4928	3264	80	51200	MM	none	0230	
+pentax-kr	PENTAX Corporation	PENTAX K-r	Pentax	dslr	pentax-k	1.5	2010	2012	K-r Ver 1.#0	IMGP{n4}.JPG	4288	2848	100	25600	MM	none	0230	
+pentax-k30	PENTAX RICOH IMAGING	PENTAX K-30	Pentax	dslr	pentax-k	1.5	2012	2013	K-30 Ver 1.#0	IMGP{n4}.JPG	4928	3264	100	25600	MM	none	0230	
+pentax-k5ii	PENTAX RICOH IMAGING	PENTAX K-5 II	Pentax	dslr	pentax-k	1.5	2012	2014	K-5 II Ver 1.#0	IMGP{n4}.JPG	4928	3264	80	51200	MM	none	0230	
+pentax-k50	PENTAX RICOH IMAGING	PENTAX K-50	Pentax	dslr	pentax-k	1.5	2013	2015	K-50 Ver 1.#0	IMGP{n4}.JPG	4928	3264	100	51200	MM	none	0230	
+pentax-k3	RICOH IMAGING COMPANY, LTD.	PENTAX K-3	Pentax	dslr	pentax-k	1.5	2013	2015	K-3 Ver 1.#0	IMGP{n4}.JPG	6016	4000	100	51200	MM	none	0230	
+pentax-k3ii	RICOH IMAGING COMPANY, LTD.	PENTAX K-3 II	Pentax	dslr	pentax-k	1.5	2015	2017	K-3 II Ver 1.#0	IMGP{n4}.JPG	6016	4000	100	51200	MM	none	0230	
+pentax-k70	RICOH IMAGING COMPANY, LTD.	PENTAX K-70	Pentax	dslr	pentax-k	1.5	2016	2022	K-70 Ver 1.#0	IMGP{n4}.JPG	6000	4000	100	102400	MM	none	0231	
+pentax-kp	RICOH IMAGING COMPANY, LTD.	PENTAX KP	Pentax	dslr	pentax-k	1.5	2017	0	KP Ver 1.#0	IMGP{n4}.JPG	6016	4000	100	819200	MM	none	0231	
+pentax-k1	RICOH IMAGING COMPANY, LTD.	PENTAX K-1	Pentax	dslr	pentax-k	1.0	2016	2018	K-1 Ver 1.#0	IMGP{n4}.JPG	7360	4912	100	204800	MM	none	0231	
+pentax-k1ii	RICOH IMAGING COMPANY, LTD.	PENTAX K-1 Mark II	Pentax	dslr	pentax-k	1.0	2018	0	K-1 Mark II Ver 1.#0	IMGP{n4}.JPG	7360	4912	100	819200	MM	none	0231	
+pentax-k3iii	RICOH IMAGING COMPANY, LTD.	PENTAX K-3 Mark III	Pentax	dslr	pentax-k	1.5	2021	0	K-3 Mark III Ver 1.#0	IMGP{n4}.JPG	6192	4128	100	1600000	MM	none	0231	
+ricoh-gr3	RICOH IMAGING COMPANY, LTD.	GR III	Ricoh	compact	fixed:ricoh-gr3	1.53	2019	0		R00{n5}.JPG	6000	4000	100	102400	MM	none	0231	
+leica-m8	Leica Camera AG	M8 Digital Camera	Leica	rangefinder	leica-m	1.33	2006	2009		L{f3}{n4}.JPG	3916	2634	160	2500	II	none	0221	
+leica-m9	Leica Camera AG	M9 Digital Camera	Leica	rangefinder	leica-m	1.0	2009	2012		L{f3}{n4}.JPG	5212	3472	160	2500	II	none	0221	
+leica-m240	Leica Camera AG	LEICA M (Typ 240)	Leica	rangefinder	leica-m	1.0	2012	2017		L{f3}{n4}.JPG	5976	3992	200	6400	II	none	0230	
+leica-m10	Leica Camera AG	LEICA M10	Leica	rangefinder	leica-m	1.0	2017	2022		L{f3}{n4}.JPG	5952	3968	100	50000	II	none	0231	
+leica-m11	Leica Camera AG	LEICA M11	Leica	rangefinder	leica-m	1.0	2022	0		L{f3}{n4}.JPG	9528	6328	64	50000	II	none	0231	
+leica-sl	Leica Camera AG	LEICA SL (Typ 601)	Leica	mirrorless	leica-l	1.0	2015	2019		L{f3}{n4}.JPG	6000	4000	50	50000	II	none	0230	
+leica-sl2	Leica Camera AG	LEICA SL2	Leica	mirrorless	leica-l	1.0	2019	0		L{f3}{n4}.JPG	8368	5584	50	50000	II	none	0231	
+leica-cl	Leica Camera AG	LEICA CL	Leica	mirrorless	leica-l	1.5	2017	2022		L{f3}{n4}.JPG	6016	4014	100	50000	II	none	0231	
+leica-q2	Leica Camera AG	LEICA Q2	Leica	compact	fixed:leica-q2	1.0	2019	2023		L{f3}{n4}.JPG	8368	5584	50	50000	II	none	0231	
+minolta-7i	Minolta Co., Ltd.	DiMAGE 7i	Minolta	compact	fixed:minolta-dimage7	3.93	2001	2002	Ver.1.0#	PICT{n4}.JPG	2560	1920	100	800	MM	none	0220	u
+minolta-7hi	Minolta Co., Ltd.	DiMAGE 7Hi	Minolta	compact	fixed:minolta-dimage7	3.93	2002	2003	Ver.1.0#	PICT{n4}.JPG	2560	1920	100	800	MM	none	0220	u
+km-a2	KONICA MINOLTA	DiMAGE A2	Konica Minolta	compact	fixed:minolta-dimage7	3.93	2004	2005		PICT{n4}.JPG	3264	2448	64	800	MM	none	0221	u
+km-7d	KONICA MINOLTA	DYNAX 7D	Konica Minolta	dslr	a	1.5	2004	2006		PICT{n4}.JPG	3008	2000	100	3200	MM	none	0221	u
+km-maxxum7d	KONICA MINOLTA	MAXXUM 7D	Konica Minolta	dslr	a	1.5	2004	2006		PICT{n4}.JPG	3008	2000	100	3200	MM	none	0221	u
+km-5d	KONICA MINOLTA	DYNAX 5D	Konica Minolta	dslr	a	1.5	2005	2006		PICT{n4}.JPG	3008	2000	100	3200	MM	none	0221	u
+kodak-dx6490	EASTMAN KODAK COMPANY	KODAK DX6490 ZOOM DIGITAL CAMERA	Kodak	compact	fixed:kodak-6-63	6.03	2003	2005		100_{n4}.JPG	2304	1728	80	400	MM	none	0221	
+kodak-z650	EASTMAN KODAK COMPANY	KODAK Z650 ZOOM DIGITAL CAMERA	Kodak	compact	fixed:kodak-6-63	6.03	2005	2007		100_{n4}.JPG	2576	1932	80	800	MM	none	0221	
+contax-ndigital	KYOCERA	N DIGITAL	Contax	dslr	contax-n	1.0	2002	2004		IMG_{n4}.JPG	3040	2008	100	400	II	none	0221	u
+samsung-nx10	SAMSUNG	NX10	Samsung	mirrorless	samsung-nx	1.5	2010	2011		SAM_{n4}.JPG	4592	3056	100	3200	II	none	0230	
+samsung-nx100	SAMSUNG	NX100	Samsung	mirrorless	samsung-nx	1.5	2010	2011		SAM_{n4}.JPG	4592	3056	100	3200	II	none	0230	
+samsung-nx200	SAMSUNG	NX200	Samsung	mirrorless	samsung-nx	1.5	2011	2012		SAM_{n4}.JPG	5472	3648	100	12800	II	none	0230	
+samsung-nx1000	SAMSUNG	NX1000	Samsung	mirrorless	samsung-nx	1.5	2012	2013		SAM_{n4}.JPG	5472	3648	100	12800	II	none	0230	
+samsung-nx300	SAMSUNG	NX300	Samsung	mirrorless	samsung-nx	1.5	2013	2015		SAM_{n4}.JPG	5472	3648	100	25600	II	none	0230	
+samsung-nx2000	SAMSUNG	NX2000	Samsung	mirrorless	samsung-nx	1.5	2013	2014		SAM_{n4}.JPG	5472	3648	100	25600	II	none	0230	
+samsung-nx30	SAMSUNG	NX30	Samsung	mirrorless	samsung-nx	1.5	2014	2015		SAM_{n4}.JPG	5472	3648	100	25600	II	none	0230	
+samsung-nx3000	SAMSUNG	NX3000	Samsung	mirrorless	samsung-nx	1.5	2014	2016		SAM_{n4}.JPG	5472	3648	100	25600	II	none	0230	
+samsung-nx1	SAMSUNG	NX1	Samsung	mirrorless	samsung-nx	1.5	2014	2016		SAM_{n4}.JPG	6480	4320	100	25600	II	none	0230	
+samsung-nx500	SAMSUNG	NX500	Samsung	mirrorless	samsung-nx	1.5	2015	2016		SAM_{n4}.JPG	6480	4320	100	25600	II	none	0230	
+casio-exz3	CASIO COMPUTER CO.,LTD.	EX-Z3	Casio	compact	fixed:casio-exz3	6.03	2003	2004	1.0#	CIMG{n4}.JPG	2048	1536	50	400	MM	none	0220	
+casio-exz750	CASIO COMPUTER CO.,LTD.	EX-Z750	Casio	compact	fixed:casio-exz750	4.8	2005	2006	1.0#	CIMG{n4}.JPG	3072	2304	50	400	MM	none	0221	
+casio-exf1	CASIO COMPUTER CO.,LTD.	EX-F1	Casio	compact	fixed:casio-exf1	4.93	2008	2010	1.0#	CIMG{n4}.JPG	2816	2112	100	1600	MM	none	0221	
+epson-rd1	SEIKO EPSON CORP.	R-D1	Epson	rangefinder	leica-m	1.53	2004	2007		EPSN{n4}.JPG	3008	2000	200	1600	II	none	0221	u
+sigma-sd10	SIGMA	SIGMA SD10	Sigma	dslr	sigma-sa	1.7	2003	2006		SDIM{n4}.JPG	2268	1512	100	1600	II	none	0221	
+sigma-sd14	SIGMA	SIGMA SD14	Sigma	dslr	sigma-sa	1.7	2007	2009		SDIM{n4}.JPG	2640	1760	100	1600	II	none	0221	
+sigma-sd1m	SIGMA	SIGMA SD1 Merrill	Sigma	dslr	sigma-sa	1.5	2012	2016		SDIM{n4}.JPG	4704	3136	100	6400	II	none	0230	
+sigma-fp	SIGMA	SIGMA fp	Sigma	mirrorless	leica-l	1.0	2019	0		SDIM{n4}.JPG	6000	4000	100	25600	II	none	0231	
+sigma-dp2m	SIGMA	SIGMA DP2 Merrill	Sigma	compact	fixed:sigma-dp2m	1.5	2012	2016		SDIM{n4}.JPG	4704	3136	100	6400	II	none	0230	
+hasselblad-x1d	Hasselblad	X1D	Hasselblad	mirrorless	xcd	0.79	2016	2019		B{n7}.JPG	8272	6200	100	25600	II	none	0231	u
+hasselblad-x2d	Hasselblad	X2D 100C	Hasselblad	mirrorless	xcd	0.79	2022	0		B{n7}.JPG	11656	8742	64	25600	II	none	0231	u
+gopro-hero6	GoPro	HERO6 Black	GoPro	action	fixed:gopro-hero6	5.0	2017	2018	HD6.01.01.51.00	GOPR{n4}.JPG	4000	3000	100	1600	MM	none	0221	
+apple-iphone-7	Apple	iPhone 7	Apple	phone	fixed:apple-iphone-7	0	2016	0	{ios}	IMG_{n4}.JPG	4032	3024	25	2000	MM	p3	0221	
+apple-iphone-11	Apple	iPhone 11	Apple	phone	fixed:apple-iphone-11	0	2019	0	{ios}	IMG_{n4}.JPG	4032	3024	25	3200	MM	p3	0232	
+apple-iphone-12	Apple	iPhone 12	Apple	phone	fixed:apple-iphone-12	0	2020	0	{ios}	IMG_{n4}.JPG	4032	3024	25	5000	MM	p3	0232	
+apple-iphone-13	Apple	iPhone 13	Apple	phone	fixed:apple-iphone-13	0	2021	0	{ios}	IMG_{n4}.JPG	4032	3024	32	6400	MM	p3	0232	
+apple-iphone-14	Apple	iPhone 14	Apple	phone	fixed:apple-iphone-14	0	2022	0	{ios}	IMG_{n4}.JPG	4032	3024	32	6400	MM	p3	0232	
+apple-iphone-15	Apple	iPhone 15	Apple	phone	fixed:apple-iphone-15	0	2023	0	{ios}	IMG_{n4}.JPG	5712	4284	32	6400	MM	p3	0232	
+google-pixel-6	Google	Pixel 6	Google	phone	fixed:google-pixel-6	0	2021	0	{hdrplus}	PXL_{utc:yyyyMMdd_HHmmssSSS}.jpg	4080	3072	40	6400	II	srgb	0232	
+google-pixel-7	Google	Pixel 7	Google	phone	fixed:google-pixel-7	0	2022	0	{hdrplus}	PXL_{utc:yyyyMMdd_HHmmssSSS}.jpg	4080	3072	40	6400	II	srgb	0232	
+google-pixel-8-pro	Google	Pixel 8 Pro	Google	phone	fixed:google-pixel-8-pro	0	2023	0	{hdrplus}	PXL_{utc:yyyyMMdd_HHmmssSSS}.jpg	4080	3072	40	6400	II	srgb	0232	
+samsung-galaxy-a12	samsung	SM-A125F	Samsung	phone	fixed:samsung-galaxy-a12	0	2020	0	MediaTek Camera Application	{local:yyyyMMdd_HHmmss}.jpg	4000	3000	25	3200	II	srgb	0220	

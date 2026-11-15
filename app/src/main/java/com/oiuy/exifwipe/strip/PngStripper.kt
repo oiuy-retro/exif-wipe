@@ -33,13 +33,14 @@ import java.io.ByteArrayOutputStream
 import java.util.zip.CRC32
 
 /**
- * Removes metadata chunks from a PNG without touching the compressed image data.
+ * Rewrites the metadata chunks of a PNG without touching the compressed image data.
  *
- * Only chunks needed to draw the image the same way are kept: the critical chunks, transparency,
- * colour space information, background colour, and the APNG animation chunks. An iCCP colour
- * profile is decompressed, rebuilt by [IccSanitizer] and stored under a neutral name. Text (tEXt, zTXt,
- * iTXt, which also carry XMP), eXIf, tIME, pHYs and every unknown or private chunk are dropped, as
- * is anything after IEND. A non-normal EXIF Orientation is kept as a minimal eXIf chunk.
+ * Only chunks needed to draw the image the same way are copied: the critical chunks, transparency,
+ * colour space information, background colour, and the APNG animation chunks. Everything else is
+ * collected into a [SourceMeta] (eXIf, XMP in iTXt, other text, tIME, iCCP) and the [Planner]
+ * decides what is written back. pHYs and every unknown or private chunk are always dropped, as is
+ * anything after IEND. [strip] uses the version 0.1.0 plan: a minimal eXIf chunk for a non-normal
+ * orientation and the iCCP profile rebuilt by [IccSanitizer] under a neutral name.
  */
 object PngStripper {
     internal val SIGNATURE = byteArrayOf(0x89.toByte(), 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A)
@@ -49,10 +50,14 @@ object PngStripper {
         "tRNS", "gAMA", "cHRM", "sRGB", "iCCP", "sBIT", "cICP", "mDCV", "cLLI", "bKGD",
         "acTL", "fcTL", "fdAT",
     )
+    internal val TEXT = setOf("tEXt", "zTXt", "iTXt")
+    internal const val XMP_KEYWORD = "XML:com.adobe.xmp"
 
     private class Chunk(val name: String, val start: Int, val dataStart: Int, val dataLength: Int, val end: Int)
 
-    fun strip(b: ByteArray): ByteArray {
+    fun strip(b: ByteArray): ByteArray = rewrite(b) { OutputMeta.default(it) }.output
+
+    fun rewrite(b: ByteArray, planner: Planner): Rewrite {
         if (!b.hasPrefixAt(0, b.size, SIGNATURE)) throw StripException("Not a PNG file")
 
         val chunks = ArrayList<Chunk>()
@@ -75,44 +80,98 @@ object PngStripper {
         if (!sawEnd) throw StripException("PNG has no IEND chunk (file may be truncated)")
         if (chunks.first().name != "IHDR") throw StripException("PNG does not start with IHDR")
         if (chunks.none { it.name == "IDAT" }) throw StripException("PNG contains no image data")
+        val ihdr = chunks.first()
+        if (ihdr.dataLength < 8) throw StripException("Invalid PNG IHDR chunk")
 
+        fun data(c: Chunk) = b.copyOfRange(c.dataStart, c.dataStart + c.dataLength)
         var orientation: Int? = null
+        var tiff: TiffData? = null
+        var xmp: String? = null
+        var icc: ByteArray? = null
+        var time: ByteArray? = null
+        val text = ArrayList<Pair<String, ByteArray>>()
         for (c in chunks) {
-            if (c.name == "eXIf") {
-                var s = c.dataStart
-                if (b.hasPrefixAt(s, s + c.dataLength, JpegStripper.EXIF_ID)) s += JpegStripper.EXIF_ID.size
-                orientation = Orientation.read(b, s, c.dataStart + c.dataLength)
-                break
+            when (c.name) {
+                "eXIf" -> if (tiff == null && orientation == null) {
+                    var s = c.dataStart
+                    if (b.hasPrefixAt(s, s + c.dataLength, JpegStripper.EXIF_ID)) s += JpegStripper.EXIF_ID.size
+                    orientation = Orientation.read(b, s, c.dataStart + c.dataLength)
+                    tiff = Tiff.read(b, s, c.dataStart + c.dataLength)
+                }
+                "iCCP" -> if (icc == null) icc = iccpProfile(b, c.dataStart, c.dataLength)
+                "tIME" -> if (crcMatches(b, c)) time = data(c)
+                in TEXT -> if (crcMatches(b, c)) {
+                    val d = data(c)
+                    if (c.name == "iTXt" && keyword(d) == XMP_KEYWORD) {
+                        if (xmp == null) xmp = itxtText(d)
+                    } else {
+                        text += c.name to d
+                    }
+                }
             }
         }
+        val src = SourceMeta(
+            ImageFormat.PNG, b.u32be(ihdr.dataStart).toInt(), b.u32be(ihdr.dataStart + 4).toInt(),
+            tiff, orientation, xmp, null, icc, text, time,
+        )
+        val plan = planner.plan(src)
 
-        val out = ByteArrayOutputStream(b.size)
+        val out = ByteArrayOutputStream(b.size + 4096)
         out.write(SIGNATURE)
-        var wroteOrientation = false
+        var wroteMeta = false
+        var wroteIcc = plan.icc == null
+        val iccChunk = plan.icc?.let { chunk("iCCP", iccpData(it)) }
         for (c in chunks) {
             if (c.name !in KEEP) continue
             if (!crcMatches(b, c)) throw StripException("PNG ${c.name} chunk is corrupt (CRC mismatch)")
-            if (c.name == "IDAT" && !wroteOrientation && Orientation.needsTag(orientation)) {
-                out.write(chunk("eXIf", Orientation.minimalTiff(orientation!!)))
-                wroteOrientation = true
-            }
             if (c.name == "iCCP") {
-                sanitizedIccp(b, c.dataStart, c.dataLength)?.let { out.write(chunk("iCCP", it)) }
+                if (!wroteIcc) { out.write(iccChunk!!); wroteIcc = true }
                 continue
+            }
+            if (c.name == "sRGB" && plan.dropPngSrgb) continue
+            // The profile must come before PLTE and IDAT; with no original position it goes right after IHDR.
+            if (!wroteIcc && c.name != "IHDR" && (c.name == "PLTE" || c.name == "IDAT" || chunks.none { it.name == "iCCP" })) {
+                out.write(iccChunk!!)
+                wroteIcc = true
+            }
+            if (c.name == "IDAT" && !wroteMeta) {
+                plan.exif?.let { out.write(chunk("eXIf", it)) }
+                plan.xmp?.let { out.write(chunk("iTXt", xmpItxt(it))) }
+                for ((name, d) in plan.pngText) out.write(chunk(name, d))
+                plan.pngTime?.let { out.write(chunk("tIME", it)) }
+                wroteMeta = true
             }
             out.write(b, c.start, c.end - c.start)
         }
-        return out.toByteArray()
+        return Rewrite(out.toByteArray(), plan, src)
     }
+
+    /** Keyword of a text chunk (the bytes before the first NUL). */
+    internal fun keyword(d: ByteArray): String {
+        val nul = d.indexOf(0.toByte()).let { if (it < 0) minOf(d.size, 79) else it }
+        return String(d, 0, nul, Charsets.ISO_8859_1)
+    }
+
+    /** Text of an iTXt chunk, inflating it if compressed; null if malformed. */
+    internal fun itxtText(d: ByteArray): String? {
+        val k = d.indexOf(0.toByte())
+        if (k < 0 || k + 3 > d.size) return null
+        val compressed = d[k + 1].toInt() != 0
+        var p = k + 3
+        val lang = (p until d.size).firstOrNull { d[it].toInt() == 0 } ?: return null
+        p = lang + 1
+        val trans = (p until d.size).firstOrNull { d[it].toInt() == 0 } ?: return null
+        p = trans + 1
+        val raw = if (compressed) inflate(d, p, d.size - p) ?: return null else d.copyOfRange(p, d.size)
+        return String(raw, Charsets.UTF_8)
+    }
+
+    internal fun xmpItxt(xmp: ByteArray): ByteArray = latin1(XMP_KEYWORD) + byteArrayOf(0, 0, 0, 0, 0) + xmp
 
     internal const val ICCP_NAME = "ICC Profile"
 
-    /** Rebuilt iCCP chunk data, or null to drop the profile if it cannot be read. */
-    private fun sanitizedIccp(b: ByteArray, start: Int, length: Int): ByteArray? {
-        val profile = iccpProfile(b, start, length) ?: return null
-        val clean = IccSanitizer.sanitize(profile) ?: return null
-        return latin1(ICCP_NAME) + byteArrayOf(0, 0) + deflate(clean)
-    }
+    /** iCCP chunk data for [profile] under a neutral name. */
+    internal fun iccpData(profile: ByteArray): ByteArray = latin1(ICCP_NAME) + byteArrayOf(0, 0) + deflate(profile)
 
     /** Decompressed profile from iCCP chunk data, or null. */
     internal fun iccpProfile(b: ByteArray, start: Int, length: Int): ByteArray? {

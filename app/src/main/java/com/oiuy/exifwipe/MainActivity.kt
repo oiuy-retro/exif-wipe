@@ -18,31 +18,210 @@
 
 package com.oiuy.exifwipe
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.os.Build
+import android.widget.Toast
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.ui.text.font.FontFamily
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedCard
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import com.oiuy.exifwipe.meta.DevicePreset
+import com.oiuy.exifwipe.meta.FileNameMode
+import com.oiuy.exifwipe.meta.Group
+import com.oiuy.exifwipe.meta.IccMode
+import com.oiuy.exifwipe.meta.IccTarget
+import com.oiuy.exifwipe.meta.Mode
+import com.oiuy.exifwipe.meta.WipeOptions
 
-/** Launcher screen: explains how to use the share target. */
+/** Launcher screen: settings and how to use the share target. */
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContent { ExifWipeTheme { Surface(Modifier.fillMaxSize()) { Instructions() } } }
+        setContent { ExifWipeTheme { Surface(Modifier.fillMaxSize()) { MainScreen() } } }
+    }
+}
+
+@Composable
+private fun MainScreen() {
+    val context = LocalContext.current
+    val store = remember { SettingsStore(context.applicationContext) }
+    var options by remember { mutableStateOf(store.load()) }
+    fun update(o: WipeOptions) { options = o; store.save(o) }
+
+    Column(
+        Modifier
+            .safeDrawingPadding()
+            .verticalScroll(rememberScrollState())
+            .padding(24.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+    ) {
+        Text("Exif Wipe", style = MaterialTheme.typography.headlineMedium)
+        Text(
+            "Removes or replaces hidden metadata (location, camera, date and time, XMP, IPTC, comments) " +
+                "in photos stored on this phone. The original file is changed in place; no copy is made " +
+                "and nothing is shared onward.",
+        )
+        Settings(options, ::update)
+        LastErrors()
+        Instructions()
+    }
+}
+
+@Composable
+private fun Settings(o: WipeOptions, update: (WipeOptions) -> Unit) {
+    Text("Settings", style = MaterialTheme.typography.titleLarge)
+    Text(
+        "For each group: Keep leaves the original values, Wipe removes them, Random removes them and " +
+            "writes realistic made-up values instead.",
+        style = MaterialTheme.typography.bodyMedium,
+    )
+    OutlinedCard(Modifier.fillMaxWidth()) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            Group.entries.forEachIndexed { i, g ->
+                if (i > 0) HorizontalDivider()
+                Text(g.title, style = MaterialTheme.typography.titleSmall)
+                Text(g.summary, style = MaterialTheme.typography.bodySmall)
+                Segmented(listOf("Keep", "Wipe", "Random"), o.mode(g).ordinal) { update(o.with(g, Mode.entries[it])) }
+            }
+        }
+    }
+    if (Group.entries.any { o.mode(it) == Mode.KEEP }) {
+        Text(
+            "Kept groups keep their values, so a photo is only as anonymous as the groups you wipe or randomize.",
+            style = MaterialTheme.typography.bodySmall,
+        )
+    }
+
+    Text("Device for random values", style = MaterialTheme.typography.titleMedium)
+    Column(Modifier.selectableGroup()) {
+        DevicePreset.entries.forEach { p ->
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .selectable(selected = o.preset == p, role = Role.RadioButton) { update(o.copy(preset = p)) }
+                    .padding(vertical = 4.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                RadioButton(selected = o.preset == p, onClick = null)
+                Text(p.label, Modifier.padding(start = 12.dp))
+            }
+        }
+    }
+    Text(
+        "Used by every group set to Random and by device-style file names. Random picks a camera or phone " +
+            "from the built-in list for each photo. If Camera & device is set to Keep, values follow the photo's own camera.",
+        style = MaterialTheme.typography.bodySmall,
+    )
+
+    Text("Colour profile", style = MaterialTheme.typography.titleMedium)
+    Segmented(listOf("Keep", "Wipe", "Replace"), o.icc.ordinal) { update(o.copy(icc = IccMode.entries[it])) }
+    Text(
+        when (o.icc) {
+            IccMode.KEEP -> "Keeps the colour data of the original profile; its copyright and manufacturer text is removed."
+            IccMode.WIPE -> "Removes the embedded profile. Viewers then assume sRGB, so wide-colour photos can look duller."
+            IccMode.REPLACE -> "Writes a standard profile generated by the app. Colours can shift if it differs from the original profile."
+        },
+        style = MaterialTheme.typography.bodySmall,
+    )
+    if (o.icc == IccMode.REPLACE) {
+        Segmented(IccTarget.entries.map { it.label }, o.iccTarget.ordinal) { update(o.copy(iccTarget = IccTarget.entries[it])) }
+    }
+
+    Text("File name", style = MaterialTheme.typography.titleMedium)
+    Segmented(listOf("Keep", "Generic", "Device"), o.fileName.ordinal) { update(o.copy(fileName = FileNameMode.entries[it])) }
+    Text(
+        when (o.fileName) {
+            FileNameMode.KEEP -> "The file keeps its name."
+            FileNameMode.GENERIC -> "Renames to the iPhone style IMG_1234.JPG with a random number."
+            FileNameMode.DEVICE -> "Renames in the style of the chosen device, for example PXL_20240501_103015123.jpg or DSC_1234.JPG."
+        },
+        style = MaterialTheme.typography.bodySmall,
+    )
+    TextButton(onClick = { update(WipeOptions.DEFAULT) }) { Text("Reset to defaults (wipe everything)") }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun Segmented(labels: List<String>, selected: Int, onSelect: (Int) -> Unit) {
+    SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
+        labels.forEachIndexed { i, label ->
+            SegmentedButton(
+                selected = i == selected,
+                onClick = { onSelect(i) },
+                shape = SegmentedButtonDefaults.itemShape(index = i, count = labels.size),
+            ) { Text(label, maxLines = 1) }
+        }
+    }
+}
+
+@Composable
+private fun LastErrors() {
+    val context = LocalContext.current
+    var log by remember { mutableStateOf(ErrorLog.read(context)) }
+    if (log == null) return
+    Text("Last errors", style = MaterialTheme.typography.titleMedium)
+    Text(
+        "Details of recent problems, newest first. They contain the app and Android version, phone model, " +
+            "settings, file names and the error, but no photo contents, metadata values or locations. " +
+            "Copy them to send them to the developer.",
+        style = MaterialTheme.typography.bodySmall,
+    )
+    OutlinedCard(Modifier.fillMaxWidth()) {
+        SelectionContainer {
+            Text(
+                log!!,
+                Modifier
+                    .padding(12.dp)
+                    .heightIn(max = 240.dp)
+                    .verticalScroll(rememberScrollState()),
+                style = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
+            )
+        }
+    }
+    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        TextButton(onClick = {
+            context.getSystemService(ClipboardManager::class.java)
+                ?.setPrimaryClip(ClipData.newPlainText("Exif Wipe error details", log))
+            if (Build.VERSION.SDK_INT < 33) Toast.makeText(context, "Error details copied", Toast.LENGTH_SHORT).show()
+        }) { Text("Copy error details") }
+        TextButton(onClick = { ErrorLog.clear(context); log = null }) { Text("Clear") }
     }
 }
 
@@ -54,41 +233,35 @@ private fun Instructions() {
         version == 29 -> "Android asks for each photo whether Exif Wipe may modify it. Tap Allow."
         else -> "The first time, allow Exif Wipe to access photos and media."
     }
-    Column(
-        Modifier
-            .safeDrawingPadding()
-            .verticalScroll(rememberScrollState())
-            .padding(24.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-    ) {
-        Text("Exif Wipe", style = MaterialTheme.typography.headlineMedium)
-        Text(
-            "Removes hidden metadata (location, camera model, date and time, XMP, IPTC, comments) " +
-                "from photos stored on this phone. The original file is changed in place; no copy is made " +
-                "and nothing is shared onward.",
-        )
-        Text("How to use", style = MaterialTheme.typography.titleMedium)
-        Text(
-            "1. Open your gallery or file manager and select one or more photos.\n" +
-                "2. Tap Share and choose \"Wipe metadata\".\n" +
-                "3. $permissionNote\n" +
-                "4. A short message shows how many photos were cleaned.",
-        )
-        Text("What is kept", style = MaterialTheme.typography.titleMedium)
-        Text(
-            "The image data is copied unchanged, so the photo looks exactly the same. The colour profile " +
-                "keeps its colour data; its copyright and manufacturer text is removed. If the photo was taken sideways, a single orientation tag is kept so it still " +
-                "displays upright.",
-        )
-        Text("Supported files", style = MaterialTheme.typography.titleMedium)
-        Text("JPEG, PNG and WebP. HEIC, AVIF, GIF, TIFF and RAW files are reported as not supported and left unchanged.")
-        Text("Limitations", style = MaterialTheme.typography.titleMedium)
-        Text(
-            "Only photos stored on this phone can be changed. Photos that exist only in the cloud, or that " +
-                "an app shares as a temporary copy, are reported as errors. Motion photo video and HDR gain " +
-                "map data stored after the image are removed. Some gallery apps sort by file date and may " +
-                "show a cleaned photo as new.",
-        )
-        Text("This app has no internet permission.", style = MaterialTheme.typography.bodySmall)
-    }
+    Text("How to use", style = MaterialTheme.typography.titleMedium)
+    Text(
+        "1. Open your gallery or file manager and select one or more photos.\n" +
+            "2. Tap Share and choose \"Wipe metadata\".\n" +
+            "3. $permissionNote\n" +
+            "4. A short message shows how many photos were changed.",
+    )
+    Text("What is always kept", style = MaterialTheme.typography.titleMedium)
+    Text(
+        "The image data is copied unchanged, so the photo has exactly the same pixels. If the photo was taken " +
+            "sideways, the orientation tag is kept so it still displays upright. Maker notes, serial numbers in " +
+            "unknown tags and vendor data blocks are always removed.",
+    )
+    Text("Supported files", style = MaterialTheme.typography.titleMedium)
+    Text("JPEG, PNG and WebP. HEIC, AVIF, GIF, TIFF and RAW files are reported as not supported and left unchanged.")
+    Text("Limitations", style = MaterialTheme.typography.titleMedium)
+    Text(
+        "Only photos stored on this phone can be changed. Photos that exist only in the cloud, or that " +
+            "an app shares as a temporary copy, are reported as errors. Motion photo video and HDR gain " +
+            "map data stored after the image are removed unless Embedded extras is set to Keep. Renaming " +
+            "can fail for files shared by some apps; the metadata is still changed. Some gallery apps sort by " +
+            "file date and may show a changed photo as new.",
+    )
+    Text("Data sources", style = MaterialTheme.typography.titleMedium)
+    Text(
+        "Random places: GeoNames (geonames.org), licensed CC BY 4.0, and Natural Earth land data (public domain). " +
+            "Camera, lens and phone names, focal lengths, apertures and years are facts compiled for this app. " +
+            "Colour profiles are generated from the published sRGB and Display P3 definitions.",
+        style = MaterialTheme.typography.bodySmall,
+    )
+    Text("This app has no internet permission.", style = MaterialTheme.typography.bodySmall)
 }
